@@ -17,8 +17,8 @@ class _BaseScreenState extends State<BaseScreen> {
   final pageController = PageController();
   final screens = [
     const HomeScreen(),
-    const OrdersScreen(),
     const WishlistScreen(),
+    const OrdersScreen(),
     const ProfileScreen(),
   ];
 
@@ -26,7 +26,6 @@ class _BaseScreenState extends State<BaseScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(),
         bottomNavigationBar: CustomBottomNavBar(
           screenController: pageController,
         ),

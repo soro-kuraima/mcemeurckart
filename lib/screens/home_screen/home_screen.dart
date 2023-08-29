@@ -144,7 +144,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       Expanded(
                         flex: 2,
                         child: Text(
-                          'Trending',
+                          'Most Ordered',
                           style: Get.textTheme.headlineSmall,
                         ),
                       ),
@@ -193,7 +193,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       Expanded(
                         child: Text(
-                          'Deals',
+                          'Your favorites',
                           style: Get.textTheme.headlineSmall,
                         ),
                       ),

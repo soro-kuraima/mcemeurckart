@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
+import 'package:mcemeurckart/common_widgets/index.dart';
+import 'package:mcemeurckart/constants/index.dart';
+import 'package:mcemeurckart/screens/categories_screen/widgets/stagerred_category_card.dart';
+import 'package:mcemeurckart/screens/home_screen/widgets/deals_card.dart';
 
 class MyInterestsScreen extends StatefulWidget {
   const MyInterestsScreen({super.key});
@@ -92,13 +96,6 @@ class _MyInterestsScreenState extends State<MyInterestsScreen> {
                       Text(
                         'Interests',
                         style: Get.textTheme.displayLarge,
-                      ),
-                      PrimaryOutlinedButton(
-                        hasText: true,
-                        title: 'Edit',
-                        onPressed: () => Get.toNamed(
-                          AppRoutes.editMyInterestsRoute,
-                        ),
                       ),
                     ],
                   ),

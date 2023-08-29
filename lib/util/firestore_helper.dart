@@ -6,6 +6,8 @@ class FireBaseStoreHelper {
   static final FireBaseStoreHelper fireBaseStoreHelper =
       FireBaseStoreHelper._();
   static final FirebaseFirestore db = FirebaseFirestore.instance;
+  final categoriesRef = db.collection('categories');
+  final productsRef = db.collection('products');
 
   Future<void> insert({required Map<String, dynamic> data}) async {
     DocumentSnapshot<Map<String, dynamic>> k =
@@ -84,5 +86,25 @@ class FireBaseStoreHelper {
         .collection("imgCounter")
         .doc("imageCounterKeeper")
         .update({'id': id, 'lenght': ++len});
+  }
+
+  Future<Map<String, dynamic>> readGenericCategories() async {
+    DocumentSnapshot<Map<String, dynamic>> genericCategoriesDoc =
+        await db.collection('categories').doc('generic-categories').get();
+    if (genericCategoriesDoc.exists) {
+      Map<String, dynamic> data = genericCategoriesDoc.data();
+      // Do something with the data...
+      return data;
+    }
+    return null;
+  }
+}
+
+Future<void> readGenericCategories() async {
+  DocumentSnapshot<Map<String, dynamic>> genericCategoriesDoc =
+      await db.collection('categories').doc('generic-categories').get();
+  if (genericCategoriesDoc.exists) {
+    Map<String, dynamic> data = genericCategoriesDoc.data()!;
+    // Do something with the data...
   }
 }
