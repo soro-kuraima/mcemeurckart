@@ -1,5 +1,4 @@
 import 'package:mcemeurckart/data/models/category_model_getx.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CategoryControllerGetx extends GetxController {

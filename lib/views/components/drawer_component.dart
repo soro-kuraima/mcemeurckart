@@ -55,7 +55,6 @@ class _drawerComponentState extends State<drawerComponent> {
       FireBaseStoreHelper.fireBaseStoreHelper.imageInsert(data: tempp);
     }
 
-    ;
     return Drawer(
       child: Builder(builder: (context) {
         return Column(
@@ -88,7 +87,7 @@ class _drawerComponentState extends State<drawerComponent> {
                                     radius: 50,
                                     backgroundColor: Colors.blue,
                                   ),
-                                  Container(
+                                  SizedBox(
                                     height: 40,
                                     width: 40,
                                     child: ElevatedButton(
@@ -124,7 +123,7 @@ class _drawerComponentState extends State<drawerComponent> {
                                       radius: 50,
                                       backgroundColor: Colors.blue,
                                     ),
-                                    Container(
+                                    SizedBox(
                                       height: 40,
                                       width: 40,
                                       child: ElevatedButton(
@@ -168,7 +167,7 @@ class _drawerComponentState extends State<drawerComponent> {
                                   radius: 50,
                                   backgroundColor: Colors.blue,
                                 ),
-                                Container(
+                                SizedBox(
                                   height: 40,
                                   width: 40,
                                   child: ElevatedButton(
@@ -226,10 +225,10 @@ class _drawerComponentState extends State<drawerComponent> {
                         height: 20,
                       ),
                       Container(
-                        padding: EdgeInsets.all(15),
-                        child: Row(
+                        padding: const EdgeInsets.all(15),
+                        child: const Row(
                           mainAxisAlignment: MainAxisAlignment.start,
-                          children: const [
+                          children: [
                             Icon(Icons.favorite),
                             SizedBox(
                               width: 20,
@@ -243,10 +242,10 @@ class _drawerComponentState extends State<drawerComponent> {
                         ),
                       ),
                       Container(
-                        padding: EdgeInsets.all(15),
-                        child: Row(
+                        padding: const EdgeInsets.all(15),
+                        child: const Row(
                           mainAxisAlignment: MainAxisAlignment.start,
-                          children: const [
+                          children: [
                             Icon(Icons.person),
                             SizedBox(
                               width: 20,
@@ -263,10 +262,10 @@ class _drawerComponentState extends State<drawerComponent> {
                         width: 20,
                       ),
                       Container(
-                        padding: EdgeInsets.all(15),
-                        child: Row(
+                        padding: const EdgeInsets.all(15),
+                        child: const Row(
                           mainAxisAlignment: MainAxisAlignment.start,
-                          children: const [
+                          children: [
                             Icon(Icons.settings),
                             SizedBox(
                               width: 20,
@@ -280,10 +279,10 @@ class _drawerComponentState extends State<drawerComponent> {
                         ),
                       ),
                       Container(
-                        padding: EdgeInsets.all(15),
-                        child: Row(
+                        padding: const EdgeInsets.all(15),
+                        child: const Row(
                           mainAxisAlignment: MainAxisAlignment.start,
-                          children: const [
+                          children: [
                             Icon(Icons.shopping_cart),
                             SizedBox(
                               width: 20,
@@ -297,10 +296,10 @@ class _drawerComponentState extends State<drawerComponent> {
                         ),
                       ),
                       Container(
-                        padding: EdgeInsets.all(15),
-                        child: Row(
+                        padding: const EdgeInsets.all(15),
+                        child: const Row(
                           mainAxisAlignment: MainAxisAlignment.start,
-                          children: const [
+                          children: [
                             Icon(Icons.help),
                             SizedBox(
                               width: 20,

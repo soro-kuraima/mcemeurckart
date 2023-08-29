@@ -1,0 +1,97 @@
+import "package:flutter/material.dart";
+import "package:get/get.dart";
+
+import 'package:mcemeurckart/screens/auth_screen/signin_screen.dart';
+import "package:mcemeurckart/screens/auth_screen/signup_screen.dart";
+import "package:mcemeurckart/screens/base_screen/base_screen.dart";
+import "package:mcemeurckart/screens/categories_screen/categories_screen.dart";
+import "package:mcemeurckart/screens/home_screen/home_screen.dart";
+import 'package:mcemeurckart/screens/product_item_screen/product_item_screen.dart';
+
+abstract class AppPages {
+  static const initial = AppRoutes.signInRoute;
+
+  static final pages = <GetPage>[
+    /* 
+    * ===== Auth Pages =====
+     */
+    GetPage(
+      name: AppRoutes.signUpRoute,
+      page: () => const SignUpScreen(),
+      transitionDuration: const Duration(milliseconds: 300),
+      curve: Curves.easeOut,
+      transition: Transition.fadeIn,
+    ),
+    GetPage(
+      name: AppRoutes.signInRoute,
+      page: () => const SignInScreen(),
+      transitionDuration: const Duration(milliseconds: 300),
+      curve: Curves.easeOut,
+      transition: Transition.fadeIn,
+    ),
+
+    GetPage(
+      name: AppRoutes.baseRoute,
+      page: () => const BaseScreen(),
+      transitionDuration: const Duration(milliseconds: 500),
+      curve: Curves.easeOut,
+      transition: Transition.rightToLeft,
+    ),
+    /* 
+    * ===== Home Page =====
+     */
+    GetPage(
+      name: AppRoutes.homeRoute,
+      page: () => const HomeScreen(),
+      transitionDuration: const Duration(milliseconds: 500),
+      curve: Curves.easeOut,
+      transition: Transition.rightToLeft,
+    ),
+    /* 
+    * ===== Product Details Pages =====
+     */
+    GetPage(
+      name: AppRoutes.productItemRoute,
+      page: () => const ProductItemScreen(),
+      transitionDuration: const Duration(milliseconds: 300),
+      curve: Curves.easeOut,
+      transition: Transition.downToUp,
+    ),
+
+    //* ==== In App Pages ======
+    GetPage(
+      name: AppRoutes.categoriesRoute,
+      page: () => const CategoriesScreen(),
+      transitionDuration: const Duration(milliseconds: 300),
+      curve: Curves.easeOut,
+      transition: Transition.rightToLeft,
+    ),
+  ];
+}
+
+abstract class AppRoutes {
+  static const introRoute = '/intro';
+  static const signInRoute = '/signIn';
+  static const signUpRoute = '/signUp';
+  static const onBoardingRoute = '/onBoarding';
+  static const onBoarding1Route = '/onBoarding1';
+  static const onBoarding2Route = '/onBoarding2';
+  static const onBoarding3Route = '/onBoarding3';
+  static const registration1Route = '/registration1';
+  static const registration2Route = '/registration2';
+  static const registration3Route = '/registration3';
+  static const registration4Route = '/registration4';
+  static const registration5Route = '/registration5';
+  static const registrationCompleteRoute = '/registrationComplete';
+  static const baseRoute = '/';
+  static const homeRoute = '/home';
+  static const cartRoute = '/cart';
+  static const categoriesRoute = '/categories';
+  static const checkoutRoute = '/checkout';
+  static const checkoutConfirmationRoute = '/checkoutConfirmation';
+  static const productItemRoute = '/productItem';
+  static const profileRoute = '/profile';
+  static const searchRoute = '/search';
+  static const wishlistRoute = '/wishlist';
+  static const deliveryRoute = '/delivery';
+}

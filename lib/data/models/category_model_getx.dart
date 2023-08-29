@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 
 class CategoryModelGetx {
   int i;

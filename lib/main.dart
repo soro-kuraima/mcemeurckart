@@ -1,65 +1,55 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:mcemeurckart/routes/app_routes.dart';
 import 'package:mcemeurckart/theme/theme_provider.dart';
-import 'package:mcemeurckart/util/auth_provider.dart';
-import 'package:mcemeurckart/views/screens/categories_screen.dart';
-import 'package:mcemeurckart/views/screens/home_screen.dart';
-import 'package:mcemeurckart/views/screens/loading_screen.dart';
-import 'package:mcemeurckart/views/screens/login_screen.dart';
-import 'package:mcemeurckart/views/screens/orders_screen.dart';
-import 'package:mcemeurckart/views/screens/product_screen.dart';
-import 'package:mcemeurckart/views/screens/profile_screen.dart';
-import 'package:mcemeurckart/views/screens/registration_screen.dart';
+import 'package:mcemeurckart/constants/index.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
-var message;
-final navigatorKey = GlobalKey<NavigatorState>();
-
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      navigatorKey: navigatorKey,
-      theme: ThemeProvider.lightTheme,
-      darkTheme: ThemeProvider.darkTheme,
-      initialRoute: AuthProvider.id,
-      routes: {
-        LoadingScreen.id: (context) => LoadingScreen(),
-        AuthProvider.id: (context) => AuthProvider(),
-        RegistrationScreen.id: (context) => const RegistrationScreen(),
-        LogInScreen.id: (context) => const LogInScreen(),
-        HomeScreen.id: (context) => const HomeScreen(),
-        CategoriesScreen.id: (context) => const CategoriesScreen(),
-        ProductScreen.id: (context) => const ProductScreen(),
-        OrdersScreen.id: (context) => const OrdersScreen(),
-        ProfileScreen.id: (context) => const ProfileScreen(),
-      },
+      onGenerateTitle: (context) => AppTitles.appTitle,
+      theme: AppThemes().lightTheme,
+      darkTheme: AppThemes().darkTheme,
+      title: AppTitles.appTitle,
+      initialRoute: AppPages.initial,
+      getPages: AppPages.pages,
+      builder: (context, child) => ResponsiveBreakpoints.builder(
+        child: child!,
+        breakpoints: [
+          const Breakpoint(
+            start: 0,
+            end: 350,
+            name: MOBILE,
+          ),
+          const Breakpoint(
+            start: 351,
+            end: 600,
+            name: TABLET,
+          ),
+          const Breakpoint(
+            start: 601,
+            end: 800,
+            name: DESKTOP,
+          ),
+          const Breakpoint(
+            start: 801,
+            end: double.infinity,
+            name: 'XL',
+          ),
+        ],
+      ),
     );
   }
 }

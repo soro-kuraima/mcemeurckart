@@ -6,6 +6,8 @@ import 'package:mcemeurckart/views/screens/login_screen.dart';
 class AuthProvider extends StatelessWidget {
   static String id = ('main_page');
 
+  const AuthProvider({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

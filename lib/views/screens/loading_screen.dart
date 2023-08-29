@@ -7,13 +7,14 @@ import 'package:mcemeurckart/util/auth_provider.dart';
 
 class LoadingScreen extends StatelessWidget {
   static String id = 'loading_screen';
+
+  const LoadingScreen({super.key});
   @override
   Widget build(BuildContext context) {
     //Timer For Splash Screen
     timeDilation = 3.0;
     Timer(const Duration(seconds: 2),
         () => Navigator.pushNamed(context, AuthProvider.id));
-    ;
     return const Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(

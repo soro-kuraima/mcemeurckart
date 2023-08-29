@@ -30,12 +30,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               flex: 2,
               child: Container(
                 color: Colors.red.shade200,
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 20, left: 20),
+                child: const Padding(
+                  padding: EdgeInsets.only(bottom: 20, left: 20),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
+                    children: [
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
@@ -91,7 +91,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                   fontSize: 14,
                                   color: Colors.grey.shade400,
                                   fontWeight: FontWeight.bold),
-                              contentPadding: EdgeInsets.all(25),
+                              contentPadding: const EdgeInsets.all(25),
                               prefixIcon: Padding(
                                 padding: const EdgeInsets.all(20.0),
                                 child: Icon(
