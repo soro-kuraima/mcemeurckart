@@ -9,7 +9,7 @@ import "package:mcemeurckart/screens/home_screen/home_screen.dart";
 import 'package:mcemeurckart/screens/product_item_screen/product_item_screen.dart';
 
 abstract class AppPages {
-  static const initial = AppRoutes.signInRoute;
+  static const initial = AppRoutes.baseRoute;
 
   static final pages = <GetPage>[
     /* 

@@ -60,6 +60,9 @@ dependencies:
   syncfusion_flutter_sliders: ^22.2.10
   flutter_credit_card: ^3.0.7
   responsive_framework: ^1.1.0
+  fluttertoast: ^8.2.2
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
 
 dev_dependencies:
   flutter_test:

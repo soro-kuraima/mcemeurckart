@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import "package:flutter/material.dart";
+import 'package:fluttertoast/fluttertoast.dart';
 import "package:get/get.dart";
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -110,24 +111,22 @@ class SignInScreen extends StatelessWidget {
                                 email: email, password: password);
 
                         if (res['error'] != null) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              behavior: SnackBarBehavior.floating,
-                              backgroundColor: AppColors.red400,
-                              content: Text(
-                                res['error'],
-                                style: AppStyle.paragraph1Bold,
-                              ),
-                            ),
+                          Fluttertoast.showToast(
+                            msg: res['error'],
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.BOTTOM,
+                            timeInSecForIosWeb: 1,
+                            backgroundColor: AppColors.red400,
+                            textColor: AppColors.white,
                           );
                         } else if (res['user'] != null) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              behavior: SnackBarBehavior.floating,
-                              backgroundColor: AppColors.green500,
-                              content: Text('Successfully Signed In',
-                                  style: AppStyle.paragraph1Bold),
-                            ),
+                          Fluttertoast.showToast(
+                            msg: "Successfully Signed In",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.BOTTOM,
+                            timeInSecForIosWeb: 1,
+                            backgroundColor: AppColors.green300,
+                            textColor: AppColors.white,
                           );
                           Get.offAllNamed(AppRoutes.baseRoute);
                         }

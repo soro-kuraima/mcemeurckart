@@ -11,12 +11,16 @@ class MainCard extends StatelessWidget {
     this.height,
     this.cardColor,
     this.onPressed,
+    required this.title,
+    required this.price,
     required this.imageUrl,
   });
 
   final double? width;
   final double? height;
   final Color? cardColor;
+  final String title;
+  final int price;
   final String imageUrl;
   final VoidCallback? onPressed;
 
@@ -70,7 +74,7 @@ class MainCard extends StatelessWidget {
                         SizedBox(
                           width: Sizes.deviceWidth * .4,
                           child: Text(
-                            'Chuck 70 Hi Sneakers Chuck 70 Hi Sneakers',
+                            title,
                             style: Get.textTheme.displayLarge,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
@@ -79,7 +83,7 @@ class MainCard extends StatelessWidget {
                         ),
                         gapH4,
                         Text(
-                          'Converse',
+                          '₹$price',
                           style: Get.textTheme.bodySmall?.copyWith(
                             fontWeight: Fonts.interRegular,
                           ),
@@ -88,7 +92,7 @@ class MainCard extends StatelessWidget {
                         ),
                         gapH16,
                         Text(
-                          r'$70.99',
+                          '₹$price',
                           style: Get.textTheme.bodyLarge?.copyWith(
                             fontWeight: Fonts.interRegular,
                           ),

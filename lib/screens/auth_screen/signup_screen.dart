@@ -107,7 +107,7 @@ class SignUpScreen extends StatelessWidget {
                             .createUserWithEmailPassword(
                                 email: email, password: password);
                         if (res['error'] != null) {
-                          ScaffoldMessenger.of(context).showSnackBar(
+                          ScaffoldMessenger.of(Get.context!).showSnackBar(
                             SnackBar(
                               behavior: SnackBarBehavior.floating,
                               backgroundColor: AppColors.red500,
@@ -116,7 +116,7 @@ class SignUpScreen extends StatelessWidget {
                             ),
                           );
                         } else if (res['user'] != null) {
-                          ScaffoldMessenger.of(context).showSnackBar(
+                          ScaffoldMessenger.of(Get.context!).showSnackBar(
                             SnackBar(
                               behavior: SnackBarBehavior.floating,
                               backgroundColor: AppColors.green500,

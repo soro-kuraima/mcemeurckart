@@ -34,6 +34,7 @@ const onboardingScreenPadding =
 const cartScreenPadding = EdgeInsets.fromLTRB(Sizes.p24, 0, Sizes.p24, 0);
 
 /// Constant gap widths
+const gapw0 = SizedBox(width: 0);
 const gapW2 = SizedBox(width: Sizes.p2);
 const gapW4 = SizedBox(width: Sizes.p4);
 const gapW6 = SizedBox(width: Sizes.p6);

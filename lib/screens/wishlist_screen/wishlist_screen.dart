@@ -153,6 +153,8 @@ class _WishlistScreenState extends State<WishlistScreen> {
                     itemBuilder: (_, index) => MainCard(
                       cardColor:
                           trendingCardColors[index % trendingCardColors.length],
+                      title: '2014 Forest Hills Drive',
+                      price: 59,
                       imageUrl: trendingImages[index],
                     ),
                   ),

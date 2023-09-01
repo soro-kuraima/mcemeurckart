@@ -3,14 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mcemeurckart/common_widgets/index.dart';
 import 'package:mcemeurckart/constants/index.dart';
+import 'package:mcemeurckart/models/products_model.dart';
 import 'package:mcemeurckart/routes/app_routes.dart';
 import 'package:mcemeurckart/screens/cart_screen/widgets/cart_product_card.dart';
-import 'package:mcemeurckart/screens/home_screen/widgets/main_card.dart';
 
-import 'widgets/option_card.dart';
 import 'widgets/page_dots_secondary.dart';
-import 'widgets/product_reviewer_card.dart';
-import 'widgets/rating_long.dart';
 import 'widgets/text_cropping_widget.dart';
 
 class ProductItemScreen extends StatefulWidget {
@@ -25,9 +22,7 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
 
   final pageController = PageController(initialPage: 0);
 
-  final productImages = [
-    'https://icegames.co/image/cache/catalog/1212121219/dualsense-ps5-controller-midnight-black-accessory-front-550x550.png',
-  ];
+  Product product = Get.arguments;
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +72,7 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
                           children: [
                             //* SELLING PRICE
                             Text(
-                              '\$79.99/-',
+                              '₹ ${product.price} /-',
                               style: Get.textTheme.titleSmall?.copyWith(
                                 fontWeight: FontWeight.bold,
                               ),
@@ -262,14 +257,14 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
                         color: AppColors.blue300,
                         child: PageView.builder(
                           controller: pageController,
-                          itemCount: productImages.length,
+                          itemCount: 1,
                           onPageChanged: (value) => setState(() {
                             currentIndex.value = value;
                           }),
                           itemBuilder: (_, index) => Container(
                             color: AppColors.blue300,
                             child: CachedNetworkImage(
-                              imageUrl: productImages[index],
+                              imageUrl: product.imageUrl,
                               placeholder: (_, url) => const Center(
                                 child: CircularProgressIndicator.adaptive(),
                               ),
@@ -284,7 +279,7 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
                         right: 0,
                         child: PageDotsSecondary(
                           currentIndex: currentIndex.value,
-                          countLength: productImages.length,
+                          countLength: 1,
                         ),
                       ),
                     ],
@@ -298,7 +293,7 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'DualSense Wireless Controller',
+                          product.title,
                           style: Get.textTheme.headlineMedium,
                         ),
                         gapH12,
@@ -307,18 +302,18 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
                           style: Get.textTheme.displayLarge,
                         ),
                         gapH8,
-                        const TextCroppingWidget(
-                          text: '5678',
+                        TextCroppingWidget(
+                          text: product.index.toString(),
                         ),
                         gapH12,
-                        Text(
-                          'Generics',
-                          style: Get.textTheme.displayLarge,
-                        ),
-                        gapH8,
-                        const TextCroppingWidget(
-                          text: 'Gaming',
-                        ),
+                        //Text(
+                        //'Generics',
+                        //style: Get.textTheme.displayLarge,
+                        //),
+                        //gapH8,
+                        //const TextCroppingWidget(
+                        //  text: 'Gaming',
+                        //),
 
                         gapH8,
                         //* Available Colors
@@ -328,9 +323,8 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
                           style: Get.textTheme.displayLarge,
                         ),
                         gapH12,
-                        const TextCroppingWidget(
-                          text:
-                              'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.',
+                        TextCroppingWidget(
+                          text: product.description,
                         ),
                       ],
                     ),

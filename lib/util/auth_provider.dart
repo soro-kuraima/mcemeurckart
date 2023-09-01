@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:mcemeurckart/views/screens/home_screen.dart';
-import 'package:mcemeurckart/views/screens/login_screen.dart';
+import 'package:mcemeurckart/screens/auth_screen/signin_screen.dart';
+import 'package:mcemeurckart/screens/home_screen/home_screen.dart';
 
 class AuthProvider extends StatelessWidget {
   static String id = ('main_page');
@@ -19,7 +19,7 @@ class AuthProvider extends StatelessWidget {
               return const HomeScreen();
             } else {
               print('Login Screen');
-              return const LogInScreen();
+              return const SignInScreen();
             }
           }),
     );

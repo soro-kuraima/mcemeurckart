@@ -13,11 +13,15 @@ class DealsCard extends StatelessWidget {
     this.height,
     this.onLikeTap,
     this.onCardTap,
+    required this.title,
+    required this.price,
     required this.imageUrl,
   });
 
   final double? width;
   final double? height;
+  final String title;
+  final int price;
   final String imageUrl;
   final VoidCallback? onLikeTap;
   final VoidCallback? onCardTap;
@@ -51,13 +55,22 @@ class DealsCard extends StatelessWidget {
                 child: Column(
                   children: [
                     Expanded(
-                      child: CachedNetworkImage(
-                        imageUrl: imageUrl,
-                        height: Sizes.deviceHeight * .3 / 2,
-                        placeholder: (_, url) => Center(
-                          child: CircularProgressIndicator.adaptive(
-                            valueColor: AlwaysStoppedAnimation(
-                              AppColors.neutral800,
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                          top: Sizes.p8,
+                          bottom: Sizes.p8,
+                        ),
+                        child: CachedNetworkImage(
+                          imageUrl: imageUrl,
+                          height: Sizes.deviceHeight * .3 / 2,
+                          width: Sizes.deviceWidth * .3,
+                          fit: BoxFit.contain,
+                          alignment: Alignment.center,
+                          placeholder: (_, url) => Center(
+                            child: CircularProgressIndicator.adaptive(
+                              valueColor: AlwaysStoppedAnimation(
+                                AppColors.neutral800,
+                              ),
                             ),
                           ),
                         ),
@@ -70,33 +83,17 @@ class DealsCard extends StatelessWidget {
                         SizedBox(
                           width: Sizes.deviceWidth * .3,
                           child: Text(
-                            'Bose Noise Cancellation bla bla bla bla bla bla bla',
+                            title,
                             style: Get.textTheme.displayMedium,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
-                        gapH4,
-                        Row(
-                          children: [
-                            const SvgAsset(
-                              assetPath: AppIcons.starIcon,
-                              width: Sizes.p10,
-                              height: Sizes.p10,
-                            ),
-                            gapW4,
-                            Text(
-                              '4.25',
-                              style: Get.textTheme.bodySmall,
-                              textAlign: TextAlign.start,
-                            ),
-                          ],
-                        ),
                         gapH8,
                         Row(
                           children: [
                             Text(
-                              r'$400.99',
+                              '₹$price',
                               style: Get.textTheme.bodyMedium?.copyWith(
                                 color: AppColors.neutral600,
                               ),

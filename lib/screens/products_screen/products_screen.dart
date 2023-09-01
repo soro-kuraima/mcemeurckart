@@ -155,6 +155,8 @@ class _MyInterestsScreenState extends State<MyInterestsScreen> {
                       childAspectRatio: 9 / 10,
                     ),
                     itemBuilder: (_, index) => DealsCard(
+                      title: 'PlayStation 5',
+                      price: 490000,
                       imageUrl: trendingInGamingImages[index],
                       onCardTap: () {},
                       onLikeTap: () {},
@@ -208,6 +210,8 @@ class _MyInterestsScreenState extends State<MyInterestsScreen> {
                       childAspectRatio: 9 / 10,
                     ),
                     itemBuilder: (_, index) => DealsCard(
+                      title: 'PlayStation 5',
+                      price: 490000,
                       imageUrl: trendingInReadingImages[index],
                       onCardTap: () {},
                       onLikeTap: () {},

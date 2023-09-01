@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import 'package:mcemeurckart/common_widgets/index.dart';
 import 'package:mcemeurckart/constants/index.dart';
+import 'package:mcemeurckart/controller/products_controller_getx.dart';
 import 'package:mcemeurckart/routes/app_routes.dart';
 import 'package:mcemeurckart/screens/home_screen/widgets/deals_card.dart';
 import 'package:mcemeurckart/screens/home_screen/widgets/home_category_card.dart';
@@ -64,25 +65,11 @@ class _HomeScreenState extends State<HomeScreen> {
     AppColors.yellow300,
   ];
 
-  final trendingImages = [
-    'https://res-1.cloudinary.com/grover/image/upload/v1678133137/uwe0cdxwdhfmqp2z7tlt.png',
-    'https://bumpshoes.com/cdn/shop/products/main_1055x.png?v=1518846318',
-    'https://assets.sunglasshut.com/is/image/LuxotticaRetail/8056597614160__STD__shad__qt.png?impolicy=SGH_bgtransparent&width=1000',
-    'https://assets.mmsrg.com/isr/166325/c1/-/ASSET_MMS_104146487/fee_786_587_png',
-  ];
-
-  final dealsImages = [
-    'https://assets.bose.com/content/dam/cloudassets/Bose_DAM/Web/consumer_electronics/global/products/headphones/qc35_ii/product_silo_images/qc35_ii_black_EC_hero.png/jcr:content/renditions/cq5dam.web.1280.1280.png',
-    'https://images.csmonitor.com/csm/2014/06/hobbit.png?alias=standard_900x600nc',
-    'https://multimedia.bbycastatic.ca/multimedia/products/1500x1500/171/17145/17145330_8.png',
-    'https://media2.sport-bittl.com/images/product_images/original_images/27826167676a_Birkenstock_Arizona_Schuh_He_schwarz.png',
-  ];
-
   final categoriesTitles = [
-    AppTitles.categoryCard1Title,
-    AppTitles.categoryCard2Title,
-    AppTitles.categoryCard3Title,
-    AppTitles.categoryCard4Title,
+    'Fabric Care',
+    'Kitchen Essentials',
+    'Personal Care',
+    'View All'
   ];
   final categoriesColors = [
     AppColors.red300,
@@ -90,6 +77,8 @@ class _HomeScreenState extends State<HomeScreen> {
     AppColors.blue300,
     AppColors.green300,
   ];
+
+  final ProductsController productsController = Get.put(ProductsController());
 
   @override
   Widget build(BuildContext context) {
@@ -128,134 +117,158 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
         body: ScrollConfiguration(
           behavior: const ScrollBehavior().copyWith(overscroll: false),
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.only(
-              top: Sizes.p32,
-            ),
-            child: Column(
-              children: [
-                // * Just For You
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: Sizes.p24,
-                  ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        flex: 2,
-                        child: Text(
-                          'Most Ordered',
-                          style: Get.textTheme.headlineSmall,
+          child: GetBuilder<ProductsController>(
+            builder: (productsController) {
+              return SingleChildScrollView(
+                padding: const EdgeInsets.only(
+                  top: Sizes.p32,
+                ),
+                child: Column(
+                  children: [
+                    // * Just For You
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: Sizes.p24,
+                      ),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            flex: 2,
+                            child: Text(
+                              'Most Ordered',
+                              style: Get.textTheme.headlineSmall,
+                            ),
+                          ),
+                          PrimaryIconButton(
+                            icon: AppIcons.iOSLeftArrowIcon,
+                            onPressed: () => _scrollToTheNextItemView(
+                                scrollDirection: ScrollDirection.backward),
+                          ),
+                          PrimaryIconButton(
+                            icon: AppIcons.iOSRightArrowIcon,
+                            onPressed: _scrollToTheNextItemView,
+                          ),
+                        ],
+                      ),
+                    ),
+                    gapH16,
+                    SizedBox(
+                      height: Sizes.deviceHeight * .48,
+                      child: ListView.separated(
+                        controller: _scrollController,
+                        scrollDirection: Axis.horizontal,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: Sizes.p24,
                         ),
-                      ),
-                      PrimaryIconButton(
-                        icon: AppIcons.iOSLeftArrowIcon,
-                        onPressed: () => _scrollToTheNextItemView(
-                            scrollDirection: ScrollDirection.backward),
-                      ),
-                      PrimaryIconButton(
-                        icon: AppIcons.iOSRightArrowIcon,
-                        onPressed: _scrollToTheNextItemView,
-                      ),
-                    ],
-                  ),
-                ),
-                gapH16,
-                SizedBox(
-                  height: Sizes.deviceHeight * .48,
-                  child: ListView.separated(
-                    controller: _scrollController,
-                    scrollDirection: Axis.horizontal,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: Sizes.p24,
-                    ),
-                    physics: const BouncingScrollPhysics(),
-                    itemCount: trendingImages.length,
-                    separatorBuilder: (_, index) => gapW16,
-                    itemBuilder: (_, index) => MainCard(
-                      cardColor:
-                          trendingCardColors[index % trendingCardColors.length],
-                      imageUrl: trendingImages[index],
-                      onPressed: () => Get.toNamed(
-                        AppRoutes.productItemRoute,
+                        physics: const BouncingScrollPhysics(),
+                        itemCount: productsController.products.length,
+                        separatorBuilder: (_, index) => gapW16,
+                        itemBuilder: (_, index) {
+                          if (index % 2 == 0) {
+                            return MainCard(
+                              cardColor: trendingCardColors[
+                                  index % trendingCardColors.length],
+                              title: productsController.products[index].title,
+                              price: productsController.products[index].price,
+                              imageUrl:
+                                  productsController.products[index].imageUrl,
+                              onPressed: () => Get.toNamed(
+                                AppRoutes.productItemRoute,
+                                arguments: productsController.products[index],
+                              ),
+                            );
+                          } else {
+                            return SizedBox.shrink();
+                          }
+                        },
                       ),
                     ),
-                  ),
-                ),
-                gapH32,
-                // * Deals
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: Sizes.p24,
-                    vertical: Sizes.p16,
-                  ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          'Your favorites',
-                          style: Get.textTheme.headlineSmall,
-                        ),
+                    gapH32,
+                    // * Deals
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: Sizes.p24,
+                        vertical: Sizes.p16,
                       ),
-                      PrimaryTextButton(
-                        buttonLabel: 'View all',
-                        onPressed: () {},
-                      )
-                    ],
-                  ),
-                ),
-                gapH16,
-                SizedBox(
-                  height: Sizes.deviceHeight * .3,
-                  child: ListView.separated(
-                    scrollDirection: Axis.horizontal,
-                    physics: const BouncingScrollPhysics(),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: Sizes.p24,
-                    ),
-                    itemCount: dealsImages.length,
-                    separatorBuilder: (_, __) => gapW16,
-                    itemBuilder: (_, index) => DealsCard(
-                      imageUrl: dealsImages[index],
-                      onCardTap: () => Get.toNamed(
-                        AppRoutes.productItemRoute,
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              'Your favorites',
+                              style: Get.textTheme.headlineSmall,
+                            ),
+                          ),
+                          PrimaryTextButton(
+                            buttonLabel: 'View all',
+                            onPressed: () {},
+                          )
+                        ],
                       ),
-                      onLikeTap: () {},
                     ),
-                  ),
+                    gapH16,
+                    SizedBox(
+                      height: Sizes.deviceHeight * .3,
+                      child: ListView.separated(
+                          scrollDirection: Axis.horizontal,
+                          physics: const BouncingScrollPhysics(),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: Sizes.p24,
+                          ),
+                          itemCount: productsController.products.length,
+                          separatorBuilder: (_, __) => gapW16,
+                          itemBuilder: (_, index) {
+                            if (index % 2 != 0) {
+                              return DealsCard(
+                                title: productsController.products[index].title,
+                                price: productsController.products[index].price,
+                                imageUrl:
+                                    productsController.products[index].imageUrl,
+                                onCardTap: () => Get.toNamed(
+                                  AppRoutes.productItemRoute,
+                                  arguments: productsController.products[index],
+                                ),
+                                onLikeTap: () {},
+                              );
+                            } else {
+                              return SizedBox.shrink();
+                            }
+                          }),
+                    ),
+                    gapH32,
+                    // * Cards Section
+                    GridView.builder(
+                      padding: const EdgeInsets.fromLTRB(
+                        Sizes.p24,
+                        Sizes.p16,
+                        Sizes.p24,
+                        Sizes.p4,
+                      ),
+                      itemCount: categoriesTitles.length,
+                      primary: false,
+                      shrinkWrap: true,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        //mainAxisSpacing: Sizes.p16,
+                        //crossAxisSpacing: Sizes.p12,
+                        childAspectRatio: 9 / 10,
+                      ),
+                      itemBuilder: (_, index) => HomeCategoryCard(
+                        color: categoriesColors[index],
+                        title: categoriesTitles[index],
+                        onTap: () {
+                          if (index == 3) {
+                            Get.toNamed(
+                              AppRoutes.categoriesRoute,
+                            );
+                          }
+                        },
+                      ),
+                    ),
+                  ],
                 ),
-                gapH32,
-                // * Cards Section
-                GridView.builder(
-                  padding: const EdgeInsets.fromLTRB(
-                    Sizes.p24,
-                    Sizes.p16,
-                    Sizes.p24,
-                    Sizes.p4,
-                  ),
-                  itemCount: categoriesTitles.length,
-                  primary: false,
-                  shrinkWrap: true,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    //mainAxisSpacing: Sizes.p16,
-                    //crossAxisSpacing: Sizes.p12,
-                    childAspectRatio: 9 / 10,
-                  ),
-                  itemBuilder: (_, index) => HomeCategoryCard(
-                    color: categoriesColors[index],
-                    title: categoriesTitles[index],
-                    onTap: () {
-                      if (index == 3) {
-                        Get.toNamed(
-                          AppRoutes.categoriesRoute,
-                        );
-                      }
-                    },
-                  ),
-                ),
-              ],
-            ),
+              );
+            },
           ),
         ),
       ),

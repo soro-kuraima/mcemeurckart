@@ -6,8 +6,6 @@ class FireBaseStoreHelper {
   static final FireBaseStoreHelper fireBaseStoreHelper =
       FireBaseStoreHelper._();
   static final FirebaseFirestore db = FirebaseFirestore.instance;
-  final categoriesRef = db.collection('categories');
-  final productsRef = db.collection('products');
 
   Future<void> insert({required Map<String, dynamic> data}) async {
     DocumentSnapshot<Map<String, dynamic>> k =
@@ -88,23 +86,74 @@ class FireBaseStoreHelper {
         .update({'id': id, 'lenght': ++len});
   }
 
-  Future<Map<String, dynamic>> readGenericCategories() async {
-    DocumentSnapshot<Map<String, dynamic>> genericCategoriesDoc =
-        await db.collection('categories').doc('generic-categories').get();
-    if (genericCategoriesDoc.exists) {
-      Map<String, dynamic> data = genericCategoriesDoc.data();
-      // Do something with the data...
-      return data;
-    }
-    return null;
-  }
-}
+  static final categoriesRef = db.collection('categories');
+  static final productsRef = db.collection('products');
 
-Future<void> readGenericCategories() async {
-  DocumentSnapshot<Map<String, dynamic>> genericCategoriesDoc =
-      await db.collection('categories').doc('generic-categories').get();
-  if (genericCategoriesDoc.exists) {
-    Map<String, dynamic> data = genericCategoriesDoc.data()!;
-    // Do something with the data...
+  static final generics = categoriesRef.doc('generics');
+  static final rootCategories = categoriesRef.doc('root-categories');
+  static final productCategories = categoriesRef.doc('product-categories');
+
+  static Future<Map<String, dynamic>> getGenerics() async {
+    Map<String, dynamic> res = {};
+    try {
+      DocumentSnapshot<Map<String, dynamic>> documentSnapshot =
+          await generics.get();
+      res = documentSnapshot.data()!;
+    } catch (e) {
+      print(e);
+    }
+    return res;
+  }
+
+  static Future<Map<String, dynamic>> getRootCategories() async {
+    Map<String, dynamic> res = {};
+    try {
+      DocumentSnapshot<Map<String, dynamic>> documentSnapshot =
+          await rootCategories.get();
+      res = documentSnapshot.data()!;
+    } catch (e) {
+      print(e);
+    }
+    return res;
+  }
+
+  static Future<Map<String, dynamic>> getProductCategories() async {
+    Map<String, dynamic> res = {};
+    try {
+      DocumentSnapshot<Map<String, dynamic>> documentSnapshot =
+          await productCategories.get();
+      res = documentSnapshot.data()!;
+    } catch (e) {
+      print(e);
+    }
+    return res;
+  }
+
+  static Future<List<Map<String, dynamic>>> getProducts() async {
+    List<Map<String, dynamic>> products = [];
+    try {
+      final response = await productsRef.get();
+      if (response.docs.isNotEmpty) {
+        for (final item in response.docs) {
+          products.add(item.data());
+        }
+      }
+    } catch (e) {
+      print(e);
+    }
+    return products;
+  }
+
+  static Future<Map<String, dynamic>> getProduct(int productId) async {
+    Map<String, dynamic> res = {};
+    final product = productsRef.doc(productId.toString());
+    try {
+      DocumentSnapshot<Map<String, dynamic>> documentSnapshot =
+          await product.get();
+      res = documentSnapshot.data()!;
+    } catch (e) {
+      print(e);
+    }
+    return res;
   }
 }
