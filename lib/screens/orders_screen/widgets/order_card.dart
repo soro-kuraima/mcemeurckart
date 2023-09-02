@@ -5,9 +5,19 @@ import 'package:mcemeurckart/common_widgets/custom_divider.dart';
 import 'package:mcemeurckart/constants/index.dart';
 
 class OrderCard extends StatelessWidget {
-  const OrderCard({super.key, this.onTap});
+  const OrderCard(
+      {super.key,
+      this.onTap,
+      required this.imageUrl,
+      required this.orderId,
+      required this.orderValue,
+      required this.orderStatus});
 
   final VoidCallback? onTap;
+  final String imageUrl;
+  final String orderId;
+  final String orderValue;
+  final String orderStatus;
 
   @override
   Widget build(BuildContext context) {
@@ -42,8 +52,7 @@ class OrderCard extends StatelessWidget {
                           ),
                         ),
                       ),
-                      imageUrl:
-                          'https://cdn-reichelt.de/bilder/web/xxl_ws/E910/SONY_9399506_02.png',
+                      imageUrl: imageUrl,
                       width: 80,
                       height: 80,
                     ),
@@ -56,7 +65,7 @@ class OrderCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'order total',
+                          orderId,
                           style: Get.textTheme.bodySmall?.copyWith(
                             color: AppColors.neutral400,
                             fontWeight: Fonts.interRegular,
@@ -64,7 +73,7 @@ class OrderCard extends StatelessWidget {
                         ),
                         gapH4,
                         Text(
-                          '\$82.19',
+                          orderValue,
                           style: Get.textTheme.bodyMedium?.copyWith(
                             fontWeight: Fonts.interMedium,
                           ),
@@ -73,7 +82,7 @@ class OrderCard extends StatelessWidget {
                         ),
                         gapH12,
                         Text(
-                          'Arriving today',
+                          orderStatus,
                           style: Get.textTheme.bodySmall?.copyWith(
                             color: AppColors.organge300,
                             fontWeight: FontWeight.bold,

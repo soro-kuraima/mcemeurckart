@@ -207,4 +207,47 @@ class FireBaseStoreHelper {
       print('Product deleted from cart');
     }
   }
+
+  /* ================= to get orders and place orders ============== */
+
+  static final ordersRef = db.collection('orders');
+
+  static Future<void> placeOrder(int orderValue) async {
+    try {
+      db.runTransaction((transaction) async {
+        final snapshot = await transaction.get(cart);
+        if (snapshot.exists) {
+          await ordersRef.add({
+            'user': user!.email,
+            'products': snapshot.data(),
+            'orderValue': orderValue,
+            'orderStatus': 'pending',
+            'orderDate': DateTime.now(),
+          });
+          await cart.delete();
+        }
+      });
+    } catch (e) {
+      print(e);
+    } finally {
+      print('Order placed');
+    }
+  }
+
+  static final ordersQuery = ordersRef.where('user', isEqualTo: user!.email);
+  static Stream<List<Map<String, dynamic>>> getOrders() {
+    return ordersQuery.snapshots().map((event) {
+      final data = event.docs.map((e) {
+        return {
+          'id': e.id,
+          'user': e.data()['user'],
+          'products': e.data()['products'],
+          'orderValue': e.data()['orderValue'],
+          'orderStatus': e.data()['orderStatus'],
+          'orderDate': e.data()['orderDate'],
+        };
+      }).toList();
+      return List.from(data);
+    });
+  }
 }

@@ -10,12 +10,14 @@ class AccountCard extends StatelessWidget {
     this.height,
     // required this.icon,
     required this.text,
+    this.onCardTap,
   });
 
   final double? width;
   final double? height;
   // final String icon;
   final String text;
+  final Function()? onCardTap;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +37,7 @@ class AccountCard extends StatelessWidget {
               borderRadius: const BorderRadius.all(
                 Radius.circular(Sizes.p10),
               ),
-              onTap: () {},
+              onTap: onCardTap,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(Sizes.p10),
                 child: Padding(

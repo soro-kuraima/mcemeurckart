@@ -12,9 +12,8 @@ class WishlistCard extends StatelessWidget {
     required this.itemName,
     required this.price,
     this.onCardTap,
-    this.onLikeTap,
     this.onAddToCart,
-    this.moreOptionsTap,
+    this.onCloseTap,
   });
 
   final String listName;
@@ -22,8 +21,7 @@ class WishlistCard extends StatelessWidget {
   final String itemName;
   final double price;
   final VoidCallback? onCardTap;
-  final VoidCallback? moreOptionsTap;
-  final VoidCallback? onLikeTap;
+  final VoidCallback? onCloseTap;
   final VoidCallback? onAddToCart;
 
   @override
@@ -50,11 +48,11 @@ class WishlistCard extends StatelessWidget {
                   style: Get.textTheme.displayLarge,
                 ),
                 IconButton(
-                  icon: SvgAsset(
-                    assetPath: AppIcons.moreOptionsIcon,
-                    color: AppColors.neutral400,
+                  icon: Icon(
+                    Icons.close,
+                    color: AppColors.neutral800,
                   ),
-                  onPressed: moreOptionsTap,
+                  onPressed: onCloseTap,
                 ),
               ],
             ),
@@ -96,10 +94,6 @@ class WishlistCard extends StatelessWidget {
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 2,
                               ),
-                            ),
-                            PrimaryIconButton(
-                              icon: AppIcons.favoriteIcon,
-                              onPressed: onLikeTap,
                             ),
                           ],
                         ),

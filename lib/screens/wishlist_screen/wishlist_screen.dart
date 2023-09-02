@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mcemeurckart/common_widgets/index.dart';
 import 'package:mcemeurckart/constants/index.dart';
+import 'package:mcemeurckart/controller/cart_controller_getx.dart';
 import 'package:mcemeurckart/controller/wishlist_controller_getx.dart';
+import 'package:mcemeurckart/routes/app_routes.dart';
 
 import 'widgets/wishlist_card.dart';
 
@@ -37,7 +39,9 @@ class _WishlistScreenState extends State<WishlistScreen> {
                 ),
                 child: PrimaryIconButton(
                   icon: AppIcons.shoppingCartIcon,
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.toNamed(AppRoutes.cartRoute);
+                  },
                 ),
               ),
             ],
@@ -86,10 +90,33 @@ class _WishlistScreenState extends State<WishlistScreen> {
                                 wishlistController.wishlistItems[index].title,
                             price: wishlistController.wishlistItems[index].price
                                 .toDouble(),
-                            moreOptionsTap: () {},
-                            onCardTap: () {},
-                            onAddToCart: () {},
-                            onLikeTap: () {},
+                            onCardTap: () {
+                              Get.toNamed(
+                                AppRoutes.productItemRoute,
+                                arguments:
+                                    wishlistController.wishlistItems[index],
+                              );
+                            },
+                            onAddToCart: () {
+                              Get.find<CartController>().addToCart(
+                                  wishlistController
+                                      .wishlistItems[index].index);
+
+                              Get.find<WishlistController>().removeFromWishlist(
+                                  wishlistController.wishlistItems[index]);
+
+                              Get.snackbar("", "Item moved to cart",
+                                  snackPosition: SnackPosition.BOTTOM,
+                                  duration: const Duration(seconds: 3));
+                            },
+                            onCloseTap: () {
+                              Get.find<WishlistController>().removeFromWishlist(
+                                  wishlistController.wishlistItems[index]);
+
+                              Get.snackbar("", "Item removed from wishlist",
+                                  snackPosition: SnackPosition.BOTTOM,
+                                  duration: const Duration(seconds: 3));
+                            },
                           ),
                         ),
                       ),

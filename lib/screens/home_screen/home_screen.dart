@@ -109,7 +109,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   icon: AppIcons.shoppingCartIcon,
                   onPressed: () {
                     Get.toNamed(
-                      AppRoutes.wishlistRoute,
+                      AppRoutes.cartRoute,
                     );
                   },
                 ),

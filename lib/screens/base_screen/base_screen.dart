@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mcemeurckart/controller/cart_controller_getx.dart';
 import 'package:mcemeurckart/controller/wishlist_controller_getx.dart';
+import 'package:mcemeurckart/screens/cart_screen/cart_screen.dart';
 import 'package:mcemeurckart/screens/categories_screen/categories_screen.dart';
+import 'package:mcemeurckart/screens/checkout_screen/checkout_confirmation_screen.dart';
+import 'package:mcemeurckart/screens/checkout_screen/checkout_screen.dart';
 
 import 'package:mcemeurckart/screens/orders_screen/orders_screen.dart';
 import 'package:mcemeurckart/screens/home_screen/home_screen.dart';
@@ -27,6 +30,9 @@ class _BaseScreenState extends State<BaseScreen> {
     const ProfileScreen(),
     const ProductItemScreen(),
     const CategoriesScreen(),
+    const CartScreen(),
+    const CheckoutScreen(),
+    const CheckoutConfirmationScreen(),
   ];
 
   WishlistController wishlistController = Get.put(WishlistController());
