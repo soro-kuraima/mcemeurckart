@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mcemeurckart/common_widgets/index.dart';
 import 'package:mcemeurckart/constants/index.dart';
-import 'package:mcemeurckart/screens/home_screen/widgets/main_card.dart';
+import 'package:mcemeurckart/controller/wishlist_controller_getx.dart';
 
 import 'widgets/wishlist_card.dart';
 
@@ -14,33 +14,8 @@ class WishlistScreen extends StatefulWidget {
 }
 
 class _WishlistScreenState extends State<WishlistScreen> {
-  final trendingCardColors = [
-    AppColors.blue300,
-    AppColors.green300,
-    AppColors.purple300,
-    AppColors.red300,
-    AppColors.yellow300,
-  ];
-
-  final trendingImages = [
-    'https://res-1.cloudinary.com/grover/image/upload/v1678133137/uwe0cdxwdhfmqp2z7tlt.png',
-    'https://bumpshoes.com/cdn/shop/products/main_1055x.png?v=1518846318',
-    'https://assets.sunglasshut.com/is/image/LuxotticaRetail/8056597614160__STD__shad__qt.png?impolicy=SGH_bgtransparent&width=1000',
-    'https://assets.mmsrg.com/isr/166325/c1/-/ASSET_MMS_104146487/fee_786_587_png',
-  ];
-
-  final wishlistNames = [
-    'Personal',
-    'Work Items',
-  ];
-  final wishlistItemImages = [
-    'Personal',
-    'Work Items',
-  ];
-
   @override
   Widget build(BuildContext context) {
-    const isLoggedIn = true;
     return Scaffold(
       body: NestedScrollView(
         headerSliverBuilder: (context, innerBoxIsScrolled) => [
@@ -74,92 +49,54 @@ class _WishlistScreenState extends State<WishlistScreen> {
             padding: const EdgeInsets.only(
               left: Sizes.p24,
               right: Sizes.p24,
-              bottom: Sizes.p32,
             ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Visibility(
-                  visible: isLoggedIn,
-                  replacement: EmptyStateCard(
-                    hasDescription: false,
-                    cardImage: AppAssets.wishlistEmpty,
-                    cardTitle: 'Uh Oh! You have no saved products.',
-                    cardColor: AppColors.purple300,
-                    buttonText: '+ Create a wishlist',
-                    buttonPressed: () {},
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      WishlistCard(
-                        listName: wishlistNames[0],
-                        imageUrl:
-                            'https://assets.mmsrg.com/isr/166325/c1/-/ASSET_MMS_104146487/fee_786_587_png',
-                        itemName: '2014 Forest Hills Drive',
-                        price: 49.99,
-                        moreOptionsTap: () {},
-                        onCardTap: () {},
-                        onAddToCart: () {},
-                        onLikeTap: () {},
-                      ),
-                      gapH32,
-                      WishlistCard(
-                        listName: wishlistNames[1],
-                        imageUrl:
-                            'https://assets.bose.com/content/dam/cloudassets/Bose_DAM/Web/consumer_electronics/global/products/headphones/qc35_ii/product_silo_images/qc35_ii_black_EC_hero.png/jcr:content/renditions/cq5dam.web.1280.1280.png',
-                        itemName: 'Bose Noise Cancelling Headphones 700',
-                        price: 400.99,
-                        moreOptionsTap: () {},
-                        onCardTap: () {},
-                        onAddToCart: () {},
-                        onLikeTap: () {},
-                      ),
-                      gapH32,
-                      PrimaryOutlinedButton(
-                        hasText: true,
-                        title: '+ Create a wishlist',
-                        onPressed: () {},
-                      ),
-                    ],
-                  ),
-                ),
-                gapH32,
-                Row(
+            child: GetBuilder<WishlistController>(
+              builder: (wishlistController) {
+                return Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Expanded(
-                      flex: 2,
-                      child: Text(
-                        'Trending',
-                        style: Get.textTheme.headlineSmall,
+                    Visibility(
+                      visible: wishlistController.wishlistItems.isNotEmpty,
+                      replacement: EmptyStateCard(
+                        hasDescription: false,
+                        cardImage: AppAssets.wishlistEmpty,
+                        cardTitle: 'Uh Oh! You have nothing in your wishlist',
+                        cardColor: AppColors.purple300,
+                        buttonText: 'Add items to your wishlist',
+                        buttonPressed: () {},
+                      ),
+                      child: SizedBox(
+                        height: Get.height * .85,
+                        child: ListView.separated(
+                          scrollDirection: Axis.vertical,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: Sizes.p6,
+                          ),
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          itemCount: wishlistController.wishlistItems.length,
+                          separatorBuilder: (_, index) => gapH4,
+                          itemBuilder: (_, index) => WishlistCard(
+                            listName: wishlistController
+                                .wishlistItems[index].index
+                                .toString(),
+                            imageUrl: wishlistController
+                                .wishlistItems[index].imageUrl,
+                            itemName:
+                                wishlistController.wishlistItems[index].title,
+                            price: wishlistController.wishlistItems[index].price
+                                .toDouble(),
+                            moreOptionsTap: () {},
+                            onCardTap: () {},
+                            onAddToCart: () {},
+                            onLikeTap: () {},
+                          ),
+                        ),
                       ),
                     ),
-                    PrimaryTextButton(
-                      buttonLabel: 'View all',
-                      onPressed: () {},
-                    )
                   ],
-                ),
-                gapH16,
-                SizedBox(
-                  height: Sizes.deviceHeight * .48,
-                  child: ListView.separated(
-                    scrollDirection: Axis.horizontal,
-                    physics: const BouncingScrollPhysics(),
-                    itemCount: trendingImages.length,
-                    separatorBuilder: (_, index) => gapW16,
-                    itemBuilder: (_, index) => MainCard(
-                      cardColor:
-                          trendingCardColors[index % trendingCardColors.length],
-                      title: '2014 Forest Hills Drive',
-                      price: 59,
-                      imageUrl: trendingImages[index],
-                    ),
-                  ),
-                ),
-              ],
+                );
+              },
             ),
           ),
         ),

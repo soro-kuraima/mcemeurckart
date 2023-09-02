@@ -1,34 +1,54 @@
+import 'dart:developer';
+
 import 'package:get/get.dart';
-import 'package:hive/hive.dart';
 import 'package:mcemeurckart/models/products_model.dart';
+import 'package:mcemeurckart/util/firestore_helper.dart';
 
 class WishlistController extends GetxController {
-  late Box<Product> _wishlistBox;
+  RxList<int> wishlist = RxList<int>();
   RxList<Product> wishlistItems = RxList<Product>();
 
   @override
   void onInit() async {
     super.onInit();
-    _openBox();
-    wishlistItems.assignAll(_wishlistBox.values.toList());
+    await getWishListItems();
   }
 
   @override
-  void onClose() {
-    _wishlistBox.close();
-    super.onClose();
+  void onReady() {
+    super.onReady();
+    wishlist.bindStream(FireBaseStoreHelper.getWishList());
+
+    ever(wishlist, (_) {
+      getWishListItems();
+    });
   }
 
-  Future<void> _openBox() async {
-    _wishlistBox = await Hive.openBox<Product>('wishlist');
+  Future<void> getWishListItems() async {
+    log('getWishListItems');
+    wishlistItems.clear(); // Clear the list before adding new items
+    await Future.forEach(wishlist, (element) async {
+      final value = await FireBaseStoreHelper.getProduct(element);
+      wishlistItems.add(Product(
+        index: value['index'],
+        title: value['title'],
+        description: value['description'],
+        price: value['price'],
+        imageUrl: value['imageUrl'],
+        stock: value['stock'],
+      ));
+    });
+    log(wishlist.toString());
+    log(wishlistItems.toString());
   }
 
-  void addToWishlist(Product product) {
+  void addToWishlist(Product product) async {
+    log('addToWishlist');
     final index =
         wishlistItems.indexWhere((item) => item.index == product.index);
     if (index == -1) {
-      wishlistItems.add(product);
-      _wishlistBox.add(product);
+      await FireBaseStoreHelper.addToWishlist(product.index);
+      update();
     } else {
       Get.snackbar(
         'Product already in wishlist',
@@ -39,8 +59,8 @@ class WishlistController extends GetxController {
     }
   }
 
-  void removeFromWishlist(Product product) {
-    wishlistItems.removeWhere((item) => item.index == product.index);
-    _wishlistBox.delete(product.index);
+  void removeFromWishlist(Product product) async {
+    await FireBaseStoreHelper.removeFromWishList(product.index);
+    update();
   }
 }

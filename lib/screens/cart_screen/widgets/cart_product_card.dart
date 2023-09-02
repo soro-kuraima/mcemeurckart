@@ -3,11 +3,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:mcemeurckart/constants/index.dart';
+import 'package:mcemeurckart/controller/cart_controller_getx.dart';
+import 'package:mcemeurckart/models/products_model.dart';
 
 import 'quantity_widget.dart';
 
 class CartProductCard extends StatelessWidget {
-  const CartProductCard({Key? key}) : super(key: key);
+  final Product product;
+  final int quantity;
+  final void Function()? increment;
+  final void Function()? decrement;
+  CartProductCard(
+      {Key? key,
+      required this.product,
+      required this.quantity,
+      this.increment,
+      this.decrement})
+      : super(key: key);
 
   // final CartItemModel cartItemModel;
 
@@ -40,8 +52,7 @@ class CartProductCard extends StatelessWidget {
             children: [
               Expanded(
                 child: CachedNetworkImage(
-                  imageUrl:
-                      'https://scufgaming.com/media/prismic/11a0b46a-25a9-4e3e-938f-4a152863d065_reflex_compare_model_fps_steel_gray_front_850x600.png',
+                  imageUrl: product.imageUrl,
                   width: 80,
                   height: 80,
                   placeholder: (_, url) => const Center(
@@ -56,19 +67,23 @@ class CartProductCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'DualSense Wireless Controller',
+                      product.title,
                       style: Get.textTheme.displayMedium,
                       overflow: TextOverflow.ellipsis,
                       maxLines: 2,
                     ),
                     gapH8,
-                    const QuantityWidget(),
+                    QuantityWidget(
+                      quantity: quantity,
+                      increment: increment,
+                      decrement: decrement,
+                    ),
                   ],
                 ),
               ),
               gapW16,
               Text(
-                '\$79.99',
+                '₹${product.price}',
                 style: Get.textTheme.bodyMedium?.copyWith(
                   fontWeight: Fonts.interMedium,
                 ),

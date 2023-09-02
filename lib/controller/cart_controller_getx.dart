@@ -1,12 +1,12 @@
-import 'package:get/get.dart';
-import 'package:hive/hive.dart';
-import 'package:mcemeurckart/models/products_model.dart';
+import 'dart:developer';
 
-@HiveType(typeId: 0)
-class CartItem extends HiveObject {
-  @HiveField(0)
+import 'package:get/get.dart';
+import 'package:mcemeurckart/models/products_model.dart';
+import 'package:mcemeurckart/util/firestore_helper.dart';
+
+class CartItem {
   final Product product;
-  @HiveField(1)
+
   final int quantity;
 
   CartItem({required this.product, required this.quantity});
@@ -17,34 +17,50 @@ class CartItem extends HiveObject {
 }
 
 class CartController extends GetxController {
-  late Box<CartItem> _cartBox;
+  RxList<Map<String, dynamic>> cart = RxList<Map<String, dynamic>>();
   RxList<CartItem> cartItems = RxList<CartItem>();
-  RxInt sumTotal = 0.obs;
 
   @override
   void onInit() async {
     super.onInit();
-    await _openBox();
-    cartItems.assignAll(_cartBox.values.toList());
-    updateSumTotal();
+    await getCartItems();
   }
 
   @override
-  void onClose() {
-    _cartBox.close();
-    super.onClose();
+  void onReady() {
+    super.onReady();
+    cart.bindStream(FireBaseStoreHelper.getCart());
+
+    ever(cart, (_) {
+      getCartItems();
+    });
   }
 
-  Future<void> _openBox() async {
-    _cartBox = await Hive.openBox<CartItem>('cart');
+  Future<void> getCartItems() async {
+    log('getCartItems');
+    cartItems.clear(); // Clear the list before adding new items
+    await Future.forEach(cart, (element) async {
+      final value = await FireBaseStoreHelper.getProduct(element['product']!);
+      cartItems.add(CartItem(
+        product: Product(
+          index: value['index'],
+          title: value['title'],
+          description: value['description'],
+          price: value['price'],
+          imageUrl: value['imageUrl'],
+          stock: value['stock'],
+        ),
+        quantity: element['quantity']!,
+      ));
+      update();
+    });
   }
 
-  void addToCart(CartItem cartItem) {
-    final index = cartItems
-        .indexWhere((item) => item.product.index == cartItem.product.index);
-    if (index == -1) {
-      cartItems.add(cartItem);
-      _cartBox.add(cartItem);
+  void addToCart(int index) async {
+    final idx = cartItems.indexWhere((item) => item.product.index == index);
+    if (idx == -1) {
+      await FireBaseStoreHelper.addToCart(index);
+      update();
     } else {
       Get.snackbar(
         'Product already in cart',
@@ -53,45 +69,35 @@ class CartController extends GetxController {
         snackPosition: SnackPosition.BOTTOM,
       );
     }
-    updateSumTotal();
-    update();
+
+    log('cart ' + cart.toString());
+    log('cart items ' + cartItems.toString());
   }
 
   void removeFromCart(int index) {
-    final item = cartItems[index];
-    cartItems.removeAt(index);
-    _cartBox.delete(item.key);
-    updateSumTotal();
-    update();
+    FireBaseStoreHelper.removeFromCart(index);
   }
 
-  void increaseQuantity(CartItem cartItem) {
-    final index = cartItems
-        .indexWhere((item) => item.product.index == cartItem.product.index);
-    final item = cartItems[index];
-    cartItems[index] = item.copyWith(quantity: item.quantity + 1);
-    _cartBox.put(item.key, cartItems[index]);
-    updateSumTotal();
-    update();
+  void increaseQuantity(int index) {
+    FireBaseStoreHelper.incrementQuantity(index);
   }
 
-  void decreaseQuantity(CartItem cartItem) {
-    final index = cartItems
-        .indexWhere((item) => item.product.index == cartItem.product.index);
-    final item = cartItems[index];
+  void decreaseQuantity(int index) {
+    final idx = cartItems.indexWhere((item) => item.product.index == index);
+    final item = cartItems[idx];
     if (item.quantity == 1) {
-      cartItems.removeAt(index);
-      _cartBox.delete(item.key);
+      removeFromCart(index);
     } else {
-      cartItems[index] = item.copyWith(quantity: item.quantity - 1);
-      _cartBox.put(item.key, cartItems[index]);
+      FireBaseStoreHelper.decrementQuantity(index);
+      update();
     }
-    updateSumTotal();
-    update();
   }
 
-  void updateSumTotal() {
-    sumTotal.value = cartItems.fold<int>(
-        0, (sum, item) => sum + item.product.price * item.quantity);
+  int getTotal() {
+    int total = 0;
+    for (final item in cartItems) {
+      total += item.product.price * item.quantity;
+    }
+    return total;
   }
 }

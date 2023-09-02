@@ -7,6 +7,7 @@ import 'package:mcemeurckart/constants/index.dart';
 import 'package:mcemeurckart/routes/app_routes.dart';
 import 'package:mcemeurckart/theme/app_style.dart';
 import 'package:mcemeurckart/util/firebase_auth_helper.dart';
+import 'package:mcemeurckart/util/firestore_helper.dart';
 
 final GlobalKey<FormState> signUpKey = GlobalKey<FormState>();
 TextEditingController emailController = TextEditingController();
@@ -126,6 +127,8 @@ class SignUpScreen extends StatelessWidget {
                               ),
                             ),
                           );
+                          FireBaseStoreHelper.createWishList();
+                          FireBaseStoreHelper.createCart();
                           Get.offAndToNamed(AppRoutes.baseRoute);
                         }
                       }

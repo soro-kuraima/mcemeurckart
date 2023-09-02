@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mcemeurckart/controller/cart_controller_getx.dart';
 import 'package:mcemeurckart/controller/wishlist_controller_getx.dart';
+import 'package:mcemeurckart/screens/categories_screen/categories_screen.dart';
 
 import 'package:mcemeurckart/screens/orders_screen/orders_screen.dart';
 import 'package:mcemeurckart/screens/home_screen/home_screen.dart';
+import 'package:mcemeurckart/screens/product_item_screen/product_item_screen.dart';
 import 'package:mcemeurckart/screens/profile_screen/profile_screen.dart';
 import 'package:mcemeurckart/screens/wishlist_screen/wishlist_screen.dart';
 import 'widgets/custom_bottom_navbar.dart';
@@ -23,6 +25,8 @@ class _BaseScreenState extends State<BaseScreen> {
     const WishlistScreen(),
     const OrdersScreen(),
     const ProfileScreen(),
+    const ProductItemScreen(),
+    const CategoriesScreen(),
   ];
 
   WishlistController wishlistController = Get.put(WishlistController());
@@ -32,12 +36,8 @@ class _BaseScreenState extends State<BaseScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: GetBuilder<WishlistController>(
-        init: WishlistController(),
-        initState: (_) {},
         builder: (wishlistController) {
           return GetBuilder<CartController>(
-            init: CartController(),
-            initState: (_) {},
             builder: (cartController) {
               return Scaffold(
                 bottomNavigationBar: CustomBottomNavBar(

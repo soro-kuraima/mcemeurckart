@@ -1,8 +1,9 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'package:mcemeurckart/common_widgets/svg_asset.dart';
 import 'package:mcemeurckart/constants/index.dart';
 import 'favorite_button_widget.dart';
 
@@ -28,6 +29,7 @@ class DealsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    log(onLikeTap.toString());
     return Stack(
       alignment: Alignment.topRight,
       children: [
@@ -112,7 +114,7 @@ class DealsCard extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(right: Sizes.p8),
           child: FavoriteButton(
-            onPressed: () {},
+            onPressed: onLikeTap,
           ),
         ),
       ],

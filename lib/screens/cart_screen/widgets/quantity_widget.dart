@@ -3,7 +3,11 @@ import 'package:get/get.dart';
 import 'package:mcemeurckart/constants/index.dart';
 
 class QuantityWidget extends StatelessWidget {
-  const QuantityWidget({super.key});
+  final int quantity;
+  final void Function()? increment;
+  final void Function()? decrement;
+  const QuantityWidget(
+      {super.key, required this.quantity, this.increment, this.decrement});
 
   @override
   Widget build(BuildContext context) {
@@ -26,14 +30,14 @@ class QuantityWidget extends StatelessWidget {
         children: [
           _QuantityButton(
             icon: Icons.remove,
-            onPressed: () {},
+            onPressed: decrement ?? () {},
           ),
           VerticalDivider(
             thickness: 2,
             color: AppColors.neutral800,
           ),
           Text(
-            '1',
+            quantity.toString(),
             style: Get.textTheme.bodyMedium,
             textAlign: TextAlign.center,
           ),
@@ -43,7 +47,7 @@ class QuantityWidget extends StatelessWidget {
           ),
           _QuantityButton(
             icon: Icons.add,
-            onPressed: () {},
+            onPressed: increment ?? () {},
           ),
         ],
       ),

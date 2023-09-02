@@ -105,7 +105,7 @@ class WishlistCard extends StatelessWidget {
                         ),
                         gapH8,
                         Text(
-                          '\$${price.toStringAsFixed(2)}',
+                          '₹${price.toStringAsFixed(2)}',
                           style: Get.textTheme.bodyMedium?.copyWith(
                             fontWeight: Fonts.interMedium,
                           ),

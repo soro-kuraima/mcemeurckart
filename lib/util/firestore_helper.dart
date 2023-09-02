@@ -1,90 +1,17 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:mcemeurckart/util/firebase_auth_helper.dart';
 
 class FireBaseStoreHelper {
   FireBaseStoreHelper._();
 
+  static final user =
+      FirebaseAuthHelper.firebaseAuthHelper.firebaseAuth.currentUser;
+
   static final FireBaseStoreHelper fireBaseStoreHelper =
       FireBaseStoreHelper._();
   static final FirebaseFirestore db = FirebaseFirestore.instance;
-
-  Future<void> insert({required Map<String, dynamic> data}) async {
-    DocumentSnapshot<Map<String, dynamic>> k =
-        await db.collection('counter').doc('CounterKeeper').get();
-    int id = k['id'];
-    int len = k['lenght'];
-    await db.collection("product").doc("${++id}").set(data);
-    db.collection("product").doc("$id").update({"Uid": id});
-    db
-        .collection("counter")
-        .doc("CounterKeeper")
-        .update({'id': id, 'lenght': ++len});
-  }
-
-  Future<void> update({required Map<String, dynamic> data}) async {
-    String id = data['Uid'].toString();
-    db.collection('product').doc(id).set(data);
-  }
-
-  Delete({required int Uid}) async {
-    String id = Uid.toString();
-    await db.collection("product").doc(id).delete();
-
-    DocumentSnapshot<Map<String, dynamic>> k =
-        await db.collection("counter").doc("CounterKeeper").get();
-
-    int length = k['lenght'];
-
-    await db
-        .collection("counter")
-        .doc("CounterKeeper")
-        .update({"lenght": --length});
-  }
-
-  Future<void> cartInsert({required Map<String, dynamic> data}) async {
-    DocumentSnapshot<Map<String, dynamic>> k =
-        await db.collection('cartCounter').doc('cartCounterKeeper').get();
-    int id = k['id'];
-    int len = k['lenght'];
-    await db.collection("cartProduct").doc("${++id}").set(data);
-    db.collection("cartProduct").doc("$id").update({"Uid": id});
-    db
-        .collection("cartCounter")
-        .doc("cartCounterKeeper")
-        .update({'id': id, 'lenght': ++len});
-  }
-
-  Future<void> cartUpdate({required Map<String, dynamic> data}) async {
-    String id = data['Uid'].toString();
-    db.collection('cartProduct').doc(id).set(data);
-  }
-
-  cartDelete({required int Uid}) async {
-    String id = Uid.toString();
-    await db.collection("cartProduct").doc(id).delete();
-
-    DocumentSnapshot<Map<String, dynamic>> k =
-        await db.collection("cartCounter").doc("cartCounterKeeper").get();
-
-    int length = k['lenght'];
-
-    await db
-        .collection("cartCounter")
-        .doc("cartCounterKeeper")
-        .update({"lenght": --length});
-  }
-
-  Future<void> imageInsert({required Map<String, dynamic> data}) async {
-    DocumentSnapshot<Map<String, dynamic>> k =
-        await db.collection('imgCounter').doc('imageCounterKeeper').get();
-    int id = k['id'];
-    int len = k['lenght'];
-    await db.collection("UserImage").doc("${++id}").set(data);
-    db.collection("UserImage").doc("$id").update({"Uid": id});
-    db
-        .collection("imgCounter")
-        .doc("imageCounterKeeper")
-        .update({'id': id, 'lenght': ++len});
-  }
 
   static final categoriesRef = db.collection('categories');
   static final productsRef = db.collection('products');
@@ -144,9 +71,9 @@ class FireBaseStoreHelper {
     return products;
   }
 
-  static Future<Map<String, dynamic>> getProduct(int productId) async {
+  static Future<Map<String, dynamic>> getProduct(int index) async {
     Map<String, dynamic> res = {};
-    final product = productsRef.doc(productId.toString());
+    final product = productsRef.doc(index.toString());
     try {
       DocumentSnapshot<Map<String, dynamic>> documentSnapshot =
           await product.get();
@@ -155,5 +82,129 @@ class FireBaseStoreHelper {
       print(e);
     }
     return res;
+  }
+
+  /* ============= to add and remove items from wishlist ============== */
+
+  static final wishlistRef = db.collection('wishlist');
+  static final wishlist = wishlistRef.doc(user!.email);
+  static Future<void> createWishList() async {
+    try {
+      await wishlist.set({'products': []}, SetOptions(merge: true));
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  static Stream<List<int>> getWishList() {
+    return wishlist.snapshots().map((event) {
+      final data = event.data();
+      if (data != null) {
+        return List.from(data['products']);
+      }
+      return [];
+    });
+  }
+
+  static Future<void> addToWishlist(int index) async {
+    try {
+      await wishlist.update({
+        'products': FieldValue.arrayUnion([index])
+      });
+    } catch (e) {
+      print(e);
+    } finally {
+      print('Product added to wishlist');
+    }
+  }
+
+  static Future<void> removeFromWishList(int index) async {
+    try {
+      await wishlist.update({
+        'products': FieldValue.arrayRemove([index])
+      });
+    } catch (e) {
+      print(e);
+    } finally {
+      print('Product removed from wishlist');
+    }
+  }
+
+  /* ================= to add, remove and update items in cart ================ */
+
+  static final cartRef = db.collection('cart');
+  static final cart = cartRef.doc(user!.email);
+
+  static Future<void> createCart() async {
+    try {
+      cart.set({}, SetOptions(merge: true));
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  static Stream<List<Map<String, dynamic>>> getCart() {
+    return cart.snapshots().map((event) {
+      final data = event.data();
+      if (data != null) {
+        log(data.entries.toString());
+        final cartItems = data.entries.map((e) {
+          return {
+            'product': e.value['product'],
+            'quantity': e.value['quantity'],
+          };
+        }).toList();
+
+        log(cartItems.toString());
+        return List.from(cartItems);
+      }
+      return [];
+    });
+  }
+
+  static Future<void> addToCart(int index) async {
+    try {
+      await cart.update({
+        '$index': {
+          'product': index,
+          'quantity': 1,
+        }
+      });
+    } catch (e) {
+      print(e);
+    } finally {
+      print('Product added to cart');
+    }
+  }
+
+  static Future<void> incrementQuantity(int index) async {
+    try {
+      await cart.update({'$index.quantity': FieldValue.increment(1)});
+    } catch (e) {
+      print(e);
+    } finally {
+      print('Product quantity incremented');
+    }
+  }
+
+  static Future<void> decrementQuantity(int index) async {
+    final cart = cartRef.doc(user!.email);
+    try {
+      await cart.update({'$index.quantity': FieldValue.increment(-1)});
+    } catch (e) {
+      print(e);
+    } finally {
+      print('Product quantity decremented');
+    }
+  }
+
+  static Future<void> removeFromCart(int index) async {
+    try {
+      await cart.update({'$index': FieldValue.delete()});
+    } catch (e) {
+      print(e);
+    } finally {
+      print('Product deleted from cart');
+    }
   }
 }

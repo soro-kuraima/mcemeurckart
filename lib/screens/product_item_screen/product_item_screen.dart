@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mcemeurckart/common_widgets/index.dart';
 import 'package:mcemeurckart/constants/index.dart';
+import 'package:mcemeurckart/controller/cart_controller_getx.dart';
 import 'package:mcemeurckart/models/products_model.dart';
 import 'package:mcemeurckart/routes/app_routes.dart';
 import 'package:mcemeurckart/screens/cart_screen/widgets/cart_product_card.dart';
@@ -26,7 +27,6 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final itemCount = 1.obs;
     return SafeArea(
       child: Scaffold(
         bottomNavigationBar: AnimatedSwitcher(
@@ -94,132 +94,204 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
                   ],
                 ),
                 gapW24,
-                PrimaryButton(
-                  buttonWidth: 150,
-                  buttonHeight: 50,
-                  buttonColor: AppColors.neutral800,
-                  buttonLabel: 'Add to cart',
-                  onPressed: () => showModalBottomSheet<void>(
-                    // isScrollControlled: true,
-                    isDismissible: true,
-                    enableDrag: true, isScrollControlled: true,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(Sizes.p16),
-                        topRight: Radius.circular(Sizes.p16),
-                      ),
-                    ),
-                    backgroundColor: AppColors.white,
-                    context: context,
-                    builder: (BuildContext context) {
-                      return DraggableScrollableSheet(
-                        expand: false,
-                        maxChildSize: 1,
-                        initialChildSize: itemCount <= 3 ? .4 : .75,
-                        minChildSize: itemCount >= 3 ? .3 : .4,
-                        builder: (context, scrollController) => Padding(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: Sizes.p24,
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: Sizes.p24,
-                                ),
-                                child: Stack(
-                                  alignment: Alignment.center,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        IconButton(
-                                          onPressed: () => Get.back(),
-                                          icon: const Icon(
-                                            Icons.close,
-                                          ),
-                                          color: AppColors.neutral800,
-                                        ),
-                                      ],
-                                    ),
-                                    Text(
-                                      'Cart',
-                                      style: Get.textTheme.displayLarge,
-                                    )
-                                  ],
-                                ),
-                              ),
-                              const CustomDivider(
-                                hasText: false,
-                              ),
-                              Expanded(
-                                flex: itemCount <= 3 ? 2 : 7,
-                                child: ListView.separated(
-                                  physics:
-                                      const AlwaysScrollableScrollPhysics(),
-                                  itemBuilder: (_, index) =>
-                                      const CartProductCard(),
-                                  separatorBuilder: (context, index) => gapH8,
-                                  itemCount: itemCount.value,
-                                ),
-                              ),
-                              gapH12,
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: Sizes.p24,
+                GetBuilder<CartController>(
+                  builder: (cartController) {
+                    return PrimaryButton(
+                        buttonWidth: 150,
+                        buttonHeight: 50,
+                        buttonColor: AppColors.neutral800,
+                        buttonLabel: 'Add to cart',
+                        onPressed: () => {
+                              cartController.addToCart(product.index),
+                              showModalBottomSheet<void>(
+                                // isScrollControlled: true,
+                                isDismissible: true,
+                                enableDrag: true, isScrollControlled: true,
+                                shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(Sizes.p16),
+                                    topRight: Radius.circular(Sizes.p16),
                                   ),
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Expanded(
+                                ),
+                                backgroundColor: AppColors.white,
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return DraggableScrollableSheet(
+                                    expand: false,
+                                    maxChildSize: 1,
+                                    initialChildSize:
+                                        cartController.cartItems.length <= 3
+                                            ? .4
+                                            : .75,
+                                    minChildSize:
+                                        cartController.cartItems.length >= 3
+                                            ? .3
+                                            : .4,
+                                    builder: (context, scrollController) =>
+                                        Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: Sizes.p12,
+                                      ),
+                                      child: SizedBox(
+                                        height: Sizes.deviceHeight,
                                         child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          mainAxisSize: MainAxisSize.max,
                                           children: [
-                                            Text(
-                                              'Cart total',
-                                              style: Get.textTheme.bodyMedium
-                                                  ?.copyWith(
-                                                color: AppColors.neutral600,
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                horizontal: Sizes.p24,
+                                              ),
+                                              child: Stack(
+                                                alignment: Alignment.center,
+                                                children: [
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    children: [
+                                                      IconButton(
+                                                        onPressed: () =>
+                                                            Get.back(),
+                                                        icon: const Icon(
+                                                          Icons.close,
+                                                        ),
+                                                        color: AppColors
+                                                            .neutral800,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Text(
+                                                    'Cart',
+                                                    style: Get
+                                                        .textTheme.displayLarge,
+                                                  )
+                                                ],
                                               ),
                                             ),
-                                            gapH4,
-                                            Text(
-                                              '\$79.99',
-                                              style: Get.textTheme.titleSmall
-                                                  ?.copyWith(
-                                                fontWeight: FontWeight.bold,
+                                            const CustomDivider(
+                                              hasText: false,
+                                            ),
+                                            Expanded(
+                                              flex: cartController
+                                                          .cartItems.length <=
+                                                      3
+                                                  ? 2
+                                                  : 7,
+                                              child: GetBuilder<CartController>(
+                                                builder: (cartController) {
+                                                  return ListView.separated(
+                                                    physics:
+                                                        const AlwaysScrollableScrollPhysics(),
+                                                    itemBuilder: (_, index) =>
+                                                        CartProductCard(
+                                                      product: cartController
+                                                          .cartItems[index]
+                                                          .product,
+                                                      quantity: cartController
+                                                          .cartItems[index]
+                                                          .quantity,
+                                                      increment: () =>
+                                                          cartController
+                                                              .increaseQuantity(
+                                                                  cartController
+                                                                      .cartItems[
+                                                                          index]
+                                                                      .product
+                                                                      .index),
+                                                      decrement: () =>
+                                                          cartController
+                                                              .decreaseQuantity(
+                                                                  cartController
+                                                                      .cartItems[
+                                                                          index]
+                                                                      .product
+                                                                      .index),
+                                                    ),
+                                                    separatorBuilder:
+                                                        (context, index) =>
+                                                            gapH28,
+                                                    itemCount: cartController
+                                                        .cartItems.length,
+                                                  );
+                                                },
+                                              ),
+                                            ),
+                                            gapH12,
+                                            Expanded(
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                  horizontal: Sizes.p24,
+                                                ),
+                                                child: Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Expanded(
+                                                      child: Column(
+                                                        children: [
+                                                          Text(
+                                                            'Cart total',
+                                                            style: Get.textTheme
+                                                                .bodyMedium
+                                                                ?.copyWith(
+                                                              color: AppColors
+                                                                  .neutral600,
+                                                            ),
+                                                          ),
+                                                          gapH4,
+                                                          GetBuilder<
+                                                              CartController>(
+                                                            builder:
+                                                                (cartController) {
+                                                              return Text(
+                                                                '₹${cartController.getTotal()}',
+                                                                style: Get
+                                                                    .textTheme
+                                                                    .titleSmall
+                                                                    ?.copyWith(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                ),
+                                                              );
+                                                            },
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    gapW24,
+                                                    Expanded(
+                                                      flex: 3,
+                                                      child: PrimaryButton(
+                                                        buttonColor: AppColors
+                                                            .neutral800,
+                                                        buttonLabel: 'Checkout',
+                                                        onPressed: () =>
+                                                            Get.toNamed(
+                                                          AppRoutes
+                                                              .checkoutRoute,
+                                                        ),
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
                                               ),
                                             ),
                                           ],
                                         ),
                                       ),
-                                      gapW24,
-                                      Expanded(
-                                        flex: 3,
-                                        child: PrimaryButton(
-                                          buttonColor: AppColors.neutral800,
-                                          buttonLabel: 'Checkout',
-                                          onPressed: () => Get.toNamed(
-                                            AppRoutes.checkoutRoute,
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
+                                    ),
+                                  );
+                                },
                               ),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
+                            });
+                  },
+                )
               ],
             ),
           ),

@@ -11,6 +11,7 @@ class MainCard extends StatelessWidget {
     this.height,
     this.cardColor,
     this.onPressed,
+    this.onLikeTap,
     required this.title,
     required this.price,
     required this.imageUrl,
@@ -23,6 +24,7 @@ class MainCard extends StatelessWidget {
   final int price;
   final String imageUrl;
   final VoidCallback? onPressed;
+  final VoidCallback? onLikeTap;
 
   @override
   Widget build(BuildContext context) {
@@ -108,7 +110,7 @@ class MainCard extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(right: Sizes.p8),
           child: FavoriteButton(
-            onPressed: () {},
+            onPressed: onLikeTap,
           ),
         )
       ],
