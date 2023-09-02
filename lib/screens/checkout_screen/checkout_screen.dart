@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mcemeurckart/common_widgets/index.dart';
 import 'package:mcemeurckart/constants/index.dart';
+import 'package:mcemeurckart/controller/cart_controller_getx.dart';
+import 'package:mcemeurckart/controller/orders_controller_getx.dart';
 import 'package:mcemeurckart/routes/app_routes.dart';
-
-import 'widgets/credit_card.dart';
+import 'package:mcemeurckart/util/firestore_helper.dart';
 
 class CheckoutScreen extends StatelessWidget {
   const CheckoutScreen({super.key});
@@ -47,9 +48,6 @@ class CheckoutScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  gapH16,
-                  //* Credit Card
-                  const CreditCard(),
                   gapH24,
                   const CustomDivider(hasText: false),
                   gapH24,
@@ -69,7 +67,7 @@ class CheckoutScreen extends StatelessWidget {
                   ),
                   gapH16,
                   Text(
-                    'Leslie Flores',
+                    'Abhishek Sharma',
                     style: Get.textTheme.bodyLarge?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
@@ -78,7 +76,7 @@ class CheckoutScreen extends StatelessWidget {
                   Column(
                     children: [
                       Text(
-                        "2972 Westheimer Rd.Santa Ana, Illinois 85486, United States of America",
+                        "My address",
                         style: Get.textTheme.titleLarge?.copyWith(
                           color: AppColors.neutral600,
                         ),
@@ -139,7 +137,7 @@ class CheckoutScreen extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        '\$79.99',
+                        '₹${Get.find<CartController>().getTotal()}',
                         style: Get.textTheme.headlineSmall,
                       ),
                     ],
@@ -148,10 +146,14 @@ class CheckoutScreen extends StatelessWidget {
                   const CustomDivider(hasText: false),
                   PrimaryButton(
                     buttonColor: AppColors.neutral800,
-                    buttonLabel: 'Pay now',
-                    onPressed: () => Get.offAllNamed(
-                      AppRoutes.checkoutConfirmationRoute,
-                    ),
+                    buttonLabel: 'Place order',
+                    onPressed: () async {
+                      int total = Get.find<CartController>().getTotal();
+                      await FireBaseStoreHelper.placeOrder(total);
+                      Get.offAllNamed(
+                        AppRoutes.checkoutConfirmationRoute,
+                      );
+                    },
                   ),
                   gapH16,
                 ],

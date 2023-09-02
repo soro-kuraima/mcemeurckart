@@ -17,14 +17,9 @@ class CheckoutConfirmationScreen extends StatefulWidget {
 
 class _CheckoutConfirmationScreenState
     extends State<CheckoutConfirmationScreen> {
-  final confettiController = ConfettiController(
-    duration: const Duration(milliseconds: 300),
-  );
-
   // TODO: Checkout controller
   @override
   void initState() {
-    confettiController.play();
     super.initState();
   }
 
@@ -62,17 +57,6 @@ class _CheckoutConfirmationScreenState
                     ),
                   ),
                 ],
-              ),
-              Align(
-                alignment: Alignment.topCenter,
-                child: ConfettiWidget(
-                  shouldLoop: true,
-                  blastDirectionality: BlastDirectionality.explosive,
-                  confettiController: confettiController,
-                  blastDirection: -pi / 2,
-                  emissionFrequency: .2,
-                  numberOfParticles: 2,
-                ),
               ),
             ],
           ),

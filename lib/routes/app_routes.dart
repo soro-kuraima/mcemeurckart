@@ -14,7 +14,7 @@ import 'package:mcemeurckart/screens/product_item_screen/product_item_screen.dar
 import "package:mcemeurckart/screens/wishlist_screen/wishlist_screen.dart";
 
 abstract class AppPages {
-  static const initial = AppRoutes.baseRoute;
+  static const initial = AppRoutes.signInRoute;
 
   static final pages = <GetPage>[
     /* 

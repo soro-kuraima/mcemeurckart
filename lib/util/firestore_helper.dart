@@ -224,8 +224,9 @@ class FireBaseStoreHelper {
             'orderStatus': 'pending',
             'orderDate': DateTime.now(),
           });
-          await cart.delete();
         }
+        await cart.delete();
+        await createCart();
       });
     } catch (e) {
       print(e);
