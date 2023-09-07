@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:mcemeurckart/common_widgets/index.dart';
 import 'package:mcemeurckart/constants/index.dart';
 import 'package:mcemeurckart/controller/cart_controller_getx.dart';
+import 'package:mcemeurckart/controller/generics_controller_getx.dart';
 import 'package:mcemeurckart/models/products_model.dart';
 import 'package:mcemeurckart/routes/app_routes.dart';
 import 'package:mcemeurckart/screens/cart_screen/widgets/cart_product_card.dart';
@@ -23,10 +24,14 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
 
   final pageController = PageController(initialPage: 0);
 
-  Product product = Get.arguments;
+  final product = Get.arguments;
 
   @override
   Widget build(BuildContext context) {
+    final _genericName = Get.find<GenericsController>()
+        .generics
+        .where((generic) => generic['id'] == product['generic'])
+        .elementAt(0)['title'];
     return SafeArea(
       child: Scaffold(
         bottomNavigationBar: AnimatedSwitcher(
@@ -72,7 +77,7 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
                           children: [
                             //* SELLING PRICE
                             Text(
-                              '₹ ${product.price} /-',
+                              '₹ ${product['price']} /-',
                               style: Get.textTheme.titleSmall?.copyWith(
                                 fontWeight: FontWeight.bold,
                               ),
@@ -102,7 +107,7 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
                         buttonColor: AppColors.neutral800,
                         buttonLabel: 'Add to cart',
                         onPressed: () => {
-                              cartController.addToCart(product.index),
+                              cartController.addToCart(product['index']),
                               showModalBottomSheet<void>(
                                 // isScrollControlled: true,
                                 isDismissible: true,
@@ -192,22 +197,20 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
                                                       quantity: cartController
                                                           .cartItems[index]
                                                           .quantity,
-                                                      increment: () =>
-                                                          cartController
-                                                              .increaseQuantity(
-                                                                  cartController
+                                                      increment: () => cartController
+                                                          .increaseQuantity(
+                                                              cartController
                                                                       .cartItems[
                                                                           index]
-                                                                      .product
-                                                                      .index),
-                                                      decrement: () =>
-                                                          cartController
-                                                              .decreaseQuantity(
-                                                                  cartController
+                                                                      .product[
+                                                                  'index']),
+                                                      decrement: () => cartController
+                                                          .decreaseQuantity(
+                                                              cartController
                                                                       .cartItems[
                                                                           index]
-                                                                      .product
-                                                                      .index),
+                                                                      .product[
+                                                                  'index']),
                                                     ),
                                                     separatorBuilder:
                                                         (context, index) =>
@@ -336,7 +339,7 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
                           itemBuilder: (_, index) => Container(
                             color: AppColors.blue300,
                             child: CachedNetworkImage(
-                              imageUrl: product.imageUrl,
+                              imageUrl: product['imageUrl'],
                               placeholder: (_, url) => const Center(
                                 child: CircularProgressIndicator.adaptive(),
                               ),
@@ -365,7 +368,7 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          product.title,
+                          product['title'],
                           style: Get.textTheme.headlineMedium,
                         ),
                         gapH12,
@@ -375,17 +378,17 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
                         ),
                         gapH8,
                         TextCroppingWidget(
-                          text: product.index.toString(),
+                          text: product['index'].toString(),
                         ),
                         gapH12,
-                        //Text(
-                        //'Generics',
-                        //style: Get.textTheme.displayLarge,
-                        //),
-                        //gapH8,
-                        //const TextCroppingWidget(
-                        //  text: 'Gaming',
-                        //),
+                        Text(
+                          'Generic',
+                          style: Get.textTheme.displayLarge,
+                        ),
+                        gapH8,
+                        TextCroppingWidget(
+                          text: _genericName,
+                        ),
 
                         gapH8,
                         //* Available Colors
@@ -396,7 +399,7 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
                         ),
                         gapH12,
                         TextCroppingWidget(
-                          text: product.description,
+                          text: product['description'],
                         ),
                       ],
                     ),

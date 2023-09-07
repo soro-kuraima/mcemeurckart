@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:mcemeurckart/common_widgets/index.dart';
 import 'package:mcemeurckart/constants/index.dart';
 import 'package:mcemeurckart/controller/cart_controller_getx.dart';
-import 'package:mcemeurckart/controller/orders_controller_getx.dart';
 import 'package:mcemeurckart/routes/app_routes.dart';
 import 'package:mcemeurckart/util/firestore_helper.dart';
 

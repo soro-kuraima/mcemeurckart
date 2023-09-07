@@ -1,45 +1,40 @@
 import 'dart:developer';
 
 import 'package:get/get.dart';
-import 'package:mcemeurckart/controller/cart_controller_getx.dart';
-import 'package:mcemeurckart/models/products_model.dart';
 import 'package:mcemeurckart/util/firestore_helper.dart';
 
 class OrdersController extends GetxController {
   RxList<dynamic> orders = [].obs;
+  var orderItem = {}.obs;
 
   @override
   void onReady() {
     super.onReady();
     orders.bindStream(FireBaseStoreHelper.getOrders());
-
-    ever(orders, (_) {
-      getOrders();
-    });
-  }
-
-  Future<void> getOrders() async {
-    log('getOrders');
-    orders.clear(); // Clear the list before adding new items
-    await Future.forEach(orders, (element) async {
-      final value = await FireBaseStoreHelper.getProduct(element['product']!);
-      orders.add(CartItem(
-        product: Product(
-          index: value['index'],
-          title: value['title'],
-          description: value['description'],
-          price: value['price'],
-          imageUrl: value['imageUrl'],
-          stock: value['stock'],
-        ),
-        quantity: element['quantity']!,
-      ));
-      update();
-    });
+    update();
   }
 
   void placeOrder(int orderValue) async {
     await FireBaseStoreHelper.placeOrder(orderValue);
+    update();
+  }
+
+  Future<void> setOrderItem(int index) async {
+    orderItem.clear();
+    final productList = [];
+    final productIndices = orders[index]['products'].entries;
+    await Future.forEach(productIndices,
+        (MapEntry<String, dynamic> element) async {
+      final product =
+          await FireBaseStoreHelper.getProduct(element.value['product']);
+      productList
+          .add({'product': product, 'quantity': element.value['quantity']});
+    });
+    orderItem.value = {
+      ...orders[index],
+      'products': productList,
+    };
+    log(orderItem.toString());
     update();
   }
 }

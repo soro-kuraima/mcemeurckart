@@ -6,7 +6,7 @@ import 'package:mcemeurckart/util/firestore_helper.dart';
 
 class WishlistController extends GetxController {
   RxList<int> wishlist = RxList<int>();
-  RxList<Product> wishlistItems = RxList<Product>();
+  RxList<dynamic> wishlistItems = RxList<dynamic>();
 
   @override
   void onInit() async {
@@ -22,6 +22,7 @@ class WishlistController extends GetxController {
     ever(wishlist, (_) {
       getWishListItems();
     });
+    update();
   }
 
   Future<void> getWishListItems() async {
@@ -29,25 +30,20 @@ class WishlistController extends GetxController {
     wishlistItems.clear(); // Clear the list before adding new items
     await Future.forEach(wishlist, (element) async {
       final value = await FireBaseStoreHelper.getProduct(element);
-      wishlistItems.add(Product(
-        index: value['index'],
-        title: value['title'],
-        description: value['description'],
-        price: value['price'],
-        imageUrl: value['imageUrl'],
-        stock: value['stock'],
-      ));
+      wishlistItems.add({
+        ...value,
+      });
     });
     log(wishlist.toString());
     log(wishlistItems.toString());
   }
 
-  void addToWishlist(Product product) async {
+  void addToWishlist(dynamic product) async {
     log('addToWishlist');
     final index =
-        wishlistItems.indexWhere((item) => item.index == product.index);
+        wishlistItems.indexWhere((item) => item['index'] == product['index']);
     if (index == -1) {
-      await FireBaseStoreHelper.addToWishlist(product.index);
+      await FireBaseStoreHelper.addToWishlist(product['index']);
       update();
     } else {
       Get.snackbar(
@@ -59,8 +55,8 @@ class WishlistController extends GetxController {
     }
   }
 
-  void removeFromWishlist(Product product) async {
-    await FireBaseStoreHelper.removeFromWishList(product.index);
+  void removeFromWishlist(dynamic product) async {
+    await FireBaseStoreHelper.removeFromWishList(product['index']);
     update();
   }
 }

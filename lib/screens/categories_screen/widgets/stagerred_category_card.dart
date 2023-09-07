@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mcemeurckart/common_widgets/index.dart';
@@ -46,7 +47,6 @@ class CategoryCard extends StatelessWidget {
     return AnimatedBuilder(
       animation: controller,
       builder: (_, child) => Container(
-        height: height.value,
         width: Sizes.deviceWidth * .5,
         padding: const EdgeInsetsDirectional.all(
           Sizes.p16,
@@ -64,8 +64,21 @@ class CategoryCard extends StatelessWidget {
           children: [
             Text(
               categoryName,
-              style: Get.textTheme.displayLarge?.copyWith(
+              style: Get.textTheme.displayMedium?.copyWith(
                 fontWeight: Fonts.interSemiBold,
+              ),
+            ),
+            gapH8,
+            Center(
+              child: CachedNetworkImage(
+                alignment: Alignment.center,
+                placeholder: (_, url) => const Center(
+                  child: CircularProgressIndicator.adaptive(),
+                ),
+                imageUrl: imageUrl,
+                height: 120,
+                width: 100,
+                fit: BoxFit.cover,
               ),
             ),
             gapH8,

@@ -65,4 +65,8 @@ class FirebaseAuthHelper {
     }
     return res;
   }
+
+  Stream<User?> get onAuthStateChanged {
+    return firebaseAuth.authStateChanges();
+  }
 }

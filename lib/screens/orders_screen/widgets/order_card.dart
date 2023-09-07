@@ -1,19 +1,19 @@
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mcemeurckart/common_widgets/custom_divider.dart';
 import 'package:mcemeurckart/constants/index.dart';
 
 class OrderCard extends StatelessWidget {
   const OrderCard(
       {super.key,
-      this.onTap,
+      this.onCardTap,
       required this.imageUrl,
       required this.orderId,
       required this.orderValue,
       required this.orderStatus});
 
-  final VoidCallback? onTap;
+  final VoidCallback? onCardTap;
   final String imageUrl;
   final String orderId;
   final String orderValue;
@@ -23,7 +23,7 @@ class OrderCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       borderRadius: BorderRadius.circular(Sizes.p10),
-      onTap: onTap,
+      onTap: onCardTap,
       child: Container(
         decoration: BoxDecoration(
           border: Border.all(
@@ -92,24 +92,6 @@ class OrderCard extends StatelessWidget {
                     ),
                   ),
                 ],
-              ),
-            ),
-            CustomDivider(
-              dividerColor: AppColors.neutral400,
-            ),
-            Container(
-              height: 128,
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(Sizes.p10),
-                  bottomRight: Radius.circular(Sizes.p10),
-                ),
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: ExactAssetImage(
-                    'assets/images/order_screen/package-tracker.jpg',
-                  ),
-                ),
               ),
             ),
           ],

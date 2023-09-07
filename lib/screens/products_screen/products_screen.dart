@@ -1,38 +1,37 @@
+import 'dart:developer';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import 'package:mcemeurckart/common_widgets/index.dart';
 import 'package:mcemeurckart/constants/index.dart';
+import 'package:mcemeurckart/controller/category_controller_getx.dart';
+import 'package:mcemeurckart/controller/products_controller_getx.dart';
+import 'package:mcemeurckart/routes/app_routes.dart';
 import 'package:mcemeurckart/screens/categories_screen/widgets/stagerred_category_card.dart';
 import 'package:mcemeurckart/screens/home_screen/widgets/deals_card.dart';
 
-class MyInterestsScreen extends StatefulWidget {
-  const MyInterestsScreen({super.key});
+class ProductsScreen extends StatefulWidget {
+  const ProductsScreen({super.key});
 
   @override
-  State<MyInterestsScreen> createState() => _MyInterestsScreenState();
+  State<ProductsScreen> createState() => _ProductsScreenState();
 }
 
-class _MyInterestsScreenState extends State<MyInterestsScreen> {
-  final popularCategories = [
-    'Tech',
-    'Fashion',
-    'Music',
-    'Reading',
-  ];
+class _ProductsScreenState extends State<ProductsScreen> {
+  final rootCategory = Get.arguments;
+
+  final List<dynamic> categories = [
+    ...Get.find<CategoriesController>().categories.where(
+        (element) => Get.arguments['subCategories']?.contains(element['id']))
+  ].obs;
 
   final popularCategoriesColors = [
     AppColors.purple300,
     AppColors.blue300,
     AppColors.red300,
     AppColors.green300,
-  ];
-
-  final popularCategoriesImage = [
-    'https://media.croma.com/image/upload/v1685969049/Croma%20Assets/Computers%20Peripherals/Laptop/Images/256608_rm160r.png',
-    'https://images.ray-ban.com/is/image/RayBan/8053672845358__002.png?impolicy=RB_RB_FBShare',
-    'https://cdn11.bigcommerce.com/s-h0bqu/images/stencil/1280x1280/products/4398/9412/Fender_Bullet_Stratocaster_HT_Electric_Guitar_Brown_Sunburst__34857.1678809883.png?c=2',
-    'https://bookbins.in/wp-content/uploads/2021/08/The-48-Laws-Of-Power-Robert-Greene-Buy-Online-Bookbins-1.png',
   ];
 
   final trendingInGamingImages = [
@@ -52,8 +51,16 @@ class _MyInterestsScreenState extends State<MyInterestsScreen> {
     'https://bookbins.in/wp-content/uploads/2021/11/Who-Moved-My-Cheese-Dr.Spencer-Johnson-Buy-Online-Bookbins-1.png',
   ];
 
+  RxInt _selectedIndex = 0.obs;
+
   @override
   Widget build(BuildContext context) {
+    log(categories.toString());
+    List<dynamic> products = [
+      ...Get.find<ProductsController>().products.where(
+          (element) => categories[0]['products']?.contains(element['index']))
+    ].obs;
+    log(products.toString());
     return SafeArea(
       child: Scaffold(
         body: NestedScrollView(
@@ -64,8 +71,9 @@ class _MyInterestsScreenState extends State<MyInterestsScreen> {
                   left: Sizes.p8,
                 ),
                 child: Text(
-                  'My Interests',
-                  style: Get.textTheme.headlineSmall,
+                  rootCategory['title'],
+                  style: TextStyle(
+                      color: AppColors.neutral800, fontSize: Sizes.p20),
                 ),
               ),
               actions: [
@@ -75,7 +83,9 @@ class _MyInterestsScreenState extends State<MyInterestsScreen> {
                   ),
                   child: PrimaryIconButton(
                     icon: AppIcons.shoppingCartIcon,
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.toNamed(AppRoutes.cartRoute);
+                    },
                   ),
                 ),
               ],
@@ -83,158 +93,85 @@ class _MyInterestsScreenState extends State<MyInterestsScreen> {
           ],
           body: ScrollConfiguration(
             behavior: const ScrollBehavior().copyWith(overscroll: false),
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(
-                Sizes.p24,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: Expanded(
+              child: Obx(() => Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'Interests',
-                        style: Get.textTheme.displayLarge,
+                      NavigationRail(
+                        backgroundColor: AppColors.blue100,
+                        selectedIndex: _selectedIndex.value,
+                        onDestinationSelected: (int index) {
+                          products = [
+                            ...Get.find<ProductsController>().products.where(
+                                (element) => categories[index]['products']
+                                    ?.contains(element['index']))
+                          ];
+                          _selectedIndex.value = index;
+                        },
+                        labelType: NavigationRailLabelType.all,
+                        destinations: [
+                          ...List.generate(
+                              categories.length,
+                              (index) => NavigationRailDestination(
+                                    icon: CachedNetworkImage(
+                                      imageUrl: categories[index]['imageUrl'],
+                                      height: 25,
+                                      width: 25,
+                                    ),
+                                    label: SizedBox(
+                                      width: Sizes.p32,
+                                      child: Center(
+                                        child: Text(
+                                          categories[index]['title'],
+                                          style: TextStyle(
+                                              color: AppColors.neutral800,
+                                              fontSize: Sizes.p12),
+                                          // Use ellipsis to indicate overflow
+                                          softWrap: true,
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 1,
+                                        ),
+                                      ),
+                                    ),
+                                  )),
+                        ],
                       ),
-                    ],
-                  ),
-                  gapH16,
-                  MasonryGridView.builder(
-                    primary: false,
-                    shrinkWrap: true,
-                    crossAxisSpacing: Sizes.p16,
-                    mainAxisSpacing: Sizes.p16,
-                    itemCount: popularCategories.length,
-                    gridDelegate:
-                        const SliverSimpleGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                    ),
-                    itemBuilder: (_, index) => StaggeredGridTile.count(
-                      crossAxisCellCount: 2,
-                      mainAxisCellCount: index.isEven ? 3 : 2,
-                      child: StaggeredCard(
-                        color: popularCategoriesColors[index],
-                        categoryName: popularCategories[index],
-                        imageUrl: popularCategoriesImage[index],
-                        onTap: () {},
-                      ),
-                    ),
-                  ),
-                  gapH24,
-                  // * Gaming
-                  Row(
-                    children: [
                       Expanded(
-                        child: Text(
-                          'Trending in Gaming',
-                          style: Get.textTheme.displayLarge,
+                        child: SingleChildScrollView(
+                          padding: const EdgeInsets.all(
+                            Sizes.p24,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              GridView.builder(
+                                itemCount: products.length,
+                                primary: false,
+                                shrinkWrap: true,
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  // mainAxisSpacing: Sizes.p16,
+                                  crossAxisSpacing: Sizes.p6,
+                                  childAspectRatio: 9 / 10,
+                                ),
+                                itemBuilder: (_, index) => DealsCard(
+                                  title: products[index]['title'],
+                                  price: products[index]['price'],
+                                  imageUrl: products[index]['imageUrl'],
+                                  onCardTap: () {
+                                    Get.toNamed(AppRoutes.productItemRoute,
+                                        arguments: products[index]);
+                                  },
+                                  onLikeTap: () {},
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                      PrimaryTextButton(
-                        buttonLabel: 'View all',
-                        onPressed: () {},
-                      )
                     ],
-                  ),
-                  GridView.builder(
-                    // padding: const EdgeInsets.fromLTRB(
-                    //   Sizes.p24,
-                    //   Sizes.p16,
-                    //   Sizes.p24,
-                    //   Sizes.p4,
-                    // ),
-                    itemCount: trendingInGamingImages.length,
-                    primary: false,
-                    shrinkWrap: true,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      // mainAxisSpacing: Sizes.p16,
-                      crossAxisSpacing: Sizes.p12,
-                      childAspectRatio: 9 / 10,
-                    ),
-                    itemBuilder: (_, index) => DealsCard(
-                      title: 'PlayStation 5',
-                      price: 490000,
-                      imageUrl: trendingInGamingImages[index],
-                      onCardTap: () {},
-                      onLikeTap: () {},
-                    ),
-                  ),
-                  // GridView.count(
-                  //   crossAxisSpacing: Sizes.p16,
-                  //   mainAxisSpacing: Sizes.p16,
-                  //   crossAxisCount: 2,
-                  //   children: [
-                  //     ...List.generate(
-                  //       trendingInGamingImages.length,
-                  //       (index) => DealsCard(
-                  //         imageUrl: trendingInGamingImages[index],
-                  //         onCardTap: () {},
-                  //         onLikeTap: () {},
-                  //       ),
-                  //     ),
-                  //   ],
-                  // ),
-                  gapH24,
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          'Trending in Reading',
-                          style: Get.textTheme.displayLarge,
-                        ),
-                      ),
-                      PrimaryTextButton(
-                        buttonLabel: 'View all',
-                        onPressed: () {},
-                      )
-                    ],
-                  ),
-                  GridView.builder(
-                    // padding: const EdgeInsets.fromLTRB(
-                    //   Sizes.p24,
-                    //   Sizes.p16,
-                    //   Sizes.p24,
-                    //   Sizes.p4,
-                    // ),
-                    itemCount: trendingInReadingImages.length,
-                    primary: false,
-                    shrinkWrap: true,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      // mainAxisSpacing: Sizes.p16,
-                      crossAxisSpacing: Sizes.p12,
-                      childAspectRatio: 9 / 10,
-                    ),
-                    itemBuilder: (_, index) => DealsCard(
-                      title: 'PlayStation 5',
-                      price: 490000,
-                      imageUrl: trendingInReadingImages[index],
-                      onCardTap: () {},
-                      onLikeTap: () {},
-                    ),
-                  ),
-                  // StaggeredGrid.count(
-                  //   crossAxisSpacing: Sizes.p16,
-                  //   mainAxisSpacing: Sizes.p16,
-                  //   crossAxisCount: 2,
-                  //   children: [
-                  //     ...List.generate(
-                  //       trendingInReadingImages.length,
-                  //       (index) => DealsCard(
-                  //         imageUrl: trendingInReadingImages[index],
-                  //         onCardTap: () {},
-                  //         onLikeTap: () {},
-                  //       ),
-                  //     ),
-                  //   ],
-                  // ),
-                  gapH8,
-                ],
-              ),
+                  )),
             ),
           ),
         ),

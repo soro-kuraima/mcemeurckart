@@ -5,7 +5,7 @@ import 'package:mcemeurckart/models/products_model.dart';
 import 'package:mcemeurckart/util/firestore_helper.dart';
 
 class CartItem {
-  final Product product;
+  final dynamic product;
 
   final int quantity;
 
@@ -24,6 +24,7 @@ class CartController extends GetxController {
   void onInit() async {
     super.onInit();
     await getCartItems();
+    update();
   }
 
   @override
@@ -42,22 +43,17 @@ class CartController extends GetxController {
     await Future.forEach(cart, (element) async {
       final value = await FireBaseStoreHelper.getProduct(element['product']!);
       cartItems.add(CartItem(
-        product: Product(
-          index: value['index'],
-          title: value['title'],
-          description: value['description'],
-          price: value['price'],
-          imageUrl: value['imageUrl'],
-          stock: value['stock'],
-        ),
+        product: {
+          ...value,
+        },
         quantity: element['quantity']!,
       ));
-      update();
     });
+    update();
   }
 
   void addToCart(int index) async {
-    final idx = cartItems.indexWhere((item) => item.product.index == index);
+    final idx = cartItems.indexWhere((item) => item.product['index'] == index);
     if (idx == -1) {
       await FireBaseStoreHelper.addToCart(index);
       update();
@@ -70,12 +66,13 @@ class CartController extends GetxController {
       );
     }
 
-    log('cart ' + cart.toString());
-    log('cart items ' + cartItems.toString());
+    log('cart $cart');
+    log('cart items $cartItems');
   }
 
   void removeFromCart(int index) {
     FireBaseStoreHelper.removeFromCart(index);
+    update();
   }
 
   void increaseQuantity(int index) {
@@ -83,10 +80,11 @@ class CartController extends GetxController {
   }
 
   void decreaseQuantity(int index) {
-    final idx = cartItems.indexWhere((item) => item.product.index == index);
+    final idx = cartItems.indexWhere((item) => item.product['index'] == index);
     final item = cartItems[idx];
     if (item.quantity == 1) {
       removeFromCart(index);
+      update();
     } else {
       FireBaseStoreHelper.decrementQuantity(index);
       update();
@@ -96,7 +94,7 @@ class CartController extends GetxController {
   int getTotal() {
     int total = 0;
     for (final item in cartItems) {
-      total += item.product.price * item.quantity;
+      total += item.product['price'] * item.quantity as int;
     }
     return total;
   }

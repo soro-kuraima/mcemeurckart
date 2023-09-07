@@ -3,17 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:mcemeurckart/constants/index.dart';
-import 'package:mcemeurckart/controller/cart_controller_getx.dart';
 import 'package:mcemeurckart/models/products_model.dart';
 
 import 'quantity_widget.dart';
 
 class CartProductCard extends StatelessWidget {
-  final Product product;
+  final dynamic product;
   final int quantity;
   final void Function()? increment;
   final void Function()? decrement;
-  CartProductCard(
+  const CartProductCard(
       {Key? key,
       required this.product,
       required this.quantity,
@@ -52,7 +51,7 @@ class CartProductCard extends StatelessWidget {
             children: [
               Expanded(
                 child: CachedNetworkImage(
-                  imageUrl: product.imageUrl,
+                  imageUrl: product['imageUrl'],
                   width: 80,
                   height: 80,
                   placeholder: (_, url) => const Center(
@@ -67,7 +66,7 @@ class CartProductCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      product.title,
+                      product['title'],
                       style: Get.textTheme.displayMedium,
                       overflow: TextOverflow.ellipsis,
                       maxLines: 2,
@@ -83,7 +82,7 @@ class CartProductCard extends StatelessWidget {
               ),
               gapW16,
               Text(
-                '₹${product.price}',
+                '₹${product['price']}',
                 style: Get.textTheme.bodyMedium?.copyWith(
                   fontWeight: Fonts.interMedium,
                 ),

@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mcemeurckart/common_widgets/index.dart';
@@ -65,7 +68,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ProfileBiography(
                   userName: 'Abhishek Sharma',
                   userBiography: 'Bio of Abhishek Sharma',
-                  editFunction: () {},
+                  editFunction: () {
+                    log("edit function called");
+                    FirebaseAuth.instance.signOut();
+                  },
                 ),
                 gapH24,
                 Row(

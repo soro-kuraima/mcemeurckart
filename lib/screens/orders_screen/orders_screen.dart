@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mcemeurckart/common_widgets/index.dart';
 import 'package:mcemeurckart/constants/index.dart';
-import 'package:mcemeurckart/controller/cart_controller_getx.dart';
-import 'package:mcemeurckart/controller/wishlist_controller_getx.dart';
+import 'package:mcemeurckart/controller/orders_controller_getx.dart';
 import 'package:mcemeurckart/routes/app_routes.dart';
-import 'package:mcemeurckart/screens/wishlist_screen/widgets/wishlist_card.dart';
+import 'widgets/order_card.dart';
 
 class OrdersScreen extends StatefulWidget {
   const OrdersScreen({super.key});
@@ -53,71 +52,52 @@ class _OrdersScreenState extends State<OrdersScreen> {
               left: Sizes.p24,
               right: Sizes.p24,
             ),
-            child: GetBuilder<WishlistController>(
-              builder: (wishlistController) {
+            child: GetBuilder<OrdersController>(
+              builder: (ordersController) {
                 return Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Visibility(
-                      visible: wishlistController.wishlistItems.isNotEmpty,
+                      visible: ordersController.orders.isNotEmpty,
                       replacement: EmptyStateCard(
                         hasDescription: false,
                         cardImage: AppAssets.wishlistEmpty,
-                        cardTitle: 'Uh Oh! You have nothing in your wishlist',
+                        cardTitle: 'Uh Oh! You have not placed any orders yet',
                         cardColor: AppColors.purple300,
-                        buttonText: 'Add items to your wishlist',
-                        buttonPressed: () {},
+                        buttonText: 'Shop Now',
+                        buttonPressed: () {
+                          Get.offAllNamed(AppRoutes.baseRoute);
+                        },
                       ),
                       child: SizedBox(
                         height: Get.height * .85,
                         child: ListView.separated(
-                          scrollDirection: Axis.vertical,
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: Sizes.p6,
-                          ),
-                          physics: const AlwaysScrollableScrollPhysics(),
-                          itemCount: wishlistController.wishlistItems.length,
-                          separatorBuilder: (_, index) => gapH4,
-                          itemBuilder: (_, index) => WishlistCard(
-                            listName: wishlistController
-                                .wishlistItems[index].index
-                                .toString(),
-                            imageUrl: wishlistController
-                                .wishlistItems[index].imageUrl,
-                            itemName:
-                                wishlistController.wishlistItems[index].title,
-                            price: wishlistController.wishlistItems[index].price
-                                .toDouble(),
-                            onCardTap: () {
-                              Get.toNamed(
-                                AppRoutes.productItemRoute,
-                                arguments:
-                                    wishlistController.wishlistItems[index],
-                              );
-                            },
-                            onAddToCart: () {
-                              Get.find<CartController>().addToCart(
-                                  wishlistController
-                                      .wishlistItems[index].index);
-
-                              Get.find<WishlistController>().removeFromWishlist(
-                                  wishlistController.wishlistItems[index]);
-
-                              Get.snackbar("", "Item moved to cart",
-                                  snackPosition: SnackPosition.BOTTOM,
-                                  duration: const Duration(seconds: 3));
-                            },
-                            onCloseTap: () {
-                              Get.find<WishlistController>().removeFromWishlist(
-                                  wishlistController.wishlistItems[index]);
-
-                              Get.snackbar("", "Item removed from wishlist",
-                                  snackPosition: SnackPosition.BOTTOM,
-                                  duration: const Duration(seconds: 3));
-                            },
-                          ),
-                        ),
+                            scrollDirection: Axis.vertical,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: Sizes.p6,
+                            ),
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            itemCount: ordersController.orders.length,
+                            separatorBuilder: (_, index) => gapH4,
+                            itemBuilder: (_, index) {
+                              return OrderCard(
+                                  orderId: ordersController.orders[index]
+                                          ['orderId'] ??
+                                      '',
+                                  imageUrl: ordersController.orders[index]
+                                          ['imageUrl'] ??
+                                      '',
+                                  orderStatus: ordersController.orders[index]
+                                          ['orderStatus'] ??
+                                      '',
+                                  orderValue: ordersController.orders[index]
+                                          ['orderValue']
+                                      .toString(),
+                                  onCardTap: () {
+                                    ordersController.setOrderItem(index);
+                                  });
+                            }),
                       ),
                     ),
                   ],

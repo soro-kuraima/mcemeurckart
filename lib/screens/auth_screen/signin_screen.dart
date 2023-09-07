@@ -1,14 +1,12 @@
 import 'dart:developer';
 
 import "package:flutter/material.dart";
-import 'package:fluttertoast/fluttertoast.dart';
 import "package:get/get.dart";
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:mcemeurckart/common_widgets/index.dart';
 import 'package:mcemeurckart/constants/index.dart';
 import 'package:mcemeurckart/routes/app_routes.dart';
-import 'package:mcemeurckart/theme/app_style.dart';
 import 'package:mcemeurckart/util/firebase_auth_helper.dart';
 
 final GlobalKey<FormState> signInKey = GlobalKey<FormState>();
@@ -37,11 +35,7 @@ class SignInScreen extends StatelessWidget {
               ),
               child: Column(
                 children: [
-                  SvgPicture.asset(
-                    AppAssets.appLogoMceme,
-                    width: Sizes.p100,
-                    height: Sizes.p100,
-                  ),
+                  Image.asset(AppAssets.appLogoMceme),
                   gapH48,
                   Text(
                     'Sign in to your account',
@@ -111,23 +105,21 @@ class SignInScreen extends StatelessWidget {
                                 email: email, password: password);
 
                         if (res['error'] != null) {
-                          Fluttertoast.showToast(
-                            msg: res['error'],
-                            toastLength: Toast.LENGTH_SHORT,
-                            gravity: ToastGravity.BOTTOM,
-                            timeInSecForIosWeb: 1,
+                          Get.snackbar(
+                            'Error',
+                            res['error'],
                             backgroundColor: AppColors.red400,
-                            textColor: AppColors.white,
+                            colorText: AppColors.white,
+                            duration: const Duration(seconds: 3),
+                            snackPosition: SnackPosition.BOTTOM,
                           );
                         } else if (res['user'] != null) {
-                          Fluttertoast.showToast(
-                            msg: "Successfully Signed In",
-                            toastLength: Toast.LENGTH_SHORT,
-                            gravity: ToastGravity.BOTTOM,
-                            timeInSecForIosWeb: 1,
-                            backgroundColor: AppColors.green300,
-                            textColor: AppColors.white,
-                          );
+                          Get.snackbar("", "Successfully signed in",
+                              backgroundColor: AppColors.green500,
+                              colorText: AppColors.white,
+                              duration: const Duration(seconds: 3),
+                              snackPosition: SnackPosition.BOTTOM);
+
                           Get.offAllNamed(AppRoutes.baseRoute);
                         }
                       }
@@ -147,7 +139,7 @@ class SignInScreen extends StatelessWidget {
                           decoration: TextDecoration.underline,
                         ),
                         buttonLabel: 'Sign up',
-                        onPressed: () => Get.toNamed(
+                        onPressed: () => Get.offAllNamed(
                           AppRoutes.signUpRoute,
                         ),
                       ),

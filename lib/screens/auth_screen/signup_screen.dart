@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:mcemeurckart/common_widgets/index.dart';
 import 'package:mcemeurckart/constants/index.dart';
 import 'package:mcemeurckart/routes/app_routes.dart';
-import 'package:mcemeurckart/theme/app_style.dart';
 import 'package:mcemeurckart/util/firebase_auth_helper.dart';
 import 'package:mcemeurckart/util/firestore_helper.dart';
 
@@ -36,11 +35,7 @@ class SignUpScreen extends StatelessWidget {
               child: Column(
                 children: [
                   // App Logo
-                  SvgPicture.asset(
-                    AppAssets.appLogoMceme,
-                    width: Sizes.p100,
-                    height: Sizes.p100,
-                  ),
+                  Image.asset(AppAssets.appLogoMceme),
                   gapH40,
                   Text(
                     'Create account',
@@ -108,25 +103,22 @@ class SignUpScreen extends StatelessWidget {
                             .createUserWithEmailPassword(
                                 email: email, password: password);
                         if (res['error'] != null) {
-                          ScaffoldMessenger.of(Get.context!).showSnackBar(
-                            SnackBar(
-                              behavior: SnackBarBehavior.floating,
-                              backgroundColor: AppColors.red500,
-                              content: Text(res['error'],
-                                  style: AppStyle.paragraph1Bold),
-                            ),
+                          Get.snackbar(
+                            "Error",
+                            res['error'],
+                            backgroundColor: AppColors.red500,
+                            colorText: AppColors.white,
+                            snackPosition: SnackPosition.BOTTOM,
                           );
                         } else if (res['user'] != null) {
-                          ScaffoldMessenger.of(Get.context!).showSnackBar(
-                            SnackBar(
-                              behavior: SnackBarBehavior.floating,
-                              backgroundColor: AppColors.green500,
-                              content: Text(
-                                'Successful Signed up',
-                                style: AppStyle.paragraph1Bold,
-                              ),
-                            ),
+                          Get.snackbar(
+                            "",
+                            "Successfully Signed up",
+                            backgroundColor: AppColors.green500,
+                            colorText: AppColors.white,
+                            snackPosition: SnackPosition.BOTTOM,
                           );
+
                           FireBaseStoreHelper.createWishList();
                           FireBaseStoreHelper.createCart();
                           Get.offAndToNamed(AppRoutes.baseRoute);
@@ -180,7 +172,7 @@ class SignUpScreen extends StatelessWidget {
                           decoration: TextDecoration.underline,
                         ),
                         buttonLabel: 'Log in',
-                        onPressed: () => Get.offAndToNamed(
+                        onPressed: () => Get.offAllNamed(
                           AppRoutes.signInRoute,
                         ),
                       ),

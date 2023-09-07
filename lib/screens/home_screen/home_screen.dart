@@ -1,9 +1,12 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'dart:developer';
 
 import 'package:mcemeurckart/common_widgets/index.dart';
 import 'package:mcemeurckart/constants/index.dart';
+import 'package:mcemeurckart/controller/category_controller_getx.dart';
+import 'package:mcemeurckart/controller/generics_controller_getx.dart';
 import 'package:mcemeurckart/controller/products_controller_getx.dart';
 import 'package:mcemeurckart/controller/wishlist_controller_getx.dart';
 import 'package:mcemeurckart/routes/app_routes.dart';
@@ -67,20 +70,12 @@ class _HomeScreenState extends State<HomeScreen> {
     AppColors.yellow300,
   ];
 
-  final categoriesTitles = [
-    'Fabric Care',
-    'Kitchen Essentials',
-    'Personal Care',
-    'View All'
-  ];
   final categoriesColors = [
     AppColors.red300,
     AppColors.purple300,
     AppColors.blue300,
     AppColors.green300,
   ];
-
-  final ProductsController productsController = Get.put(ProductsController());
 
   @override
   Widget build(BuildContext context) {
@@ -119,164 +114,192 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
         body: ScrollConfiguration(
           behavior: const ScrollBehavior().copyWith(overscroll: false),
-          child: GetBuilder<ProductsController>(
-            builder: (productsController) {
-              return SingleChildScrollView(
-                padding: const EdgeInsets.only(
-                  top: Sizes.p32,
-                ),
-                child: Column(
-                  children: [
-                    // * Just For You
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: Sizes.p24,
+          child: GetBuilder<GenericsController>(
+            builder: (genericsController) {
+              return GetBuilder<CategoriesController>(
+                  builder: (categoriesController) {
+                return GetBuilder<ProductsController>(
+                  builder: (productsController) {
+                    return SingleChildScrollView(
+                      padding: const EdgeInsets.only(
+                        top: Sizes.p32,
                       ),
-                      child: Row(
+                      child: Column(
                         children: [
-                          Expanded(
-                            flex: 2,
-                            child: Text(
-                              'Most Ordered',
-                              style: Get.textTheme.headlineSmall,
+                          // * Just For You
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: Sizes.p24,
                             ),
-                          ),
-                          PrimaryIconButton(
-                            icon: AppIcons.iOSLeftArrowIcon,
-                            onPressed: () => _scrollToTheNextItemView(
-                                scrollDirection: ScrollDirection.backward),
-                          ),
-                          PrimaryIconButton(
-                            icon: AppIcons.iOSRightArrowIcon,
-                            onPressed: _scrollToTheNextItemView,
-                          ),
-                        ],
-                      ),
-                    ),
-                    gapH16,
-                    SizedBox(
-                      height: Sizes.deviceHeight * .48,
-                      child: ListView.separated(
-                        controller: _scrollController,
-                        scrollDirection: Axis.horizontal,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: Sizes.p24,
-                        ),
-                        physics: const BouncingScrollPhysics(),
-                        itemCount: productsController.products.length,
-                        separatorBuilder: (_, index) => gapW16,
-                        itemBuilder: (_, index) {
-                          if (index % 2 == 0) {
-                            return MainCard(
-                              cardColor: trendingCardColors[
-                                  index % trendingCardColors.length],
-                              title: productsController.products[index].title,
-                              price: productsController.products[index].price,
-                              imageUrl:
-                                  productsController.products[index].imageUrl,
-                              onPressed: () => Get.toNamed(
-                                AppRoutes.productItemRoute,
-                                arguments: productsController.products[index],
-                              ),
-                              onLikeTap: () {
-                                Get.find<WishlistController>().addToWishlist(
-                                    productsController.products[index]);
-                              },
-                            );
-                          } else {
-                            return SizedBox.shrink();
-                          }
-                        },
-                      ),
-                    ),
-                    gapH32,
-                    // * Deals
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: Sizes.p24,
-                        vertical: Sizes.p16,
-                      ),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              'Your favorites',
-                              style: Get.textTheme.headlineSmall,
-                            ),
-                          ),
-                          PrimaryTextButton(
-                            buttonLabel: 'View all',
-                            onPressed: () {},
-                          )
-                        ],
-                      ),
-                    ),
-                    gapH16,
-                    SizedBox(
-                      height: Sizes.deviceHeight * .3,
-                      child: ListView.separated(
-                          scrollDirection: Axis.horizontal,
-                          physics: const BouncingScrollPhysics(),
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: Sizes.p24,
-                          ),
-                          itemCount: productsController.products.length,
-                          separatorBuilder: (_, __) => gapW16,
-                          itemBuilder: (_, index) {
-                            if (index % 2 != 0) {
-                              return DealsCard(
-                                title: productsController.products[index].title,
-                                price: productsController.products[index].price,
-                                imageUrl:
-                                    productsController.products[index].imageUrl,
-                                onCardTap: () => Get.toNamed(
-                                  AppRoutes.productItemRoute,
-                                  arguments: productsController.products[index],
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  flex: 2,
+                                  child: Text(
+                                    'Most Ordered',
+                                    style: Get.textTheme.headlineSmall,
+                                  ),
                                 ),
-                                onLikeTap: () {
-                                  Get.find<WishlistController>().addToWishlist(
-                                      productsController.products[index]);
-                                },
-                              );
-                            } else {
-                              return SizedBox.shrink();
-                            }
-                          }),
-                    ),
-                    gapH32,
-                    // * Cards Section
-                    GridView.builder(
-                      padding: const EdgeInsets.fromLTRB(
-                        Sizes.p24,
-                        Sizes.p16,
-                        Sizes.p24,
-                        Sizes.p4,
+                                PrimaryIconButton(
+                                  icon: AppIcons.iOSLeftArrowIcon,
+                                  onPressed: () => _scrollToTheNextItemView(
+                                      scrollDirection:
+                                          ScrollDirection.backward),
+                                ),
+                                PrimaryIconButton(
+                                  icon: AppIcons.iOSRightArrowIcon,
+                                  onPressed: _scrollToTheNextItemView,
+                                ),
+                              ],
+                            ),
+                          ),
+                          gapH16,
+                          SizedBox(
+                            height: Sizes.deviceHeight * .4,
+                            child: ListView.separated(
+                              controller: _scrollController,
+                              scrollDirection: Axis.horizontal,
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: Sizes.p24,
+                              ),
+                              physics: const BouncingScrollPhysics(),
+                              itemCount:
+                                  min(16, productsController.products.length),
+                              separatorBuilder: (_, index) => gapW16,
+                              itemBuilder: (_, index) {
+                                if (index % 2 == 0) {
+                                  return MainCard(
+                                    cardColor: trendingCardColors[
+                                        index % trendingCardColors.length],
+                                    title: productsController.products[index]
+                                        ['title'],
+                                    price: productsController.products[index]
+                                        ['price'],
+                                    imageUrl: productsController.products[index]
+                                        ['imageUrl'],
+                                    onPressed: () => Get.toNamed(
+                                      AppRoutes.productItemRoute,
+                                      arguments:
+                                          productsController.products[index],
+                                    ),
+                                    onLikeTap: () {
+                                      Get.find<WishlistController>()
+                                          .addToWishlist(productsController
+                                              .products[index]);
+                                    },
+                                  );
+                                } else {
+                                  return const SizedBox.shrink();
+                                }
+                              },
+                            ),
+                          ),
+                          gapH32,
+                          // * Deals
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: Sizes.p24,
+                              vertical: Sizes.p16,
+                            ),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    'Your favorites',
+                                    style: Get.textTheme.headlineSmall,
+                                  ),
+                                ),
+                                PrimaryTextButton(
+                                  buttonLabel: 'View all',
+                                  onPressed: () {},
+                                )
+                              ],
+                            ),
+                          ),
+                          gapH16,
+                          SizedBox(
+                            height: Sizes.deviceHeight * .3,
+                            child: ListView.separated(
+                                scrollDirection: Axis.horizontal,
+                                physics: const BouncingScrollPhysics(),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: Sizes.p24,
+                                ),
+                                itemCount:
+                                    min(16, productsController.products.length),
+                                separatorBuilder: (_, __) => gapW16,
+                                itemBuilder: (_, index) {
+                                  if (index % 2 != 0) {
+                                    return DealsCard(
+                                      title: productsController.products[index]
+                                          ['title'],
+                                      price: productsController.products[index]
+                                          ['price'],
+                                      imageUrl: productsController
+                                          .products[index]['imageUrl'],
+                                      onCardTap: () => Get.toNamed(
+                                        AppRoutes.productItemRoute,
+                                        arguments:
+                                            productsController.products[index],
+                                      ),
+                                      onLikeTap: () {
+                                        Get.find<WishlistController>()
+                                            .addToWishlist(productsController
+                                                .products[index]);
+                                      },
+                                    );
+                                  } else {
+                                    return const SizedBox.shrink();
+                                  }
+                                }),
+                          ),
+                          gapH32,
+                          // * Cards Section
+                          GridView.builder(
+                            padding: const EdgeInsets.fromLTRB(
+                              Sizes.p24,
+                              Sizes.p16,
+                              Sizes.p24,
+                              Sizes.p4,
+                            ),
+                            itemCount: min(
+                                4, categoriesController.rootCategories.length),
+                            primary: false,
+                            shrinkWrap: true,
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              //mainAxisSpacing: Sizes.p16,
+                              //crossAxisSpacing: Sizes.p12,
+                              childAspectRatio: 9 / 10,
+                            ),
+                            itemBuilder: (_, index) => HomeCategoryCard(
+                              color: categoriesColors[index],
+                              title: index == 3
+                                  ? "View All"
+                                  : categoriesController.rootCategories[index]
+                                      ['title'],
+                              onTap: () {
+                                if (index == 3) {
+                                  Get.toNamed(
+                                    AppRoutes.categoriesRoute,
+                                  );
+                                } else {
+                                  Get.toNamed(
+                                    AppRoutes.subCategoriesRoute,
+                                    arguments: categoriesController
+                                        .rootCategories[index],
+                                  );
+                                }
+                              },
+                            ),
+                          ),
+                        ],
                       ),
-                      itemCount: categoriesTitles.length,
-                      primary: false,
-                      shrinkWrap: true,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        //mainAxisSpacing: Sizes.p16,
-                        //crossAxisSpacing: Sizes.p12,
-                        childAspectRatio: 9 / 10,
-                      ),
-                      itemBuilder: (_, index) => HomeCategoryCard(
-                        color: categoriesColors[index],
-                        title: categoriesTitles[index],
-                        onTap: () {
-                          if (index == 3) {
-                            Get.toNamed(
-                              AppRoutes.categoriesRoute,
-                            );
-                          }
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              );
+                    );
+                  },
+                );
+              });
             },
           ),
         ),

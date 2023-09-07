@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import "package:get/get.dart";
+import "package:mcemeurckart/models/products_model.dart";
 
 import 'package:mcemeurckart/screens/auth_screen/signin_screen.dart';
 import "package:mcemeurckart/screens/auth_screen/signup_screen.dart";
@@ -11,15 +12,18 @@ import "package:mcemeurckart/screens/checkout_screen/checkout_screen.dart";
 import "package:mcemeurckart/screens/home_screen/home_screen.dart";
 import "package:mcemeurckart/screens/orders_screen/orders_screen.dart";
 import 'package:mcemeurckart/screens/product_item_screen/product_item_screen.dart';
+import "package:mcemeurckart/screens/products_screen/products_screen.dart";
+import "package:mcemeurckart/screens/sub_categories_screen/sub_categories_screen.dart";
 import "package:mcemeurckart/screens/wishlist_screen/wishlist_screen.dart";
 
 abstract class AppPages {
-  static const initial = AppRoutes.signInRoute;
+  static const initial = AppRoutes.baseRoute;
 
   static final pages = <GetPage>[
     /* 
     * ===== Auth Pages =====
      */
+
     GetPage(
       name: AppRoutes.signUpRoute,
       page: () => const SignUpScreen(),
@@ -71,6 +75,20 @@ abstract class AppPages {
       curve: Curves.easeOut,
       transition: Transition.rightToLeft,
     ),
+
+    GetPage(
+        name: AppRoutes.subCategoriesRoute,
+        page: () => const SubCategoriesScreen(),
+        transitionDuration: const Duration(milliseconds: 300),
+        curve: Curves.easeOut,
+        transition: Transition.rightToLeft),
+
+    GetPage(
+        name: AppRoutes.productsScreenRoute,
+        page: () => const ProductsScreen(),
+        transitionDuration: const Duration(milliseconds: 300),
+        curve: Curves.easeOut,
+        transition: Transition.rightToLeft),
 
     /* wishlist and cart */
     GetPage(
@@ -135,8 +153,10 @@ abstract class AppRoutes {
   static const homeRoute = '/home';
   static const cartRoute = '/cart';
   static const categoriesRoute = '/categories';
+  static const subCategoriesRoute = '/subCategories';
   static const checkoutRoute = '/checkout';
   static const checkoutConfirmationRoute = '/checkoutConfirmation';
+  static const productsScreenRoute = '/productsScreen';
   static const productItemRoute = '/productItem';
   static const profileRoute = '/profile';
   static const ordersRoute = '/orders';

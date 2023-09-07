@@ -88,10 +88,10 @@ class _CartScreenState extends State<CartScreen> {
                                   cartController.cartItems[index].quantity,
                               increment: () => cartController.increaseQuantity(
                                   cartController
-                                      .cartItems[index].product.index),
+                                      .cartItems[index].product['index']),
                               decrement: () => cartController.decreaseQuantity(
                                   cartController
-                                      .cartItems[index].product.index),
+                                      .cartItems[index].product['index']),
                             ),
                           ),
                         ),

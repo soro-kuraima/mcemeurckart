@@ -81,14 +81,15 @@ class _WishlistScreenState extends State<WishlistScreen> {
                           itemCount: wishlistController.wishlistItems.length,
                           separatorBuilder: (_, index) => gapH4,
                           itemBuilder: (_, index) => WishlistCard(
-                            listName: wishlistController
-                                .wishlistItems[index].index
+                            listName: wishlistController.wishlistItems[index]
+                                    ['index']
                                 .toString(),
-                            imageUrl: wishlistController
-                                .wishlistItems[index].imageUrl,
-                            itemName:
-                                wishlistController.wishlistItems[index].title,
-                            price: wishlistController.wishlistItems[index].price
+                            imageUrl: wishlistController.wishlistItems[index]
+                                ['imageUrl'],
+                            itemName: wishlistController.wishlistItems[index]
+                                ['title'],
+                            price: wishlistController.wishlistItems[index]
+                                    ['price']
                                 .toDouble(),
                             onCardTap: () {
                               Get.toNamed(
@@ -99,8 +100,8 @@ class _WishlistScreenState extends State<WishlistScreen> {
                             },
                             onAddToCart: () {
                               Get.find<CartController>().addToCart(
-                                  wishlistController
-                                      .wishlistItems[index].index);
+                                  wishlistController.wishlistItems[index]
+                                      ['index']);
 
                               Get.find<WishlistController>().removeFromWishlist(
                                   wishlistController.wishlistItems[index]);

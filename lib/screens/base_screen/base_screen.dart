@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mcemeurckart/controller/cart_controller_getx.dart';
+import 'package:mcemeurckart/controller/category_controller_getx.dart';
+import 'package:mcemeurckart/controller/generics_controller_getx.dart';
+import 'package:mcemeurckart/controller/orders_controller_getx.dart';
+import 'package:mcemeurckart/controller/products_controller_getx.dart';
 import 'package:mcemeurckart/controller/wishlist_controller_getx.dart';
-import 'package:mcemeurckart/screens/cart_screen/cart_screen.dart';
-import 'package:mcemeurckart/screens/categories_screen/categories_screen.dart';
-import 'package:mcemeurckart/screens/checkout_screen/checkout_confirmation_screen.dart';
-import 'package:mcemeurckart/screens/checkout_screen/checkout_screen.dart';
-
 import 'package:mcemeurckart/screens/orders_screen/orders_screen.dart';
 import 'package:mcemeurckart/screens/home_screen/home_screen.dart';
-import 'package:mcemeurckart/screens/product_item_screen/product_item_screen.dart';
 import 'package:mcemeurckart/screens/profile_screen/profile_screen.dart';
 import 'package:mcemeurckart/screens/wishlist_screen/wishlist_screen.dart';
 import 'widgets/custom_bottom_navbar.dart';
@@ -28,15 +26,7 @@ class _BaseScreenState extends State<BaseScreen> {
     const WishlistScreen(),
     const OrdersScreen(),
     const ProfileScreen(),
-    const ProductItemScreen(),
-    const CategoriesScreen(),
-    const CartScreen(),
-    const CheckoutScreen(),
-    const CheckoutConfirmationScreen(),
   ];
-
-  WishlistController wishlistController = Get.put(WishlistController());
-  CartController cartController = Get.put(CartController());
 
   @override
   Widget build(BuildContext context) {
@@ -45,15 +35,19 @@ class _BaseScreenState extends State<BaseScreen> {
         builder: (wishlistController) {
           return GetBuilder<CartController>(
             builder: (cartController) {
-              return Scaffold(
-                bottomNavigationBar: CustomBottomNavBar(
-                  screenController: pageController,
-                ),
-                body: PageView(
-                  controller: pageController,
-                  physics: const NeverScrollableScrollPhysics(),
-                  children: screens,
-                ),
+              return GetBuilder<OrdersController>(
+                builder: (ordersController) {
+                  return Scaffold(
+                    bottomNavigationBar: CustomBottomNavBar(
+                      screenController: pageController,
+                    ),
+                    body: PageView(
+                      controller: pageController,
+                      physics: const NeverScrollableScrollPhysics(),
+                      children: screens,
+                    ),
+                  );
+                },
               );
             },
           );

@@ -13,62 +13,102 @@ class FireBaseStoreHelper {
       FireBaseStoreHelper._();
   static final FirebaseFirestore db = FirebaseFirestore.instance;
 
+  static final genericsRef = db.collection('generics');
   static final categoriesRef = db.collection('categories');
   static final productsRef = db.collection('products');
 
-  static final generics = categoriesRef.doc('generics');
-  static final rootCategories = categoriesRef.doc('root-categories');
-  static final productCategories = categoriesRef.doc('product-categories');
+  //static final generics = categoriesRef.doc('generics');
+  //static final rootCategories = categoriesRef.doc('root-categories');
+  //static final productCategories = categoriesRef.doc('product-categories');
 
-  static Future<Map<String, dynamic>> getGenerics() async {
-    Map<String, dynamic> res = {};
+  static Stream<List<Map<String, dynamic>>> getGenerics() {
     try {
-      DocumentSnapshot<Map<String, dynamic>> documentSnapshot =
-          await generics.get();
-      res = documentSnapshot.data()!;
+      return genericsRef.snapshots().map((event) {
+        return event.docs.map((e) {
+          return {
+            'id': e.id,
+            'title': e.data()['title'],
+            'categories': e.data()['categories'],
+          };
+        }).toList();
+      });
     } catch (e) {
       print(e);
     }
-    return res;
+
+    return const Stream.empty();
   }
 
-  static Future<Map<String, dynamic>> getRootCategories() async {
-    Map<String, dynamic> res = {};
+  static Stream<List<Map<String, dynamic>>> getCategories() {
     try {
-      DocumentSnapshot<Map<String, dynamic>> documentSnapshot =
-          await rootCategories.get();
-      res = documentSnapshot.data()!;
+      return categoriesRef.snapshots().map((event) {
+        return event.docs.map((e) {
+          return {
+            'id': e.id,
+            ...e.data(),
+          };
+        }).toList();
+      });
     } catch (e) {
       print(e);
     }
-    return res;
+    return const Stream.empty();
   }
 
-  static Future<Map<String, dynamic>> getProductCategories() async {
-    Map<String, dynamic> res = {};
+  static Stream<List<Map<String, dynamic>>> getRootCategories() {
+    final rootCategoriesRef = categoriesRef.where('isRoot', isEqualTo: true);
     try {
-      DocumentSnapshot<Map<String, dynamic>> documentSnapshot =
-          await productCategories.get();
-      res = documentSnapshot.data()!;
+      return rootCategoriesRef.snapshots().map((event) {
+        return event.docs.map((e) {
+          return {
+            'id': e.id,
+            ...e.data(),
+          };
+        }).toList();
+      });
     } catch (e) {
       print(e);
     }
-    return res;
+    return const Stream.empty();
   }
 
-  static Future<List<Map<String, dynamic>>> getProducts() async {
-    List<Map<String, dynamic>> products = [];
+  static Stream<List<Map<String, dynamic>>> getCategoriesWithProducts() {
+    final rootCategoriesRef =
+        categoriesRef.where('hasProducts', isEqualTo: true);
     try {
-      final response = await productsRef.get();
-      if (response.docs.isNotEmpty) {
-        for (final item in response.docs) {
-          products.add(item.data());
-        }
-      }
+      return rootCategoriesRef.snapshots().map((event) {
+        return event.docs.map((e) {
+          return {'id': e.id, ...e.data()};
+        }).toList();
+      });
     } catch (e) {
       print(e);
     }
-    return products;
+    return const Stream.empty();
+  }
+
+  static Stream<List<Map<String, dynamic>>> getProducts() {
+    try {
+      return productsRef.snapshots().map((event) {
+        return event.docs.map((e) {
+          return {
+            'id': e.id,
+            'index': e.data()['index'],
+            'title': e.data()['title'],
+            'price': e.data()['price'],
+            'imageUrl': e.data()['imageUrl'],
+            'description': e.data()['description'],
+            'category': e.data()['category'],
+            'stock': e.data()['stock'],
+            'generic': e.data()['generic']
+          };
+        }).toList();
+      });
+    } catch (e) {
+      print(e);
+    }
+
+    return const Stream.empty();
   }
 
   static Future<Map<String, dynamic>> getProduct(int index) async {
@@ -214,20 +254,27 @@ class FireBaseStoreHelper {
 
   static Future<void> placeOrder(int orderValue) async {
     try {
-      db.runTransaction((transaction) async {
-        final snapshot = await transaction.get(cart);
-        if (snapshot.exists) {
-          await ordersRef.add({
-            'user': user!.email,
-            'products': snapshot.data(),
-            'orderValue': orderValue,
-            'orderStatus': 'pending',
-            'orderDate': DateTime.now(),
-          });
-        }
+      final snapshot = await cart.get();
+      if (snapshot.exists) {
+        final entries = snapshot.data()?.entries;
+        final keys = snapshot.data()?.keys;
+        int firstProductIndex = int.parse(keys?.elementAt(0) ?? "0");
+        final product = await getProduct(firstProductIndex);
+        log(product.toString());
+        log("keys of cart $keys");
+        log("entries of cart$entries");
+        await ordersRef.add({
+          'user': user!.email,
+          'products': snapshot.data(),
+          'orderValue': orderValue,
+          'orderStatus': 'pending',
+          'orderDate': DateTime.now(),
+          'imageUrl': product['imageUrl'],
+        });
+
         await cart.delete();
         await createCart();
-      });
+      }
     } catch (e) {
       print(e);
     } finally {
@@ -239,15 +286,18 @@ class FireBaseStoreHelper {
   static Stream<List<Map<String, dynamic>>> getOrders() {
     return ordersQuery.snapshots().map((event) {
       final data = event.docs.map((e) {
+        log("logging from getOrders${e.id}");
         return {
-          'id': e.id,
+          'orderId': e.id,
           'user': e.data()['user'],
           'products': e.data()['products'],
           'orderValue': e.data()['orderValue'],
           'orderStatus': e.data()['orderStatus'],
           'orderDate': e.data()['orderDate'],
+          'imageUrl': e.data()['imageUrl'],
         };
       }).toList();
+      log(data.toString());
       return List.from(data);
     });
   }

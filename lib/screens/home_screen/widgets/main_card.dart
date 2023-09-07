@@ -86,15 +86,6 @@ class MainCard extends StatelessWidget {
                         gapH4,
                         Text(
                           '₹$price',
-                          style: Get.textTheme.bodySmall?.copyWith(
-                            fontWeight: Fonts.interRegular,
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        gapH16,
-                        Text(
-                          '₹$price',
                           style: Get.textTheme.bodyLarge?.copyWith(
                             fontWeight: Fonts.interRegular,
                           ),

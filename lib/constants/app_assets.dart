@@ -9,7 +9,7 @@ class AppAssets {
   static const appLogoPrimary = 'assets/logo/logo-primary.svg';
   static const appLogoBlack = 'assets/logo/logo-black.svg';
   static const appLogoYellow = 'assets/logo/logo-yellow.svg';
-  static const appLogoMceme = 'assets/logo/mceme_logo.svg';
+  static const appLogoMceme = 'assets/logo/mceme_logo.png';
 
   /* 
   * ============= Images ==============
