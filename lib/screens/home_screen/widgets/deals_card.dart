@@ -17,6 +17,7 @@ class DealsCard extends StatelessWidget {
     required this.title,
     required this.price,
     required this.imageUrl,
+    required this.isWishlisted,
   });
 
   final double? width;
@@ -26,6 +27,7 @@ class DealsCard extends StatelessWidget {
   final String imageUrl;
   final VoidCallback? onLikeTap;
   final VoidCallback? onCardTap;
+  final bool isWishlisted;
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +66,7 @@ class DealsCard extends StatelessWidget {
                         ),
                         child: CachedNetworkImage(
                           imageUrl: imageUrl,
-                          height: Sizes.deviceHeight * .3 / 2,
+                          height: Sizes.deviceHeight * .4,
                           width: Sizes.deviceWidth * .3,
                           fit: BoxFit.contain,
                           alignment: Alignment.center,
@@ -115,6 +117,7 @@ class DealsCard extends StatelessWidget {
           padding: const EdgeInsets.only(right: Sizes.p8),
           child: FavoriteButton(
             onPressed: onLikeTap,
+            isWishlisted: isWishlisted,
           ),
         ),
       ],

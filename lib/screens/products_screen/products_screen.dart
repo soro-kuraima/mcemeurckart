@@ -2,15 +2,15 @@ import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import 'package:mcemeurckart/common_widgets/index.dart';
 import 'package:mcemeurckart/constants/index.dart';
 import 'package:mcemeurckart/controller/category_controller_getx.dart';
 import 'package:mcemeurckart/controller/products_controller_getx.dart';
+import 'package:mcemeurckart/controller/wishlist_controller_getx.dart';
 import 'package:mcemeurckart/routes/app_routes.dart';
-import 'package:mcemeurckart/screens/categories_screen/widgets/stagerred_category_card.dart';
-import 'package:mcemeurckart/screens/home_screen/widgets/deals_card.dart';
+
+import 'widgets/products_card.dart';
 
 class ProductsScreen extends StatefulWidget {
   const ProductsScreen({super.key});
@@ -23,8 +23,26 @@ class _ProductsScreenState extends State<ProductsScreen> {
   final rootCategory = Get.arguments;
 
   final List<dynamic> categories = [
-    ...Get.find<CategoriesController>().categories.where(
-        (element) => Get.arguments['subCategories']?.contains(element['id']))
+    ...Get.find<CategoriesController>().categories.where((element) {
+      if (Get.arguments['hasProducts'] == true) {
+        return Get.arguments['id'] == element['id'];
+      } else {
+        return Get.arguments['subCategories']?.contains(element['id']);
+      }
+    })
+  ].obs;
+
+  List<dynamic> products = [
+    ...Get.find<ProductsController>().products.where((element) => [
+          ...Get.find<CategoriesController>().categories.where((element) {
+            if (Get.arguments['hasProducts'] == true) {
+              return Get.arguments['id'] == element['id'];
+            } else {
+              return Get.arguments['subCategories']?.contains(element['id']);
+            }
+          })
+        ][0]['products']
+            ?.contains(element['index']))
   ].obs;
 
   final popularCategoriesColors = [
@@ -33,33 +51,10 @@ class _ProductsScreenState extends State<ProductsScreen> {
     AppColors.red300,
     AppColors.green300,
   ];
-
-  final trendingInGamingImages = [
-    // 'https://tech4u.co.mz/wp-content/uploads/2023/01/cq5dam.web_.1280.1280.png',
-    // 'https://images.csmonitor.com/csm/2014/06/hobbit.png?alias=standard_900x600nc',
-    'https://icegames.co/image/cache/catalog/1212121219/dualsense-ps5-controller-midnight-black-accessory-front-550x550.png',
-    // 'https://images.csmonitor.com/csm/2014/06/hobbit.png?alias=standard_900x600nc',
-    'https://multimedia.bbycastatic.ca/multimedia/products/1500x1500/171/17145/17145330_8.png',
-    'https://res-4.cloudinary.com/grover/image/upload/v1630929070/vyqf9rdpila7hephrw75.png',
-    // 'https://media2.sport-bittl.com/images/product_images/original_images/27826167676a_Birkenstock_Arizona_Schuh_He_schwarz.png',
-  ];
-
-  final trendingInReadingImages = [
-    'https://bookbins.in/wp-content/uploads/2023/01/Cant-Hurt-Me-David-Goggins-Buy-Online-Bookbins-1.png',
-    'https://bookbins.in/wp-content/uploads/2022/02/How-To-Stop-Worrying-And-Start-Living-Dale-Carnegie-Buy-Online-Bookbins-1.png',
-    'https://assets.target.com.au/transform/025d6e4b-5f99-4ac9-ab9a-ee6b4113639e/65141670_IMG_001?io=transform:extend,width:700,height:800&output=jpeg&quality=80',
-    'https://bookbins.in/wp-content/uploads/2021/11/Who-Moved-My-Cheese-Dr.Spencer-Johnson-Buy-Online-Bookbins-1.png',
-  ];
-
-  RxInt _selectedIndex = 0.obs;
+  final RxInt _selectedIndex = 0.obs;
 
   @override
   Widget build(BuildContext context) {
-    log(categories.toString());
-    List<dynamic> products = [
-      ...Get.find<ProductsController>().products.where(
-          (element) => categories[0]['products']?.contains(element['index']))
-    ].obs;
     log(products.toString());
     return SafeArea(
       child: Scaffold(
@@ -97,49 +92,98 @@ class _ProductsScreenState extends State<ProductsScreen> {
               child: Obx(() => Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      NavigationRail(
-                        backgroundColor: AppColors.blue100,
-                        selectedIndex: _selectedIndex.value,
-                        onDestinationSelected: (int index) {
-                          products = [
-                            ...Get.find<ProductsController>().products.where(
-                                (element) => categories[index]['products']
-                                    ?.contains(element['index']))
-                          ];
-                          _selectedIndex.value = index;
-                        },
-                        labelType: NavigationRailLabelType.all,
-                        destinations: [
-                          ...List.generate(
-                              categories.length,
-                              (index) => NavigationRailDestination(
-                                    icon: CachedNetworkImage(
-                                      imageUrl: categories[index]['imageUrl'],
-                                      height: 25,
-                                      width: 25,
-                                    ),
-                                    label: SizedBox(
-                                      width: Sizes.p32,
-                                      child: Center(
-                                        child: Text(
-                                          categories[index]['title'],
-                                          style: TextStyle(
-                                              color: AppColors.neutral800,
-                                              fontSize: Sizes.p12),
-                                          // Use ellipsis to indicate overflow
-                                          softWrap: true,
-                                          overflow: TextOverflow.ellipsis,
-                                          maxLines: 1,
-                                        ),
-                                      ),
-                                    ),
-                                  )),
-                        ],
-                      ),
+                      categories.length >= 2
+                          ? NavigationRail(
+                              backgroundColor: AppColors.blue100,
+                              indicatorColor: AppColors.blue500,
+                              indicatorShape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(Sizes.p8),
+                                ),
+                              ),
+                              selectedIndex: _selectedIndex.value,
+                              onDestinationSelected: (int index) {
+                                products = [
+                                  ...Get.find<ProductsController>()
+                                      .products
+                                      .where((element) => categories[index]
+                                              ['products']
+                                          ?.contains(element['index']))
+                                ];
+                                _selectedIndex.value = index;
+                              },
+                              selectedIconTheme: IconThemeData(
+                                color: AppColors.neutral800,
+                                size: Sizes.p32,
+                              ),
+                              labelType: NavigationRailLabelType.all,
+                              destinations: [
+                                ...List.generate(
+                                    categories.length,
+                                    (index) => NavigationRailDestination(
+                                          icon: CachedNetworkImage(
+                                            imageUrl: categories[index]
+                                                ['imageUrl'],
+                                            height: 40,
+                                            width: 40,
+                                            imageBuilder:
+                                                (context, imageProvider) =>
+                                                    Container(
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                image: DecorationImage(
+                                                  image: imageProvider,
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          selectedIcon: CachedNetworkImage(
+                                            imageUrl: categories[index]
+                                                ['imageUrl'],
+                                            height: 40,
+                                            width: 40,
+                                            imageBuilder:
+                                                (context, imageProvider) =>
+                                                    Container(
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.rectangle,
+                                                color: AppColors.neutral500,
+                                                borderRadius:
+                                                    const BorderRadius.all(
+                                                        Radius.circular(10)),
+                                                image: DecorationImage(
+                                                  image: imageProvider,
+                                                  fit: BoxFit.contain,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          label: SizedBox(
+                                            width: Sizes.p80,
+                                            child: Center(
+                                              child: Text(
+                                                categories[index]['title'],
+                                                style: TextStyle(
+                                                    color: AppColors.neutral800,
+                                                    fontSize: Sizes.p12,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                                // Use ellipsis to indicate overflow
+                                                softWrap: true,
+                                                textWidthBasis:
+                                                    TextWidthBasis.longestLine,
+                                              ),
+                                            ),
+                                          ),
+                                        )),
+                              ],
+                            )
+                          : const SizedBox.shrink(),
                       Expanded(
                         child: SingleChildScrollView(
                           padding: const EdgeInsets.all(
-                            Sizes.p24,
+                            Sizes.p8,
                           ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -155,15 +199,29 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                   crossAxisSpacing: Sizes.p6,
                                   childAspectRatio: 9 / 10,
                                 ),
-                                itemBuilder: (_, index) => DealsCard(
+                                itemBuilder: (_, index) => ProductsCard(
                                   title: products[index]['title'],
                                   price: products[index]['price'],
+                                  height: Sizes.deviceHeight * 0.6,
                                   imageUrl: products[index]['imageUrl'],
                                   onCardTap: () {
                                     Get.toNamed(AppRoutes.productItemRoute,
                                         arguments: products[index]);
                                   },
-                                  onLikeTap: () {},
+                                  onLikeTap: () {
+                                    Get.find<WishlistController>()
+                                            .wishlist
+                                            .contains(products[index]['index'])
+                                        ? Get.find<WishlistController>()
+                                            .removeFromWishlist(products[index])
+                                        : Get.find<WishlistController>()
+                                            .addToWishlist(products[index]);
+
+                                    Get.forceAppUpdate();
+                                  },
+                                  isWishlisted: Get.find<WishlistController>()
+                                      .wishlist
+                                      .contains(products[index]['index']),
                                 ),
                               ),
                             ],

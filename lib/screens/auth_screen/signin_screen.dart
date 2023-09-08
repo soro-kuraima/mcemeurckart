@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import "package:flutter/material.dart";
 import "package:get/get.dart";
-import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:mcemeurckart/common_widgets/index.dart';
 import 'package:mcemeurckart/constants/index.dart';

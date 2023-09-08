@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:get/get.dart';
-import 'package:mcemeurckart/models/products_model.dart';
 import 'package:mcemeurckart/util/firestore_helper.dart';
 
 class WishlistController extends GetxController {
@@ -12,6 +11,7 @@ class WishlistController extends GetxController {
   void onInit() async {
     super.onInit();
     await getWishListItems();
+    update();
   }
 
   @override
@@ -22,7 +22,6 @@ class WishlistController extends GetxController {
     ever(wishlist, (_) {
       getWishListItems();
     });
-    update();
   }
 
   Future<void> getWishListItems() async {
@@ -36,6 +35,7 @@ class WishlistController extends GetxController {
     });
     log(wishlist.toString());
     log(wishlistItems.toString());
+    update();
   }
 
   void addToWishlist(dynamic product) async {
@@ -44,7 +44,6 @@ class WishlistController extends GetxController {
         wishlistItems.indexWhere((item) => item['index'] == product['index']);
     if (index == -1) {
       await FireBaseStoreHelper.addToWishlist(product['index']);
-      update();
     } else {
       Get.snackbar(
         'Product already in wishlist',
@@ -57,6 +56,5 @@ class WishlistController extends GetxController {
 
   void removeFromWishlist(dynamic product) async {
     await FireBaseStoreHelper.removeFromWishList(product['index']);
-    update();
   }
 }

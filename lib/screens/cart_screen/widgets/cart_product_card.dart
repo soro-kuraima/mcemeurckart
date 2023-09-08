@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:mcemeurckart/constants/index.dart';
-import 'package:mcemeurckart/models/products_model.dart';
 
 import 'quantity_widget.dart';
 

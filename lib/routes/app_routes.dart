@@ -1,6 +1,5 @@
 import "package:flutter/material.dart";
 import "package:get/get.dart";
-import "package:mcemeurckart/models/products_model.dart";
 
 import 'package:mcemeurckart/screens/auth_screen/signin_screen.dart';
 import "package:mcemeurckart/screens/auth_screen/signup_screen.dart";

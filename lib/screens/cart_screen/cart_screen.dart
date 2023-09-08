@@ -22,7 +22,7 @@ class _CartScreenState extends State<CartScreen> {
       body: NestedScrollView(
         headerSliverBuilder: (context, innerBoxIsScrolled) => [
           SliverAppBar(
-            centerTitle: false,
+            centerTitle: true,
             title: Padding(
               padding: const EdgeInsets.only(
                 left: Sizes.p8,

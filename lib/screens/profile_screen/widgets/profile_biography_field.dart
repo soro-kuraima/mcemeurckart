@@ -46,7 +46,7 @@ class ProfileBiography extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 child: PrimaryOutlinedButton(
                   hasText: true,
-                  title: 'Edit',
+                  title: 'Sign Out',
                   onPressed: editFunction,
                 ),
               ),

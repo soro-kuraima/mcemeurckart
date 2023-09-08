@@ -1,4 +1,8 @@
+import 'dart:developer';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dropdown/flutter_dropdown.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import 'package:mcemeurckart/common_widgets/index.dart';
@@ -7,6 +11,7 @@ import 'package:mcemeurckart/controller/category_controller_getx.dart';
 import 'package:mcemeurckart/controller/generics_controller_getx.dart';
 import 'package:mcemeurckart/routes/app_routes.dart';
 import 'package:mcemeurckart/screens/categories_screen/widgets/category_cartitem.dart';
+import 'package:multiselect_dropdown_flutter/multiselect_dropdown_flutter.dart';
 import 'widgets/stagerred_category_card.dart';
 
 class CategoriesScreen extends StatefulWidget {
@@ -17,12 +22,13 @@ class CategoriesScreen extends StatefulWidget {
 }
 
 class _CategoriesScreenState extends State<CategoriesScreen> {
-  final List<dynamic> categories =
+  final RxList<dynamic> categories =
       [...Get.find<CategoriesController>().rootCategories].obs;
 
-  final List<dynamic> generics = [...Get.find<GenericsController>().generics];
+  final RxList<dynamic> generics =
+      [...Get.find<GenericsController>().generics].obs;
 
-  final List<dynamic> selectedGenerics = [].obs;
+  final RxList<dynamic> selectedGenerics = [].obs;
 
   final popularCategoriesColors = [
     AppColors.purple300,
@@ -72,57 +78,32 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Obx(() => Wrap(
-                        spacing: Sizes.p8,
-                        runSpacing: Sizes.p8,
-                        children: [
-                          ...List.generate(
-                            generics.length,
-                            (index) => GestureDetector(
-                              onTap: () {
-                                if (selectedGenerics
-                                    .contains(generics[index]['id'])) {
-                                  selectedGenerics
-                                      .remove(generics[index]['id']);
-                                } else {
-                                  selectedGenerics.add(generics[index]['id']);
-                                }
-                                categories.clear();
-                                categories.addAll(
-                                  Get.find<CategoriesController>()
-                                      .rootCategories
-                                      .where(
-                                        (element) => selectedGenerics
-                                            .contains(element['generic']),
-                                      ),
-                                );
-                                if (selectedGenerics.isEmpty) {
-                                  categories.addAll(
-                                    Get.find<CategoriesController>()
-                                        .rootCategories,
-                                  );
-                                }
-                              },
-                              child: CategoryCardItem(
-                                borderColor: selectedGenerics
-                                        .contains(generics[index]['id'])
-                                    ? AppColors.neutral800
-                                    : AppColors.neutral300,
-                                cardColor: selectedGenerics
-                                        .contains(generics[index]['id'])
-                                    ? AppColors.neutral800
-                                    : AppColors.white,
-                                categoryName: generics[index]['title'],
-                                textColor: selectedGenerics
-                                        .contains(generics[index]['id'])
-                                    ? AppColors.white
-                                    : AppColors.neutral800,
-                              ),
-                            ),
-                          ),
-                        ],
-                      )),
-                  gapH16,
+                  MultiSelectDropdown(
+                      whenEmpty: 'Filters',
+                      list: generics,
+                      id: 'id',
+                      label: 'title',
+                      includeSelectAll: true,
+                      checkboxFillColor: AppColors.blue300,
+                      splashColor: AppColors.blue300,
+                      initiallySelected: const [],
+                      onChange: (selectedGenerics) {
+                        categories.clear();
+                        categories.addAll(
+                          Get.find<CategoriesController>().rootCategories.where(
+                              (element) => selectedGenerics.any(
+                                  (selectedGeneric) =>
+                                      element['generic'] ==
+                                      selectedGeneric['id'])),
+                        );
+                        if (selectedGenerics.isEmpty) {
+                          categories.addAll(
+                            Get.find<CategoriesController>().rootCategories,
+                          );
+                        }
+                        Get.forceAppUpdate();
+                      }),
+                  gapH40,
                   Obx(() => MasonryGridView.builder(
                         primary: false,
                         shrinkWrap: true,
@@ -141,6 +122,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                             categoryName: categories[index]['title'],
                             imageUrl: categories[index]['imageUrl'],
                             onTap: () {
+                              log(categories[index].toString());
                               Get.toNamed(
                                 AppRoutes.productsScreenRoute,
                                 arguments: categories[index],

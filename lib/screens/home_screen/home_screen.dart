@@ -81,38 +81,8 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     //const isLoggedIn = true;
     return Scaffold(
-      body: NestedScrollView(
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) =>
-            [
-          SliverAppBar(
-            leading: const Padding(
-              padding: EdgeInsets.only(
-                left: Sizes.p24,
-                top: Sizes.p16,
-                bottom: Sizes.p16,
-              ),
-              child: SvgAsset(
-                assetPath: AppAssets.appLogoBlackSmall,
-              ),
-            ),
-            actions: [
-              Padding(
-                padding: const EdgeInsets.only(
-                  right: Sizes.p24,
-                ),
-                child: PrimaryIconButton(
-                  icon: AppIcons.shoppingCartIcon,
-                  onPressed: () {
-                    Get.toNamed(
-                      AppRoutes.cartRoute,
-                    );
-                  },
-                ),
-              ),
-            ],
-          ),
-        ],
-        body: ScrollConfiguration(
+      body: SingleChildScrollView(
+        child: ScrollConfiguration(
           behavior: const ScrollBehavior().copyWith(overscroll: false),
           child: GetBuilder<GenericsController>(
             builder: (genericsController) {
@@ -122,7 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   builder: (productsController) {
                     return SingleChildScrollView(
                       padding: const EdgeInsets.only(
-                        top: Sizes.p32,
+                        top: Sizes.p12,
                       ),
                       child: Column(
                         children: [
@@ -184,9 +154,22 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                     onLikeTap: () {
                                       Get.find<WishlistController>()
-                                          .addToWishlist(productsController
-                                              .products[index]);
+                                              .wishlist
+                                              .contains(productsController
+                                                  .products[index]['index'])
+                                          ? Get.find<WishlistController>()
+                                              .removeFromWishlist(
+                                                  productsController
+                                                      .products[index])
+                                          : Get.find<WishlistController>()
+                                              .addToWishlist(productsController
+                                                  .products[index]);
+                                      Get.forceAppUpdate();
                                     },
+                                    isWishlisted: Get.find<WishlistController>()
+                                        .wishlist
+                                        .contains(productsController
+                                            .products[index]['index']),
                                   );
                                 } else {
                                   return const SizedBox.shrink();
@@ -244,9 +227,24 @@ class _HomeScreenState extends State<HomeScreen> {
                                       ),
                                       onLikeTap: () {
                                         Get.find<WishlistController>()
-                                            .addToWishlist(productsController
-                                                .products[index]);
+                                                .wishlist
+                                                .contains(productsController
+                                                    .products[index]['index'])
+                                            ? Get.find<WishlistController>()
+                                                .removeFromWishlist(
+                                                    productsController
+                                                        .products[index])
+                                            : Get.find<WishlistController>()
+                                                .addToWishlist(
+                                                    productsController
+                                                        .products[index]);
+                                        Get.forceAppUpdate();
                                       },
+                                      isWishlisted:
+                                          Get.find<WishlistController>()
+                                              .wishlist
+                                              .contains(productsController
+                                                  .products[index]['index']),
                                     );
                                   } else {
                                     return const SizedBox.shrink();
@@ -286,7 +284,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   );
                                 } else {
                                   Get.toNamed(
-                                    AppRoutes.subCategoriesRoute,
+                                    AppRoutes.productsScreenRoute,
                                     arguments: categoriesController
                                         .rootCategories[index],
                                   );

@@ -53,6 +53,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
             padding: const EdgeInsets.only(
               left: Sizes.p24,
               right: Sizes.p24,
+              bottom: Sizes.p80,
             ),
             child: GetBuilder<WishlistController>(
               builder: (wishlistController) {
@@ -68,7 +69,9 @@ class _WishlistScreenState extends State<WishlistScreen> {
                         cardTitle: 'Uh Oh! You have nothing in your wishlist',
                         cardColor: AppColors.purple300,
                         buttonText: 'Add items to your wishlist',
-                        buttonPressed: () {},
+                        buttonPressed: () {
+                          Get.offAllNamed(AppRoutes.baseRoute);
+                        },
                       ),
                       child: SizedBox(
                         height: Get.height * .85,

@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:get/get.dart';
-import 'package:mcemeurckart/models/products_model.dart';
 import 'package:mcemeurckart/util/firestore_helper.dart';
 
 class CartItem {
@@ -56,7 +55,6 @@ class CartController extends GetxController {
     final idx = cartItems.indexWhere((item) => item.product['index'] == index);
     if (idx == -1) {
       await FireBaseStoreHelper.addToCart(index);
-      update();
     } else {
       Get.snackbar(
         'Product already in cart',
@@ -72,7 +70,6 @@ class CartController extends GetxController {
 
   void removeFromCart(int index) {
     FireBaseStoreHelper.removeFromCart(index);
-    update();
   }
 
   void increaseQuantity(int index) {
@@ -84,10 +81,8 @@ class CartController extends GetxController {
     final item = cartItems[idx];
     if (item.quantity == 1) {
       removeFromCart(index);
-      update();
     } else {
       FireBaseStoreHelper.decrementQuantity(index);
-      update();
     }
   }
 

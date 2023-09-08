@@ -10,12 +10,14 @@ class FavoriteButton extends StatelessWidget {
     this.height,
     this.color,
     required this.onPressed,
+    required this.isWishlisted,
   });
 
   final double? width;
   final double? height;
   final Color? color;
   final VoidCallback? onPressed;
+  final bool isWishlisted;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,7 @@ class FavoriteButton extends StatelessWidget {
         assetPath: AppIcons.favoriteIcon,
         width: width ?? Sizes.p20,
         height: height ?? Sizes.p20,
-        color: color ?? AppColors.neutral800,
+        color: isWishlisted ? AppColors.red400 : AppColors.neutral800,
       ),
     );
   }

@@ -15,6 +15,7 @@ class MainCard extends StatelessWidget {
     required this.title,
     required this.price,
     required this.imageUrl,
+    required this.isWishlisted,
   });
 
   final double? width;
@@ -23,6 +24,7 @@ class MainCard extends StatelessWidget {
   final String title;
   final int price;
   final String imageUrl;
+  final bool isWishlisted;
   final VoidCallback? onPressed;
   final VoidCallback? onLikeTap;
 
@@ -102,6 +104,7 @@ class MainCard extends StatelessWidget {
           padding: const EdgeInsets.only(right: Sizes.p8),
           child: FavoriteButton(
             onPressed: onLikeTap,
+            isWishlisted: isWishlisted,
           ),
         )
       ],
