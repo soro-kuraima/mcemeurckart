@@ -46,7 +46,7 @@ class _MyAppState extends State<MyApp> {
       theme: AppThemes().lightTheme,
       darkTheme: AppThemes().darkTheme,
       title: AppTitles.appTitle,
-      initialRoute: AppRoutes.auth,
+      home: const AuthProvider(),
       getPages: AppPages.pages,
       builder: (context, child) => ResponsiveBreakpoints.builder(
         child: child!,
