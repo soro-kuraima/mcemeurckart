@@ -15,14 +15,20 @@ import "package:mcemeurckart/screens/products_screen/products_screen.dart";
 import "package:mcemeurckart/screens/search_screen/search_screen.dart";
 import "package:mcemeurckart/screens/sub_categories_screen/sub_categories_screen.dart";
 import "package:mcemeurckart/screens/wishlist_screen/wishlist_screen.dart";
+import "package:mcemeurckart/util/auth_provider.dart";
 
 abstract class AppPages {
-  static const initial = AppRoutes.baseRoute;
-
   static final pages = <GetPage>[
     /* 
     * ===== Auth Pages =====
-     */
+*/
+    GetPage(
+      name: AppRoutes.auth,
+      page: () => const AuthProvider(),
+      transitionDuration: const Duration(milliseconds: 300),
+      curve: Curves.easeOut,
+      transition: Transition.fadeIn,
+    ),
 
     GetPage(
       name: AppRoutes.signUpRoute,
@@ -144,6 +150,7 @@ abstract class AppPages {
 }
 
 abstract class AppRoutes {
+  static const auth = '/auth';
   static const introRoute = '/intro';
   static const signInRoute = '/signIn';
   static const signUpRoute = '/signUp';
