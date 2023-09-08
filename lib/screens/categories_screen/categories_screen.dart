@@ -84,6 +84,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                       id: 'id',
                       label: 'title',
                       includeSelectAll: true,
+                      numberOfItemsLabelToShow: 1,
                       checkboxFillColor: AppColors.blue300,
                       splashColor: AppColors.blue300,
                       initiallySelected: const [],

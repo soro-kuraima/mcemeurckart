@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:mcemeurckart/util/auth_provider.dart';
 import 'package:responsive_framework/responsive_framework.dart';
@@ -15,20 +16,14 @@ import 'controller/products_controller_getx.dart';
 import 'controller/wishlist_controller_getx.dart';
 
 Future main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  Get.put(GenericsController());
-  Get.put(CategoriesController());
-  Get.put(ProductsController());
-  Get.put(WishlistController());
-  Get.put(CartController());
-  Get.put(OrdersController());
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
-
   @override
   State<MyApp> createState() => _MyAppState();
 }
@@ -36,6 +31,16 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
+    Get.put(GenericsController());
+    Get.put(CategoriesController());
+    Get.put(ProductsController());
+    Get.put(WishlistController());
+    Get.put(CartController());
+    Get.put(OrdersController());
+    Future.delayed(const Duration(seconds: 3), () {
+      FlutterNativeSplash.remove();
+    });
+
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       onGenerateTitle: (context) => AppTitles.appTitle,

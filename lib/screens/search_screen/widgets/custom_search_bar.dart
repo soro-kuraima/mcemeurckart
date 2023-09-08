@@ -15,22 +15,14 @@ class CustomSearchBar extends StatelessWidget {
       decoration: InputDecoration(
         counterText: '',
         isDense: true,
-        prefixIcon: const Padding(
-          padding: EdgeInsets.all(
-            Sizes.p20,
-          ),
-          child: SvgAsset(
-            assetPath: AppIcons.searchIcon,
-          ),
-        ),
-        suffixIcon: PrimaryTextButton(
-          buttonLabel: 'Done',
-          fontWeight: Fonts.interSemiBold,
-          onPressed: () {
-            searchController.clear();
-            FocusScope.of(context).unfocus();
-          },
-        ),
+        prefixIcon: Padding(
+            padding: EdgeInsets.all(
+              Sizes.p4,
+            ),
+            child: Icon(
+              Icons.search,
+              color: AppColors.neutral600,
+            )),
         hintText: 'Search by keyword or categories',
         hintStyle: Get.textTheme.displaySmall?.copyWith(
           color: AppColors.neutral400,
@@ -38,7 +30,7 @@ class CustomSearchBar extends StatelessWidget {
         ),
         border: const OutlineInputBorder(
           borderSide: BorderSide(
-            width: 0,
+            width: 2,
             style: BorderStyle.none,
           ),
         ),

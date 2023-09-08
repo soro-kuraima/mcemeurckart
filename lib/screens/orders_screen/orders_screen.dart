@@ -30,19 +30,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                 style: Get.textTheme.headlineSmall,
               ),
             ),
-            actions: [
-              Padding(
-                padding: const EdgeInsets.only(
-                  right: Sizes.p24,
-                ),
-                child: PrimaryIconButton(
-                  icon: AppIcons.shoppingCartIcon,
-                  onPressed: () {
-                    Get.toNamed(AppRoutes.cartRoute);
-                  },
-                ),
-              ),
-            ],
+            actions: [],
           ),
         ],
         body: ScrollConfiguration(

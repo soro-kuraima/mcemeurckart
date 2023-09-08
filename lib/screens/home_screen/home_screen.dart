@@ -66,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
     AppColors.blue300,
     AppColors.green300,
     AppColors.purple300,
-    AppColors.red300,
+    AppColors.neutral400,
     AppColors.yellow300,
   ];
 

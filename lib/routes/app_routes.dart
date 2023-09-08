@@ -12,6 +12,7 @@ import "package:mcemeurckart/screens/home_screen/home_screen.dart";
 import "package:mcemeurckart/screens/orders_screen/orders_screen.dart";
 import 'package:mcemeurckart/screens/product_item_screen/product_item_screen.dart';
 import "package:mcemeurckart/screens/products_screen/products_screen.dart";
+import "package:mcemeurckart/screens/search_screen/search_screen.dart";
 import "package:mcemeurckart/screens/sub_categories_screen/sub_categories_screen.dart";
 import "package:mcemeurckart/screens/wishlist_screen/wishlist_screen.dart";
 
@@ -88,6 +89,14 @@ abstract class AppPages {
         transitionDuration: const Duration(milliseconds: 300),
         curve: Curves.easeOut,
         transition: Transition.rightToLeft),
+
+    GetPage(
+      name: AppRoutes.searchRoute,
+      page: () => const SearchScreen(),
+      transitionDuration: const Duration(milliseconds: 300),
+      curve: Curves.easeOut,
+      transition: Transition.rightToLeft,
+    ),
 
     /* wishlist and cart */
     GetPage(

@@ -28,6 +28,7 @@ class _BaseScreenState extends State<BaseScreen> {
     const ProfileScreen(),
   ];
 
+  RxBool searchToggle = false.obs;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -47,6 +48,16 @@ class _BaseScreenState extends State<BaseScreen> {
                         ),
                       ),
                       actions: [
+                        IconButton(
+                          onPressed: () {
+                            Get.toNamed(AppRoutes.searchRoute);
+                          },
+                          icon: const Icon(Icons.search),
+                        ),
+                        IconButton(
+                          onPressed: () {},
+                          icon: const Icon(Icons.sunny),
+                        ),
                         IconButton(
                           onPressed: () {
                             Get.toNamed(AppRoutes.cartRoute);
