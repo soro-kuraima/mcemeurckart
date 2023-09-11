@@ -31,7 +31,6 @@ class ProductsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    log(onLikeTap.toString());
     return Stack(
       alignment: Alignment.topRight,
       children: [

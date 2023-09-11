@@ -60,7 +60,7 @@ class MainCard extends StatelessWidget {
                     gapH24,
                     CachedNetworkImage(
                       width: Sizes.deviceWidth * .5,
-                      height: Sizes.deviceHeight * .4 / 2,
+                      height: Sizes.deviceHeight * .3 / 2,
                       imageUrl: imageUrl,
                       fit: BoxFit.contain,
                       placeholder: (_, url) => Center(

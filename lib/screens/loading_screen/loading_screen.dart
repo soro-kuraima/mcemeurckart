@@ -10,8 +10,6 @@ import 'package:mcemeurckart/routes/app_routes.dart';
 class LoadingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    timeDilation = 1.0;
-    Timer(Duration(seconds: 2), () => Get.offAllNamed(AppRoutes.baseRoute));
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(

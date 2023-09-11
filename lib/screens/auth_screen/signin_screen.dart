@@ -6,6 +6,7 @@ import "package:get/get.dart";
 import 'package:mcemeurckart/common_widgets/index.dart';
 import 'package:mcemeurckart/constants/index.dart';
 import 'package:mcemeurckart/routes/app_routes.dart';
+import 'package:mcemeurckart/screens/auth_screen/signup_screen.dart';
 import 'package:mcemeurckart/util/firebase_auth_helper.dart';
 
 final GlobalKey<FormState> signInKey = GlobalKey<FormState>();
@@ -138,9 +139,7 @@ class SignInScreen extends StatelessWidget {
                           decoration: TextDecoration.underline,
                         ),
                         buttonLabel: 'Sign up',
-                        onPressed: () => Get.offAllNamed(
-                          AppRoutes.signUpRoute,
-                        ),
+                        onPressed: () => Get.to(const SignUpScreen()),
                       ),
                     ],
                   ),

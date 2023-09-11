@@ -22,28 +22,6 @@ abstract class AppPages {
     /* 
     * ===== Auth Pages =====
 */
-    GetPage(
-      name: AppRoutes.auth,
-      page: () => const AuthProvider(),
-      transitionDuration: const Duration(milliseconds: 300),
-      curve: Curves.easeOut,
-      transition: Transition.fadeIn,
-    ),
-
-    GetPage(
-      name: AppRoutes.signUpRoute,
-      page: () => const SignUpScreen(),
-      transitionDuration: const Duration(milliseconds: 300),
-      curve: Curves.easeOut,
-      transition: Transition.fadeIn,
-    ),
-    GetPage(
-      name: AppRoutes.signInRoute,
-      page: () => const SignInScreen(),
-      transitionDuration: const Duration(milliseconds: 300),
-      curve: Curves.easeOut,
-      transition: Transition.fadeIn,
-    ),
 
     GetPage(
       name: AppRoutes.baseRoute,
@@ -150,7 +128,6 @@ abstract class AppPages {
 }
 
 abstract class AppRoutes {
-  static const auth = '/auth';
   static const introRoute = '/intro';
   static const signInRoute = '/signIn';
   static const signUpRoute = '/signUp';

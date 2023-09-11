@@ -37,9 +37,9 @@ class _MyAppState extends State<MyApp> {
     Get.put(WishlistController());
     Get.put(CartController());
     Get.put(OrdersController());
-    Future.delayed(const Duration(seconds: 2), () {
-      FlutterNativeSplash.remove();
-    });
+
+    FlutterNativeSplash.remove();
+
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       onGenerateTitle: (context) => AppTitles.appTitle,

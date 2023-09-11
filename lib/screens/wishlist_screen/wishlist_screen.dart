@@ -41,12 +41,12 @@ class _WishlistScreenState extends State<WishlistScreen> {
             padding: const EdgeInsets.only(
               left: Sizes.p24,
               right: Sizes.p24,
-              bottom: Sizes.p80,
+              bottom: Sizes.p24,
             ),
             child: GetBuilder<WishlistController>(
               builder: (wishlistController) {
                 return Column(
-                  mainAxisSize: MainAxisSize.min,
+                  mainAxisSize: MainAxisSize.max,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Visibility(
@@ -65,8 +65,10 @@ class _WishlistScreenState extends State<WishlistScreen> {
                         height: Get.height * .85,
                         child: ListView.separated(
                           scrollDirection: Axis.vertical,
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: Sizes.p6,
+                          padding: const EdgeInsets.only(
+                            left: Sizes.p6,
+                            right: Sizes.p6,
+                            bottom: Sizes.p80,
                           ),
                           physics: const AlwaysScrollableScrollPhysics(),
                           itemCount: wishlistController.wishlistItems.length,
