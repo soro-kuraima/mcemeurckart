@@ -4,14 +4,16 @@ import 'package:mcemeurckart/common_widgets/index.dart';
 import 'package:mcemeurckart/constants/index.dart';
 
 class CustomSearchBar extends StatelessWidget {
-  CustomSearchBar({Key? key}) : super(key: key);
+  CustomSearchBar({Key? key, required this.searchController, this.onChanged})
+      : super(key: key);
 
-  final searchController = TextEditingController();
+  final TextEditingController searchController;
+  final ValueChanged<String>? onChanged;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       controller: searchController,
-      onChanged: (value) {},
+      onChanged: onChanged,
       decoration: InputDecoration(
         counterText: '',
         isDense: true,

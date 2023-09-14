@@ -71,31 +71,31 @@
 61            android:value="2" />
 62
 63        <service
-63-->[:firebase_auth] /home/knoz/Development/flutter-projects/mcemeurckart/build/firebase_auth/intermediates/merged_manifest/debug/AndroidManifest.xml:10:9-14:19
+63-->[:cloud_firestore] /home/knoz/Development/flutter-projects/mcemeurckart/build/cloud_firestore/intermediates/merged_manifest/debug/AndroidManifest.xml:10:9-14:19
 64            android:name="com.google.firebase.components.ComponentDiscoveryService"
-64-->[:firebase_auth] /home/knoz/Development/flutter-projects/mcemeurckart/build/firebase_auth/intermediates/merged_manifest/debug/AndroidManifest.xml:10:18-89
+64-->[:cloud_firestore] /home/knoz/Development/flutter-projects/mcemeurckart/build/cloud_firestore/intermediates/merged_manifest/debug/AndroidManifest.xml:10:18-89
 65            android:directBootAware="true"
 65-->[com.google.firebase:firebase-common:20.3.3] /home/knoz/.gradle/caches/transforms-3/064a76c73b6601a225defec128e3b9c6/transformed/jetified-firebase-common-20.3.3/AndroidManifest.xml:34:13-43
 66            android:exported="false" >
 66-->[com.google.firebase:firebase-auth:22.1.0] /home/knoz/.gradle/caches/transforms-3/254cf117e0a0b94dc6c8f406fb1371a6/transformed/jetified-firebase-auth-22.1.0/AndroidManifest.xml:68:13-37
 67            <meta-data
-67-->[:firebase_auth] /home/knoz/Development/flutter-projects/mcemeurckart/build/firebase_auth/intermediates/merged_manifest/debug/AndroidManifest.xml:11:13-13:85
-68                android:name="com.google.firebase.components:io.flutter.plugins.firebase.auth.FlutterFirebaseAuthRegistrar"
-68-->[:firebase_auth] /home/knoz/Development/flutter-projects/mcemeurckart/build/firebase_auth/intermediates/merged_manifest/debug/AndroidManifest.xml:12:17-124
+67-->[:cloud_firestore] /home/knoz/Development/flutter-projects/mcemeurckart/build/cloud_firestore/intermediates/merged_manifest/debug/AndroidManifest.xml:11:13-13:85
+68                android:name="com.google.firebase.components:io.flutter.plugins.firebase.firestore.FlutterFirebaseFirestoreRegistrar"
+68-->[:cloud_firestore] /home/knoz/Development/flutter-projects/mcemeurckart/build/cloud_firestore/intermediates/merged_manifest/debug/AndroidManifest.xml:12:17-134
 69                android:value="com.google.firebase.components.ComponentRegistrar" />
-69-->[:firebase_auth] /home/knoz/Development/flutter-projects/mcemeurckart/build/firebase_auth/intermediates/merged_manifest/debug/AndroidManifest.xml:13:17-82
+69-->[:cloud_firestore] /home/knoz/Development/flutter-projects/mcemeurckart/build/cloud_firestore/intermediates/merged_manifest/debug/AndroidManifest.xml:13:17-82
 70            <meta-data
-70-->[:firebase_storage] /home/knoz/Development/flutter-projects/mcemeurckart/build/firebase_storage/intermediates/merged_manifest/debug/AndroidManifest.xml:11:13-13:85
-71                android:name="com.google.firebase.components:io.flutter.plugins.firebase.storage.FlutterFirebaseAppRegistrar"
-71-->[:firebase_storage] /home/knoz/Development/flutter-projects/mcemeurckart/build/firebase_storage/intermediates/merged_manifest/debug/AndroidManifest.xml:12:17-126
+70-->[:firebase_auth] /home/knoz/Development/flutter-projects/mcemeurckart/build/firebase_auth/intermediates/merged_manifest/debug/AndroidManifest.xml:11:13-13:85
+71                android:name="com.google.firebase.components:io.flutter.plugins.firebase.auth.FlutterFirebaseAuthRegistrar"
+71-->[:firebase_auth] /home/knoz/Development/flutter-projects/mcemeurckart/build/firebase_auth/intermediates/merged_manifest/debug/AndroidManifest.xml:12:17-124
 72                android:value="com.google.firebase.components.ComponentRegistrar" />
-72-->[:firebase_storage] /home/knoz/Development/flutter-projects/mcemeurckart/build/firebase_storage/intermediates/merged_manifest/debug/AndroidManifest.xml:13:17-82
+72-->[:firebase_auth] /home/knoz/Development/flutter-projects/mcemeurckart/build/firebase_auth/intermediates/merged_manifest/debug/AndroidManifest.xml:13:17-82
 73            <meta-data
-73-->[:cloud_firestore] /home/knoz/Development/flutter-projects/mcemeurckart/build/cloud_firestore/intermediates/merged_manifest/debug/AndroidManifest.xml:11:13-13:85
-74                android:name="com.google.firebase.components:io.flutter.plugins.firebase.firestore.FlutterFirebaseFirestoreRegistrar"
-74-->[:cloud_firestore] /home/knoz/Development/flutter-projects/mcemeurckart/build/cloud_firestore/intermediates/merged_manifest/debug/AndroidManifest.xml:12:17-134
+73-->[:firebase_storage] /home/knoz/Development/flutter-projects/mcemeurckart/build/firebase_storage/intermediates/merged_manifest/debug/AndroidManifest.xml:11:13-13:85
+74                android:name="com.google.firebase.components:io.flutter.plugins.firebase.storage.FlutterFirebaseAppRegistrar"
+74-->[:firebase_storage] /home/knoz/Development/flutter-projects/mcemeurckart/build/firebase_storage/intermediates/merged_manifest/debug/AndroidManifest.xml:12:17-126
 75                android:value="com.google.firebase.components.ComponentRegistrar" />
-75-->[:cloud_firestore] /home/knoz/Development/flutter-projects/mcemeurckart/build/cloud_firestore/intermediates/merged_manifest/debug/AndroidManifest.xml:13:17-82
+75-->[:firebase_storage] /home/knoz/Development/flutter-projects/mcemeurckart/build/firebase_storage/intermediates/merged_manifest/debug/AndroidManifest.xml:13:17-82
 76            <meta-data
 76-->[:firebase_core] /home/knoz/Development/flutter-projects/mcemeurckart/build/firebase_core/intermediates/merged_manifest/debug/AndroidManifest.xml:11:13-13:85
 77                android:name="com.google.firebase.components:io.flutter.plugins.firebase.core.FlutterFirebaseCoreRegistrar"

@@ -3,7 +3,9 @@ import 'package:get/get.dart';
 import 'package:mcemeurckart/common_widgets/index.dart';
 import 'package:mcemeurckart/constants/index.dart';
 import 'package:mcemeurckart/controller/cart_controller_getx.dart';
+import 'package:mcemeurckart/controller/user_controller_getx.dart';
 import 'package:mcemeurckart/routes/app_routes.dart';
+import 'package:mcemeurckart/screens/checkout_screen/widgets/order_summary.dart';
 import 'package:mcemeurckart/util/firestore_helper.dart';
 
 class CheckoutScreen extends StatelessWidget {
@@ -40,12 +42,16 @@ class CheckoutScreen extends StatelessWidget {
                         'Payment Method',
                         style: Get.textTheme.displayLarge,
                       ),
-                      PrimaryOutlinedButton(
-                        hasText: true,
-                        title: 'Edit',
-                        onPressed: () {},
-                      ),
                     ],
+                  ),
+                  gapH16,
+                  Padding(
+                    padding: const EdgeInsets.only(left: Sizes.p32),
+                    child: RadioMenuButton(
+                        value: 'cod',
+                        groupValue: 'cod',
+                        onChanged: (value) {},
+                        child: Text('Cash on delivery')),
                   ),
                   gapH24,
                   const CustomDivider(hasText: false),
@@ -57,16 +63,11 @@ class CheckoutScreen extends StatelessWidget {
                         'Address',
                         style: Get.textTheme.displayLarge,
                       ),
-                      PrimaryOutlinedButton(
-                        hasText: true,
-                        title: 'Edit',
-                        onPressed: () {},
-                      ),
                     ],
                   ),
                   gapH16,
                   Text(
-                    'Abhishek Sharma',
+                    Get.find<UserController>().user['displayName'],
                     style: Get.textTheme.bodyLarge?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
@@ -75,7 +76,7 @@ class CheckoutScreen extends StatelessWidget {
                   Column(
                     children: [
                       Text(
-                        "My address",
+                        Get.find<UserController>().user['address'],
                         style: Get.textTheme.titleLarge?.copyWith(
                           color: AppColors.neutral600,
                         ),
@@ -85,26 +86,29 @@ class CheckoutScreen extends StatelessWidget {
                   gapH24,
                   const CustomDivider(hasText: false),
                   gapH24,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Expanded(
-                        flex: 3,
-                        child: SecondaryTextField(
-                          hintText: 'Promo Code',
-                        ),
-                      ),
-                      gapW8,
-                      Expanded(
-                        child: PrimaryButton(
-                          buttonHeight: 60,
-                          buttonColor: AppColors.neutral800,
-                          buttonLabel: 'Apply',
-                          onPressed: () {},
-                        ),
-                      ),
-                    ],
+                  Text(
+                    'Order Summary',
+                    style: Get.textTheme.displayLarge,
                   ),
+                  gapH16,
+                  GetBuilder<CartController>(builder: (cartController) {
+                    return SizedBox(
+                      height: Sizes.deviceHeight * 0.30,
+                      child: ListView.separated(
+                        scrollDirection: Axis.vertical,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: Sizes.p2,
+                          vertical: Sizes.p10,
+                        ),
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        itemCount: cartController.cartItems.length,
+                        separatorBuilder: (_, index) => gapH8,
+                        itemBuilder: (_, index) => OrderSummary(
+                          cartItem: cartController.cartItems[index],
+                        ),
+                      ),
+                    );
+                  }),
                   gapH24,
                   const CustomDivider(hasText: false),
                   gapH24,

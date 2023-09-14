@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mcemeurckart/constants/index.dart';
 import 'package:mcemeurckart/controller/cart_controller_getx.dart';
+import 'package:mcemeurckart/controller/category_controller_getx.dart';
+import 'package:mcemeurckart/controller/generics_controller_getx.dart';
 import 'package:mcemeurckart/controller/orders_controller_getx.dart';
+import 'package:mcemeurckart/controller/products_controller_getx.dart';
+import 'package:mcemeurckart/controller/user_controller_getx.dart';
 import 'package:mcemeurckart/controller/wishlist_controller_getx.dart';
 import 'package:mcemeurckart/routes/app_routes.dart';
 import 'package:mcemeurckart/screens/base_screen/widgets/custom_drawer.dart';
@@ -31,6 +35,14 @@ class _BaseScreenState extends State<BaseScreen> {
   RxBool searchToggle = false.obs;
   @override
   Widget build(BuildContext context) {
+    Get.put(UserController());
+    Get.put(GenericsController());
+    Get.put(CategoriesController());
+    Get.put(ProductsController());
+    Get.put(WishlistController());
+    Get.put(CartController());
+    Get.put(OrdersController());
+
     return SafeArea(
       child: GetBuilder<WishlistController>(
         builder: (wishlistController) {

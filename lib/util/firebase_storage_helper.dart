@@ -14,6 +14,19 @@ class FirebaseStorageHelper {
 
   static final productsRef = firebaseStorage.ref().child('products');
 
+  static final usersRef = firebaseStorage.ref().child('users');
+
+  static Future<String> updateUserImage(Uint8List file) async {
+    final userRef = usersRef.child('${file.hashCode}');
+    try {
+      await userRef.putData(file);
+    } on FirebaseException catch (e) {
+      print(e);
+    }
+
+    return await userRef.getDownloadURL();
+  }
+
   static Future<String> uploadCategoryImage(Uint8List file) async {
     final categoryRef = categoriesRef.child('${file.hashCode}');
     try {

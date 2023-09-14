@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -13,13 +14,37 @@ class FireBaseStoreHelper {
       FireBaseStoreHelper._();
   static final FirebaseFirestore db = FirebaseFirestore.instance;
 
+  static final usersRef = db.collection('users');
+
+  static Stream<Map<String, dynamic>> getUser() {
+    try {
+      return usersRef.doc(user!.email).snapshots().transform(StreamTransformer<
+          DocumentSnapshot<Map<String, dynamic>>,
+          Map<String, dynamic>>.fromHandlers(
+        handleData: (event, sink) {
+          sink.add({
+            'id': event.id,
+            ...event.data()!,
+          });
+        },
+      ));
+    } catch (e) {
+      print(e);
+    }
+    return const Stream.empty();
+  }
+
+  static Future<void> updateUser(Map<String, dynamic> data) async {
+    try {
+      await usersRef.doc(user!.email).update(data);
+    } catch (e) {
+      print(e);
+    }
+  }
+
   static final genericsRef = db.collection('generics');
   static final categoriesRef = db.collection('categories');
   static final productsRef = db.collection('products');
-
-  //static final generics = categoriesRef.doc('generics');
-  //static final rootCategories = categoriesRef.doc('root-categories');
-  //static final productCategories = categoriesRef.doc('product-categories');
 
   static Stream<List<Map<String, dynamic>>> getGenerics() {
     try {
@@ -148,9 +173,9 @@ class FireBaseStoreHelper {
 
   static Future<void> addToWishlist(int index) async {
     try {
-      await wishlist.update({
+      await wishlist.set({
         'products': FieldValue.arrayUnion([index])
-      });
+      }, SetOptions(merge: true));
     } catch (e) {
       print(e);
     } finally {
@@ -204,12 +229,12 @@ class FireBaseStoreHelper {
 
   static Future<void> addToCart(int index) async {
     try {
-      await cart.update({
+      await cart.set({
         '$index': {
           'product': index,
           'quantity': 1,
         }
-      });
+      }, SetOptions(merge: true));
     } catch (e) {
       print(e);
     } finally {

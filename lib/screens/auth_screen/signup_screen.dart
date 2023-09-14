@@ -5,14 +5,25 @@ import 'package:mcemeurckart/common_widgets/index.dart';
 import 'package:mcemeurckart/constants/index.dart';
 import 'package:mcemeurckart/routes/app_routes.dart';
 import 'package:mcemeurckart/screens/auth_screen/signin_screen.dart';
+import 'package:mcemeurckart/screens/auth_screen/succesful_auth_request.dart';
 import 'package:mcemeurckart/util/firebase_auth_helper.dart';
 import 'package:mcemeurckart/util/firestore_helper.dart';
+import 'package:mcemeurckart/util/signup_utility.dart';
 
 final GlobalKey<FormState> signUpKey = GlobalKey<FormState>();
 TextEditingController emailController = TextEditingController();
 TextEditingController passwordController = TextEditingController();
+TextEditingController rankController = TextEditingController();
+TextEditingController nameController = TextEditingController();
+TextEditingController groceryCardNoController = TextEditingController();
+TextEditingController addressController = TextEditingController();
+
 String? email;
 String? password;
+String? rank;
+String? name;
+String? groceryCardNo;
+String? address;
 
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({super.key});
@@ -91,6 +102,68 @@ class SignUpScreen extends StatelessWidget {
                       password = value;
                     },
                   ),
+                  CustomTextField(
+                    labelText: 'Rank',
+                    textInputType: TextInputType.text,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter your rank';
+                      }
+
+                      return null;
+                    },
+                    controller: rankController,
+                    onSaved: (value) {
+                      rank = value;
+                    },
+                  ),
+                  gapH16,
+                  CustomTextField(
+                    labelText: 'name',
+                    textInputType: TextInputType.text,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter your name';
+                      }
+                      return null;
+                    },
+                    controller: nameController,
+                    onSaved: (value) {
+                      name = value;
+                    },
+                  ),
+                  gapH16,
+                  CustomTextField(
+                    labelText: 'Grocery Card No',
+                    textInputType: TextInputType.text,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter your Grocery Card No';
+                      }
+
+                      return null;
+                    },
+                    controller: groceryCardNoController,
+                    onSaved: (value) {
+                      groceryCardNo = value;
+                    },
+                  ),
+                  gapH16,
+                  CustomTextField(
+                    labelText: 'Address',
+                    textInputType: TextInputType.text,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter your Address';
+                      }
+
+                      return null;
+                    },
+                    controller: addressController,
+                    onSaved: (value) {
+                      address = value;
+                    },
+                  ),
                   gapH40,
                   PrimaryButton(
                     buttonColor: AppColors.neutral800,
@@ -98,30 +171,33 @@ class SignUpScreen extends StatelessWidget {
                     onPressed: () async {
                       if (signUpKey.currentState!.validate()) {
                         signUpKey.currentState!.save();
-                        Map<String, dynamic> res = await FirebaseAuthHelper
-                            .firebaseAuthHelper
-                            .createUserWithEmailPassword(
-                                email: email, password: password);
-                        if (res['error'] != null) {
+                        try {
+                          final response = await sendAuthRequest({
+                            'email': email,
+                            'password': password,
+                            'rank': rank,
+                            'name': name,
+                            'groceryCardNo': groceryCardNo,
+                            'address': address,
+                          });
+                          signUpKey.currentState!.reset();
+                          emailController.value = TextEditingValue.empty;
+                          passwordController.value = TextEditingValue.empty;
+                          rankController.value = TextEditingValue.empty;
+                          nameController.value = TextEditingValue.empty;
+                          groceryCardNoController.value =
+                              TextEditingValue.empty;
+                          addressController.value = TextEditingValue.empty;
+                          Get.to(const SuccessfulAuthRequest());
+                        } catch (e) {
                           Get.snackbar(
-                            "Error",
-                            res['error'],
-                            backgroundColor: AppColors.red500,
+                            'Error',
+                            e.toString(),
+                            backgroundColor: AppColors.red400,
                             colorText: AppColors.white,
+                            duration: const Duration(seconds: 3),
                             snackPosition: SnackPosition.BOTTOM,
                           );
-                        } else if (res['user'] != null) {
-                          Get.snackbar(
-                            "",
-                            "Successfully Signed up",
-                            backgroundColor: AppColors.green500,
-                            colorText: AppColors.white,
-                            snackPosition: SnackPosition.BOTTOM,
-                          );
-
-                          FireBaseStoreHelper.createWishList();
-                          FireBaseStoreHelper.createCart();
-                          Get.offAndToNamed(AppRoutes.baseRoute);
                         }
                       }
                     },

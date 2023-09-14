@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
+import 'package:mcemeurckart/controller/user_controller_getx.dart';
 import 'package:mcemeurckart/util/auth_provider.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -31,13 +32,6 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    Get.put(GenericsController());
-    Get.put(CategoriesController());
-    Get.put(ProductsController());
-    Get.put(WishlistController());
-    Get.put(CartController());
-    Get.put(OrdersController());
-
     FlutterNativeSplash.remove();
 
     return GetMaterialApp(
