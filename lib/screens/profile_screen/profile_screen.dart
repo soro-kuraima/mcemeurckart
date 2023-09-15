@@ -79,9 +79,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         userName: userController.user['rank'],
                         userBiography: userController.user['displayName'],
                         editFunction: () {
-                          FirebaseAuth.instance
-                              .signOut()
-                              .then((value) => Restart.restartApp());
+                          FirebaseAuth.instance.signOut();
                         },
                       ),
                       gapH24,
