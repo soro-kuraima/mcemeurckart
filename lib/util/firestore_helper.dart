@@ -2,13 +2,15 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mcemeurckart/util/firebase_auth_helper.dart';
 
 class FireBaseStoreHelper {
   FireBaseStoreHelper._();
 
-  static final user =
-      FirebaseAuthHelper.firebaseAuthHelper.firebaseAuth.currentUser;
+  static User? getCurrentUser() {
+    return FirebaseAuthHelper.firebaseAuthHelper.firebaseAuth.currentUser;
+  }
 
   static final FireBaseStoreHelper fireBaseStoreHelper =
       FireBaseStoreHelper._();
@@ -18,6 +20,7 @@ class FireBaseStoreHelper {
 
   static Stream<Map<String, dynamic>> getUser() {
     try {
+      final User? user = getCurrentUser();
       return usersRef.doc(user!.email).snapshots().transform(StreamTransformer<
           DocumentSnapshot<Map<String, dynamic>>,
           Map<String, dynamic>>.fromHandlers(
@@ -34,6 +37,7 @@ class FireBaseStoreHelper {
 
   static Future<void> updateUser(Map<String, dynamic> data) async {
     try {
+      final User? user = getCurrentUser();
       await usersRef.doc(user!.email).update(data);
     } catch (e) {}
   }
@@ -136,102 +140,123 @@ class FireBaseStoreHelper {
   /* ============= to add and remove items from wishlist ============== */
 
   static final wishlistRef = db.collection('wishlist');
-  static final wishlist = wishlistRef.doc(user!.email);
+
   static Future<void> createWishList() async {
     try {
+      final User? user = getCurrentUser();
+      final wishlist = wishlistRef.doc(user!.email);
       await wishlist.set({'products': []}, SetOptions(merge: true));
     } catch (e) {}
   }
 
   static Stream<List<int>> getWishList() {
-    return wishlist.snapshots().map((event) {
-      final data = event.data();
-      if (data != null) {
-        return List.from(data['products']);
-      }
-      return [];
-    });
+    try {
+      final User? user = getCurrentUser();
+      final wishlist = wishlistRef.doc(user!.email);
+      return wishlist.snapshots().map((event) {
+        final data = event.data();
+        if (data != null) {
+          return List.from(data['products']);
+        }
+        return [];
+      });
+    } catch (e) {
+      return const Stream.empty();
+    }
   }
 
   static Future<void> addToWishlist(int index) async {
     try {
+      final User? user = getCurrentUser();
+      final wishlist = wishlistRef.doc(user!.email);
       await wishlist.set({
         'products': FieldValue.arrayUnion([index])
       }, SetOptions(merge: true));
-    } catch (e) {
     } finally {}
   }
 
   static Future<void> removeFromWishList(int index) async {
     try {
+      final User? user = getCurrentUser();
+      final wishlist = wishlistRef.doc(user!.email);
       await wishlist.update({
         'products': FieldValue.arrayRemove([index])
       });
-    } catch (e) {
     } finally {}
   }
 
   /* ================= to add, remove and update items in cart ================ */
 
   static final cartRef = db.collection('cart');
-  static final cart = cartRef.doc(user!.email);
 
   static Future<void> createCart() async {
     try {
+      final User? user = getCurrentUser();
+      final cart = cartRef.doc(user!.email);
       cart.set({}, SetOptions(merge: true));
     } catch (e) {}
   }
 
   static Stream<List<Map<String, dynamic>>> getCart() {
-    return cart.snapshots().map((event) {
-      final data = event.data();
-      if (data != null) {
-        log(data.entries.toString());
-        final cartItems = data.entries.map((e) {
-          return {
-            'product': e.value['product'],
-            'quantity': e.value['quantity'],
-          };
-        }).toList();
+    try {
+      final User? user = getCurrentUser();
+      final cart = cartRef.doc(user!.email);
 
-        log(cartItems.toString());
-        return List.from(cartItems);
-      }
-      return [];
-    });
+      return cart.snapshots().map((event) {
+        final data = event.data();
+        if (data != null) {
+          log(data.entries.toString());
+          final cartItems = data.entries.map((e) {
+            return {
+              'product': e.value['product'],
+              'quantity': e.value['quantity'],
+            };
+          }).toList();
+
+          log(cartItems.toString());
+          return List.from(cartItems);
+        }
+        return [];
+      });
+    } catch (e) {
+      return const Stream.empty();
+    }
   }
 
   static Future<void> addToCart(int index) async {
     try {
+      final User? user = getCurrentUser();
+      final cart = cartRef.doc(user!.email);
       await cart.set({
         '$index': {
           'product': index,
           'quantity': 1,
         }
       }, SetOptions(merge: true));
-    } catch (e) {
     } finally {}
   }
 
   static Future<void> incrementQuantity(int index) async {
     try {
+      final User? user = getCurrentUser();
+      final cart = cartRef.doc(user!.email);
       await cart.update({'$index.quantity': FieldValue.increment(1)});
-    } catch (e) {
     } finally {}
   }
 
   static Future<void> decrementQuantity(int index) async {
-    final cart = cartRef.doc(user!.email);
     try {
+      final User? user = getCurrentUser();
+      final cart = cartRef.doc(user!.email);
       await cart.update({'$index.quantity': FieldValue.increment(-1)});
-    } catch (e) {
     } finally {}
   }
 
   static Future<void> removeFromCart(int index) async {
     try {
+      final User? user = getCurrentUser();
+      final cart = cartRef.doc(user!.email);
       await cart.update({'$index': FieldValue.delete()});
-    } catch (e) {
     } finally {}
   }
 
@@ -241,6 +266,8 @@ class FireBaseStoreHelper {
 
   static Future<void> placeOrder(int orderValue) async {
     try {
+      final User? user = getCurrentUser();
+      final cart = cartRef.doc(user!.email);
       final snapshot = await cart.get();
       if (snapshot.exists) {
         final entries = snapshot.data()?.entries;
@@ -250,13 +277,13 @@ class FireBaseStoreHelper {
         log(product.toString());
         log("keys of cart $keys");
         log("entries of cart$entries");
-        final userRecord = await usersRef.doc(user!.email).get();
+        final userRecord = await usersRef.doc(user.email).get();
         final userSnapshot = userRecord.data();
         final orderId =
             userSnapshot?['groceryCardNo'].substring(0, 4).toUpperCase() +
                 DateTime.now().millisecondsSinceEpoch.toString();
         await ordersRef.doc(orderId).set({
-          'user': user!.email,
+          'user': user.email,
           'products': snapshot.data(),
           'orderValue': orderValue,
           'orderStatus': 'pending',
@@ -267,27 +294,31 @@ class FireBaseStoreHelper {
         await cart.delete();
         await createCart();
       }
-    } catch (e) {
     } finally {}
   }
 
-  static final ordersQuery = ordersRef.where('user', isEqualTo: user!.email);
   static Stream<List<Map<String, dynamic>>> getOrders() {
-    return ordersQuery.snapshots().map((event) {
-      final data = event.docs.map((e) {
-        log("logging from getOrders${e.id}");
-        return {
-          'orderId': e.id,
-          'user': e.data()['user'],
-          'products': e.data()['products'],
-          'orderValue': e.data()['orderValue'],
-          'orderStatus': e.data()['orderStatus'],
-          'orderDate': e.data()['orderDate'],
-          'imageUrl': e.data()['imageUrl'],
-        };
-      }).toList();
-      log(data.toString());
-      return List.from(data);
-    });
+    try {
+      final User? user = getCurrentUser();
+      final ordersQuery = ordersRef.where('user', isEqualTo: user!.email);
+      return ordersQuery.snapshots().map((event) {
+        final data = event.docs.map((e) {
+          log("logging from getOrders${e.id}");
+          return {
+            'orderId': e.id,
+            'user': e.data()['user'],
+            'products': e.data()['products'],
+            'orderValue': e.data()['orderValue'],
+            'orderStatus': e.data()['orderStatus'],
+            'orderDate': e.data()['orderDate'],
+            'imageUrl': e.data()['imageUrl'],
+          };
+        }).toList();
+        log(data.toString());
+        return List.from(data);
+      });
+    } catch (e) {
+      return const Stream.empty();
+    } finally {}
   }
 }

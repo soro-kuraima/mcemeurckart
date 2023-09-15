@@ -5,26 +5,26 @@ import "package:get/get.dart";
 
 import 'package:mcemeurckart/common_widgets/index.dart';
 import 'package:mcemeurckart/constants/index.dart';
-import 'package:mcemeurckart/controller/cart_controller_getx.dart';
-import 'package:mcemeurckart/controller/category_controller_getx.dart';
-import 'package:mcemeurckart/controller/generics_controller_getx.dart';
-import 'package:mcemeurckart/controller/orders_controller_getx.dart';
-import 'package:mcemeurckart/controller/products_controller_getx.dart';
-import 'package:mcemeurckart/controller/user_controller_getx.dart';
-import 'package:mcemeurckart/controller/wishlist_controller_getx.dart';
 import 'package:mcemeurckart/routes/app_routes.dart';
-import 'package:mcemeurckart/screens/auth_screen/signup_screen.dart';
 import 'package:mcemeurckart/util/firebase_auth_helper.dart';
-import 'package:restart_app/restart_app.dart';
 
-final GlobalKey<FormState> signInKey = GlobalKey<FormState>();
-TextEditingController emailController = TextEditingController();
-TextEditingController passwordController = TextEditingController();
-String? email;
-String? password;
-
-class SignInScreen extends StatelessWidget {
+class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
+
+  @override
+  State<SignInScreen> createState() => _SignInScreenState();
+}
+
+class _SignInScreenState extends State<SignInScreen> {
+  final GlobalKey<FormState> signInKey = GlobalKey<FormState>();
+
+  TextEditingController emailController = TextEditingController();
+
+  TextEditingController passwordController = TextEditingController();
+
+  String? email;
+
+  String? password;
 
   @override
   Widget build(BuildContext context) {
@@ -153,7 +153,7 @@ class SignInScreen extends StatelessWidget {
                           decoration: TextDecoration.underline,
                         ),
                         buttonLabel: 'Sign up',
-                        onPressed: () => Get.offAll(const SignUpScreen()),
+                        onPressed: () => Get.offAllNamed(AppRoutes.signUpRoute),
                       ),
                     ],
                   ),

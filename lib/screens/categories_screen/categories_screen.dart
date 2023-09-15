@@ -1,17 +1,14 @@
 import 'dart:developer';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dropdown/flutter_dropdown.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:multiselect_dropdown_flutter/multiselect_dropdown_flutter.dart';
 import 'package:get/get.dart';
 import 'package:mcemeurckart/common_widgets/index.dart';
 import 'package:mcemeurckart/constants/index.dart';
 import 'package:mcemeurckart/controller/category_controller_getx.dart';
 import 'package:mcemeurckart/controller/generics_controller_getx.dart';
 import 'package:mcemeurckart/routes/app_routes.dart';
-import 'package:mcemeurckart/screens/categories_screen/widgets/category_cartitem.dart';
-import 'package:multiselect_dropdown_flutter/multiselect_dropdown_flutter.dart';
 import 'widgets/stagerred_category_card.dart';
 
 class CategoriesScreen extends StatefulWidget {

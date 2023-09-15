@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:get/get.dart';
 import 'package:mcemeurckart/util/firestore_helper.dart';
 
@@ -34,6 +33,8 @@ class CartController extends GetxController {
     ever(cart, (_) {
       getCartItems();
     });
+    log(cart.toString());
+    update();
   }
 
   Future<void> getCartItems() async {

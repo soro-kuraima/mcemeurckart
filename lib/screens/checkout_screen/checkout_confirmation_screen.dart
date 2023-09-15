@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mcemeurckart/common_widgets/index.dart';
@@ -15,7 +14,6 @@ class CheckoutConfirmationScreen extends StatefulWidget {
 
 class _CheckoutConfirmationScreenState
     extends State<CheckoutConfirmationScreen> {
-  // TODO: Checkout controller
   @override
   void initState() {
     super.initState();

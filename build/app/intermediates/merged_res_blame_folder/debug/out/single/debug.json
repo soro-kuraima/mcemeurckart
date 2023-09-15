@@ -4,12 +4,12 @@
         "source": "com.example.mcemeurckart.app-main-20:/mipmap-xxhdpi/ic_launcher.png"
     },
     {
-        "merged": "com.example.mcemeurckart.app-merged_res-27:/drawable-v21_background.png.flat",
-        "source": "com.example.mcemeurckart.app-main-20:/drawable-v21/background.png"
+        "merged": "com.example.mcemeurckart.app-merged_res-27:/drawable_playstore.png.flat",
+        "source": "com.example.mcemeurckart.app-main-20:/drawable/playstore.png"
     },
     {
-        "merged": "com.example.mcemeurckart.app-merged_res-27:/drawable_background.png.flat",
-        "source": "com.example.mcemeurckart.app-main-20:/drawable/background.png"
+        "merged": "com.example.mcemeurckart.app-merged_res-27:/drawable-v21_playstore.png.flat",
+        "source": "com.example.mcemeurckart.app-main-20:/drawable-v21/playstore.png"
     },
     {
         "merged": "com.example.mcemeurckart.app-merged_res-27:/mipmap-hdpi_ic_launcher.png.flat",

@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 String url = 'https://sea-turtle-app-dw7mj.ondigitalocean.app/';
 
 Future<http.Response> sendAuthRequest(dynamic user) async {
-  final response = await http.post(Uri.parse(url + 'request-auth'),
+  final response = await http.post(Uri.parse('${url}request-auth'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

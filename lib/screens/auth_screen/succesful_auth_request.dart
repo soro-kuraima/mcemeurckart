@@ -1,11 +1,8 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:mcemeurckart/common_widgets/index.dart';
-import 'package:mcemeurckart/common_widgets/svg_asset.dart';
 import 'package:mcemeurckart/constants/index.dart';
-import 'package:mcemeurckart/screens/auth_screen/signin_screen.dart';
+import 'package:mcemeurckart/routes/app_routes.dart';
 
 class SuccessfulAuthRequest extends StatelessWidget {
   const SuccessfulAuthRequest({super.key});
@@ -45,7 +42,7 @@ class SuccessfulAuthRequest extends StatelessWidget {
                 decoration: TextDecoration.underline,
               ),
               buttonLabel: 'Log in',
-              onPressed: () => Get.offAll(const SignInScreen()),
+              onPressed: () => Get.offAllNamed(AppRoutes.signInRoute),
             ),
           ],
         ),

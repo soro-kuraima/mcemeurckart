@@ -70,7 +70,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '1035718047234',
     projectId: 'mcemeurccart',
     storageBucket: 'mcemeurccart.appspot.com',
-    iosClientId: '1035718047234-b3iv4i5pa7asej2c05mvsoarbmkogr21.apps.googleusercontent.com',
+    iosClientId:
+        '1035718047234-b3iv4i5pa7asej2c05mvsoarbmkogr21.apps.googleusercontent.com',
     iosBundleId: 'com.example.mcemeurckart',
   );
 }

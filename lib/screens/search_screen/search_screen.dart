@@ -3,12 +3,9 @@ import 'dart:developer';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/get_core.dart';
 import 'package:mcemeurckart/constants/index.dart';
 import 'package:mcemeurckart/controller/products_controller_getx.dart';
-import 'package:mcemeurckart/controller/wishlist_controller_getx.dart';
 import 'package:mcemeurckart/routes/app_routes.dart';
-import 'package:mcemeurckart/screens/products_screen/widgets/products_card.dart';
 
 import 'widgets/custom_search_bar.dart';
 
@@ -20,7 +17,7 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-  final SearchController = TextEditingController();
+  final searchController = TextEditingController();
 
   final products = [...Get.find<ProductsController>().products];
 
@@ -52,7 +49,7 @@ class _SearchScreenState extends State<SearchScreen> {
           child: Column(
             children: [
               CustomSearchBar(
-                  searchController: SearchController,
+                  searchController: searchController,
                   onChanged: (value) {
                     log(value);
                     if (value.isEmpty) {

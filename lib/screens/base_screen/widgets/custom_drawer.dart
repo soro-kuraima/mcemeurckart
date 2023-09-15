@@ -1,9 +1,6 @@
-import 'dart:math';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mcemeurckart/constants/app_colors.dart';
 import 'package:mcemeurckart/constants/index.dart';
 import 'package:mcemeurckart/controller/category_controller_getx.dart';
 import 'package:mcemeurckart/controller/generics_controller_getx.dart';
@@ -40,7 +37,8 @@ class CustomDrawer extends StatelessWidget {
                       maxRadius: 50.0,
                       child: CachedNetworkImage(
                           imageUrl: Get.find<UserController>()
-                              .user['displayPicture']),
+                                  .user['displayPicture'] ??
+                              ''),
                     ),
                     gapH8,
                     Text(
@@ -56,7 +54,7 @@ class CustomDrawer extends StatelessWidget {
             ),
             ListView.builder(
               shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               itemCount: generics.length,
               itemBuilder: (context, index) {
                 return ExpansionTile(
@@ -64,7 +62,7 @@ class CustomDrawer extends StatelessWidget {
                   children: [
                     ListView.builder(
                       shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       itemCount: categories
                           .where((element) =>
                               element['generic'] == generics[index]['id'] &&
@@ -72,7 +70,7 @@ class CustomDrawer extends StatelessWidget {
                           .length,
                       itemBuilder: (context, idx) {
                         return ListTile(
-                            contentPadding: EdgeInsets.only(left: 40.0),
+                            contentPadding: const EdgeInsets.only(left: 40.0),
                             title: Text(categories
                                 .where((element) =>
                                     element['generic'] ==

@@ -32,7 +32,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
                 style: Get.textTheme.headlineSmall,
               ),
             ),
-            actions: [],
+            actions: const [],
           ),
         ],
         body: ScrollConfiguration(

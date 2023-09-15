@@ -10,7 +10,7 @@ Future<http.Response> verifyOrder(
   log(order.toString());
   final List products = order['products'];
   final response = await http.post(
-      Uri.parse(url + 'verify-order')
+      Uri.parse('${url}verify-order')
           .replace(queryParameters: {'idToken': token}),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',

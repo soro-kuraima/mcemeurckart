@@ -61,7 +61,7 @@ class ProfileBiography extends StatelessWidget {
                   ? Sizes.p28
                   : Sizes.p70,
             ),
-            child: ProfilePicture(),
+            child: const ProfilePicture(),
           ),
         ),
       ],

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mcemeurckart/common_widgets/index.dart';
 import 'package:mcemeurckart/constants/index.dart';
 
 class CustomSearchBar extends StatelessWidget {
-  CustomSearchBar({Key? key, required this.searchController, this.onChanged})
+  const CustomSearchBar(
+      {Key? key, required this.searchController, this.onChanged})
       : super(key: key);
 
   final TextEditingController searchController;
@@ -18,7 +18,7 @@ class CustomSearchBar extends StatelessWidget {
         counterText: '',
         isDense: true,
         prefixIcon: Padding(
-            padding: EdgeInsets.all(
+            padding: const EdgeInsets.all(
               Sizes.p4,
             ),
             child: Icon(

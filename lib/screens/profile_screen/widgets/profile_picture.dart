@@ -9,7 +9,7 @@ import 'package:mcemeurckart/controller/user_controller_getx.dart';
 import 'package:mcemeurckart/util/firebase_storage_helper.dart';
 
 class ProfilePicture extends StatefulWidget {
-  ProfilePicture({super.key});
+  const ProfilePicture({super.key});
 
   @override
   State<ProfilePicture> createState() => _ProfilePictureState();
@@ -38,7 +38,8 @@ class _ProfilePictureState extends State<ProfilePicture> {
                             _imageFile == null
                         ? Stack(children: [
                             CachedNetworkImage(
-                              imageUrl: userController.user['displayPicture'],
+                              imageUrl:
+                                  userController.user['displayPicture'] ?? '',
                               imageBuilder: (context, imageProvider) =>
                                   CircleAvatar(
                                 radius: 100,

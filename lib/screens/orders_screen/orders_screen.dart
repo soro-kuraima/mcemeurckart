@@ -30,7 +30,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                 style: Get.textTheme.headlineSmall,
               ),
             ),
-            actions: [],
+            actions: const [],
           ),
         ],
         body: ScrollConfiguration(
@@ -62,8 +62,9 @@ class _OrdersScreenState extends State<OrdersScreen> {
                         height: Get.height * .85,
                         child: ListView.separated(
                             scrollDirection: Axis.vertical,
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: Sizes.p6,
+                            padding: const EdgeInsets.only(
+                              left: Sizes.p6,
+                              bottom: Sizes.p80,
                             ),
                             physics: const AlwaysScrollableScrollPhysics(),
                             itemCount: ordersController.orders.length,

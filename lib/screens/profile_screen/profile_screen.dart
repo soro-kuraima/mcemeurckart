@@ -3,16 +3,9 @@ import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:restart_app/restart_app.dart';
 import 'package:mcemeurckart/common_widgets/index.dart';
 import 'package:mcemeurckart/constants/index.dart';
-import 'package:mcemeurckart/controller/cart_controller_getx.dart';
-import 'package:mcemeurckart/controller/category_controller_getx.dart';
-import 'package:mcemeurckart/controller/generics_controller_getx.dart';
-import 'package:mcemeurckart/controller/orders_controller_getx.dart';
-import 'package:mcemeurckart/controller/products_controller_getx.dart';
 import 'package:mcemeurckart/controller/user_controller_getx.dart';
-import 'package:mcemeurckart/controller/wishlist_controller_getx.dart';
 import 'package:mcemeurckart/routes/app_routes.dart';
 
 import 'widgets/account_card.dart';
@@ -64,6 +57,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ],
           body: GetBuilder<UserController>(
             builder: (userController) {
+              log(userController.user.toString());
               return ScrollConfiguration(
                 behavior: const ScrollBehavior().copyWith(overscroll: false),
                 child: SingleChildScrollView(
@@ -78,8 +72,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ProfileBiography(
                         userName: userController.user['rank'],
                         userBiography: userController.user['displayName'],
-                        editFunction: () {
-                          FirebaseAuth.instance.signOut();
+                        editFunction: () async {
+                          await FirebaseAuth.instance.signOut();
+                          Get.offAllNamed(AppRoutes.signInRoute);
                         },
                       ),
                       gapH24,

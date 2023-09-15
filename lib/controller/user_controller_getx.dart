@@ -11,6 +11,12 @@ class UserController extends GetxController {
     update();
   }
 
+  @override
+  void onReady() {
+    super.onReady();
+    update();
+  }
+
   Future<void> updateUserPicture(String imageUrl) async {
     await FireBaseStoreHelper.updateUser({
       'displayPicture': imageUrl,

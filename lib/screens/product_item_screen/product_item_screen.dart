@@ -7,6 +7,8 @@ import 'package:mcemeurckart/controller/cart_controller_getx.dart';
 import 'package:mcemeurckart/controller/generics_controller_getx.dart';
 import 'package:mcemeurckart/routes/app_routes.dart';
 import 'package:mcemeurckart/screens/cart_screen/widgets/cart_product_card.dart';
+import 'package:mcemeurckart/util/firebase_auth_helper.dart';
+import 'package:mcemeurckart/util/verify_order_utility.dart';
 
 import 'widgets/page_dots_secondary.dart';
 import 'widgets/text_cropping_widget.dart';
@@ -81,16 +83,6 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            // TODO: isProductDiscount?
-                            // gapW8,
-                            // Text(
-                            //   "\$99.99",
-                            //   style: Get.textTheme.bodyMedium?.copyWith(
-                            //     color: AppColors.neutral600,
-                            //     fontWeight: Fonts.interRegular,
-                            //     decoration: TextDecoration.lineThrough,
-                            //   ),
-                            // ),
                           ],
                         ),
                       ],
@@ -273,11 +265,61 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
                                                         buttonColor: AppColors
                                                             .neutral800,
                                                         buttonLabel: 'Checkout',
-                                                        onPressed: () =>
-                                                            Get.toNamed(
-                                                          AppRoutes
-                                                              .checkoutRoute,
-                                                        ),
+                                                        onPressed: () async {
+                                                          try {
+                                                            final products =
+                                                                cartController
+                                                                    .cartItems
+                                                                    .map(
+                                                                        (cartItem) =>
+                                                                            {
+                                                                              'index': cartItem.product['index'],
+                                                                              'quantity': cartItem.quantity,
+                                                                              'monthlyLimit': cartItem.product['monthlyLimit'] ?? false
+                                                                            })
+                                                                    .toList();
+                                                            final token = await FirebaseAuthHelper
+                                                                    .firebaseAuthHelper
+                                                                    .firebaseAuth
+                                                                    .currentUser
+                                                                    ?.getIdToken() ??
+                                                                '';
+
+                                                            final res =
+                                                                await verifyOrder(
+                                                                    token, {
+                                                              'products':
+                                                                  products
+                                                            });
+
+                                                            if (res.statusCode ==
+                                                                200) {
+                                                              Get.toNamed(AppRoutes
+                                                                  .checkoutRoute);
+                                                            } else if (res
+                                                                    .statusCode ==
+                                                                401) {
+                                                              Get.snackbar(
+                                                                'error',
+                                                                'order limit exceeded',
+                                                                backgroundColor:
+                                                                    AppColors
+                                                                        .red400,
+                                                                colorText: AppColors
+                                                                    .neutral100,
+                                                              );
+                                                            }
+                                                          } catch (e) {
+                                                            Get.snackbar(
+                                                                "error",
+                                                                e.toString(),
+                                                                backgroundColor:
+                                                                    AppColors
+                                                                        .red400,
+                                                                colorText: AppColors
+                                                                    .neutral100);
+                                                          }
+                                                        },
                                                       ),
                                                     )
                                                   ],

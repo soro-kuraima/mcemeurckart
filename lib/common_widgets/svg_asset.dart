@@ -21,6 +21,7 @@ class SvgAsset extends StatelessWidget {
       assetPath,
       width: width,
       height: height,
+      // ignore: deprecated_member_use
       color: color,
     );
   }

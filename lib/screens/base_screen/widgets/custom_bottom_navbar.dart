@@ -24,12 +24,8 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
       onTap: (index) {
         setState(() {
           currentPage = index;
-          // widget.screenController.jumpToPage(index);
-          widget.screenController.animateToPage(
-            index,
-            duration: const Duration(milliseconds: 300),
-            curve: Curves.ease,
-          );
+          widget.screenController.animateToPage(index,
+              duration: const Duration(milliseconds: 200), curve: Curves.ease);
         });
       },
       currentIndex: currentPage,

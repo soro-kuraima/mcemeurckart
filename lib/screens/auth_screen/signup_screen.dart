@@ -3,28 +3,43 @@ import 'package:get/get.dart';
 
 import 'package:mcemeurckart/common_widgets/index.dart';
 import 'package:mcemeurckart/constants/index.dart';
-import 'package:mcemeurckart/screens/auth_screen/signin_screen.dart';
-import 'package:mcemeurckart/screens/auth_screen/succesful_auth_request.dart';
+import 'package:mcemeurckart/routes/app_routes.dart';
 
 import 'package:mcemeurckart/util/signup_utility.dart';
 
-final GlobalKey<FormState> signUpKey = GlobalKey<FormState>();
-TextEditingController emailController = TextEditingController();
-TextEditingController passwordController = TextEditingController();
-TextEditingController rankController = TextEditingController();
-TextEditingController nameController = TextEditingController();
-TextEditingController groceryCardNoController = TextEditingController();
-TextEditingController addressController = TextEditingController();
-
-String? email;
-String? password;
-String? rank;
-String? name;
-String? groceryCardNo;
-String? address;
-
-class SignUpScreen extends StatelessWidget {
+class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
+
+  @override
+  State<SignUpScreen> createState() => _SignUpScreenState();
+}
+
+class _SignUpScreenState extends State<SignUpScreen> {
+  final GlobalKey<FormState> signUpKey = GlobalKey<FormState>();
+
+  TextEditingController emailController = TextEditingController();
+
+  TextEditingController passwordController = TextEditingController();
+
+  TextEditingController rankController = TextEditingController();
+
+  TextEditingController nameController = TextEditingController();
+
+  TextEditingController groceryCardNoController = TextEditingController();
+
+  TextEditingController addressController = TextEditingController();
+
+  String? email;
+
+  String? password;
+
+  String? rank;
+
+  String? name;
+
+  String? groceryCardNo;
+
+  String? address;
 
   @override
   Widget build(BuildContext context) {
@@ -193,7 +208,7 @@ class SignUpScreen extends StatelessWidget {
                           Get.snackbar("success", response.body.toString(),
                               backgroundColor: AppColors.green500,
                               colorText: AppColors.neutral100);
-                          Get.to(const SuccessfulAuthRequest());
+                          Get.offAllNamed(AppRoutes.successfulAuthRequest);
                         } catch (e) {
                           Get.snackbar(
                             'Error',
@@ -253,7 +268,7 @@ class SignUpScreen extends StatelessWidget {
                           decoration: TextDecoration.underline,
                         ),
                         buttonLabel: 'Log in',
-                        onPressed: () => Get.offAll(SignInScreen()),
+                        onPressed: () => Get.offAllNamed(AppRoutes.signInRoute),
                       ),
                     ],
                   ),

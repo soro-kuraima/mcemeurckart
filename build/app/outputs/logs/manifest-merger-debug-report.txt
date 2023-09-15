@@ -1,12 +1,12 @@
 -- Merging decision tree log ---
 application
 INJECTED from /home/knoz/Development/flutter-projects/mcemeurckart/android/app/src/main/AndroidManifest.xml:2:5-32:19
-MERGED from [:cloud_firestore] /home/knoz/Development/flutter-projects/mcemeurckart/build/cloud_firestore/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-15:19
-MERGED from [:cloud_firestore] /home/knoz/Development/flutter-projects/mcemeurckart/build/cloud_firestore/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-15:19
 MERGED from [:firebase_auth] /home/knoz/Development/flutter-projects/mcemeurckart/build/firebase_auth/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-15:19
 MERGED from [:firebase_auth] /home/knoz/Development/flutter-projects/mcemeurckart/build/firebase_auth/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-15:19
 MERGED from [:firebase_storage] /home/knoz/Development/flutter-projects/mcemeurckart/build/firebase_storage/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-15:19
 MERGED from [:firebase_storage] /home/knoz/Development/flutter-projects/mcemeurckart/build/firebase_storage/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-15:19
+MERGED from [:cloud_firestore] /home/knoz/Development/flutter-projects/mcemeurckart/build/cloud_firestore/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-15:19
+MERGED from [:cloud_firestore] /home/knoz/Development/flutter-projects/mcemeurckart/build/cloud_firestore/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-15:19
 MERGED from [:firebase_core] /home/knoz/Development/flutter-projects/mcemeurckart/build/firebase_core/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-15:19
 MERGED from [:firebase_core] /home/knoz/Development/flutter-projects/mcemeurckart/build/firebase_core/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-15:19
 MERGED from [:image_picker_android] /home/knoz/Development/flutter-projects/mcemeurckart/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-19:19
@@ -51,18 +51,14 @@ INJECTED from /home/knoz/Development/flutter-projects/mcemeurckart/android/app/s
 INJECTED from /home/knoz/Development/flutter-projects/mcemeurckart/android/app/src/main/AndroidManifest.xml:1:1-33:12
 INJECTED from /home/knoz/Development/flutter-projects/mcemeurckart/android/app/src/main/AndroidManifest.xml:1:1-33:12
 MERGED from /home/knoz/Development/flutter-projects/mcemeurckart/android/app/src/main/AndroidManifest.xml:1:1-33:12
-MERGED from [:cloud_firestore] /home/knoz/Development/flutter-projects/mcemeurckart/build/cloud_firestore/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-17:12
 MERGED from [:firebase_auth] /home/knoz/Development/flutter-projects/mcemeurckart/build/firebase_auth/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-17:12
 MERGED from [:firebase_storage] /home/knoz/Development/flutter-projects/mcemeurckart/build/firebase_storage/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-17:12
+MERGED from [:cloud_firestore] /home/knoz/Development/flutter-projects/mcemeurckart/build/cloud_firestore/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-17:12
 MERGED from [:firebase_core] /home/knoz/Development/flutter-projects/mcemeurckart/build/firebase_core/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-17:12
 MERGED from [:image_picker_android] /home/knoz/Development/flutter-projects/mcemeurckart/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-21:12
 MERGED from [:flutter_plugin_android_lifecycle] /home/knoz/Development/flutter-projects/mcemeurckart/build/flutter_plugin_android_lifecycle/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-9:12
 MERGED from [:sqflite] /home/knoz/Development/flutter-projects/mcemeurckart/build/sqflite/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-9:12
 MERGED from [:path_provider_android] /home/knoz/Development/flutter-projects/mcemeurckart/build/path_provider_android/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-9:12
-MERGED from [:flutter_native_splash] /home/knoz/Development/flutter-projects/mcemeurckart/build/flutter_native_splash/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-9:12
-MERGED from [:shared_preferences_android] /home/knoz/Development/flutter-projects/mcemeurckart/build/shared_preferences_android/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-9:12
-MERGED from [:fluttertoast] /home/knoz/Development/flutter-projects/mcemeurckart/build/fluttertoast/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-9:12
-MERGED from [:restart_app] /home/knoz/Development/flutter-projects/mcemeurckart/build/restart_app/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-9:12
 MERGED from [androidx.multidex:multidex:2.0.1] /home/knoz/.gradle/caches/transforms-3/12542ab3ea837719d1a92e10fcf80f84/transformed/multidex-2.0.1/AndroidManifest.xml:17:1-22:12
 MERGED from [com.google.firebase:firebase-auth:22.1.0] /home/knoz/.gradle/caches/transforms-3/254cf117e0a0b94dc6c8f406fb1371a6/transformed/jetified-firebase-auth-22.1.0/AndroidManifest.xml:17:1-75:12
 MERGED from [com.google.firebase:firebase-firestore:24.7.0] /home/knoz/.gradle/caches/transforms-3/099cb82a00791a94ff27ae528948e019/transformed/jetified-firebase-firestore-24.7.0/AndroidManifest.xml:2:1-25:12
@@ -126,12 +122,12 @@ uses-sdk
 INJECTED from /home/knoz/Development/flutter-projects/mcemeurckart/android/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /home/knoz/Development/flutter-projects/mcemeurckart/android/app/src/main/AndroidManifest.xml
 INJECTED from /home/knoz/Development/flutter-projects/mcemeurckart/android/app/src/main/AndroidManifest.xml
-MERGED from [:cloud_firestore] /home/knoz/Development/flutter-projects/mcemeurckart/build/cloud_firestore/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
-MERGED from [:cloud_firestore] /home/knoz/Development/flutter-projects/mcemeurckart/build/cloud_firestore/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
 MERGED from [:firebase_auth] /home/knoz/Development/flutter-projects/mcemeurckart/build/firebase_auth/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
 MERGED from [:firebase_auth] /home/knoz/Development/flutter-projects/mcemeurckart/build/firebase_auth/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
 MERGED from [:firebase_storage] /home/knoz/Development/flutter-projects/mcemeurckart/build/firebase_storage/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
 MERGED from [:firebase_storage] /home/knoz/Development/flutter-projects/mcemeurckart/build/firebase_storage/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:cloud_firestore] /home/knoz/Development/flutter-projects/mcemeurckart/build/cloud_firestore/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:cloud_firestore] /home/knoz/Development/flutter-projects/mcemeurckart/build/cloud_firestore/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
 MERGED from [:firebase_core] /home/knoz/Development/flutter-projects/mcemeurckart/build/firebase_core/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
 MERGED from [:firebase_core] /home/knoz/Development/flutter-projects/mcemeurckart/build/firebase_core/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
 MERGED from [:image_picker_android] /home/knoz/Development/flutter-projects/mcemeurckart/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
@@ -142,14 +138,6 @@ MERGED from [:sqflite] /home/knoz/Development/flutter-projects/mcemeurckart/buil
 MERGED from [:sqflite] /home/knoz/Development/flutter-projects/mcemeurckart/build/sqflite/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
 MERGED from [:path_provider_android] /home/knoz/Development/flutter-projects/mcemeurckart/build/path_provider_android/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
 MERGED from [:path_provider_android] /home/knoz/Development/flutter-projects/mcemeurckart/build/path_provider_android/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
-MERGED from [:flutter_native_splash] /home/knoz/Development/flutter-projects/mcemeurckart/build/flutter_native_splash/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
-MERGED from [:flutter_native_splash] /home/knoz/Development/flutter-projects/mcemeurckart/build/flutter_native_splash/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
-MERGED from [:shared_preferences_android] /home/knoz/Development/flutter-projects/mcemeurckart/build/shared_preferences_android/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
-MERGED from [:shared_preferences_android] /home/knoz/Development/flutter-projects/mcemeurckart/build/shared_preferences_android/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
-MERGED from [:fluttertoast] /home/knoz/Development/flutter-projects/mcemeurckart/build/fluttertoast/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
-MERGED from [:fluttertoast] /home/knoz/Development/flutter-projects/mcemeurckart/build/fluttertoast/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
-MERGED from [:restart_app] /home/knoz/Development/flutter-projects/mcemeurckart/build/restart_app/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
-MERGED from [:restart_app] /home/knoz/Development/flutter-projects/mcemeurckart/build/restart_app/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
 MERGED from [androidx.multidex:multidex:2.0.1] /home/knoz/.gradle/caches/transforms-3/12542ab3ea837719d1a92e10fcf80f84/transformed/multidex-2.0.1/AndroidManifest.xml:20:5-43
 MERGED from [androidx.multidex:multidex:2.0.1] /home/knoz/.gradle/caches/transforms-3/12542ab3ea837719d1a92e10fcf80f84/transformed/multidex-2.0.1/AndroidManifest.xml:20:5-43
 MERGED from [com.google.firebase:firebase-auth:22.1.0] /home/knoz/.gradle/caches/transforms-3/254cf117e0a0b94dc6c8f406fb1371a6/transformed/jetified-firebase-auth-22.1.0/AndroidManifest.xml:21:5-23:64
@@ -257,11 +245,11 @@ MERGED from [com.google.android.recaptcha:recaptcha:18.1.2] /home/knoz/.gradle/c
 	android:name
 		ADDED from /home/knoz/Development/flutter-projects/mcemeurckart/android/app/src/debug/AndroidManifest.xml:6:22-64
 service#com.google.firebase.components.ComponentDiscoveryService
-ADDED from [:cloud_firestore] /home/knoz/Development/flutter-projects/mcemeurckart/build/cloud_firestore/intermediates/merged_manifest/debug/AndroidManifest.xml:10:9-14:19
-MERGED from [:firebase_auth] /home/knoz/Development/flutter-projects/mcemeurckart/build/firebase_auth/intermediates/merged_manifest/debug/AndroidManifest.xml:10:9-14:19
-MERGED from [:firebase_auth] /home/knoz/Development/flutter-projects/mcemeurckart/build/firebase_auth/intermediates/merged_manifest/debug/AndroidManifest.xml:10:9-14:19
+ADDED from [:firebase_auth] /home/knoz/Development/flutter-projects/mcemeurckart/build/firebase_auth/intermediates/merged_manifest/debug/AndroidManifest.xml:10:9-14:19
 MERGED from [:firebase_storage] /home/knoz/Development/flutter-projects/mcemeurckart/build/firebase_storage/intermediates/merged_manifest/debug/AndroidManifest.xml:10:9-14:19
 MERGED from [:firebase_storage] /home/knoz/Development/flutter-projects/mcemeurckart/build/firebase_storage/intermediates/merged_manifest/debug/AndroidManifest.xml:10:9-14:19
+MERGED from [:cloud_firestore] /home/knoz/Development/flutter-projects/mcemeurckart/build/cloud_firestore/intermediates/merged_manifest/debug/AndroidManifest.xml:10:9-14:19
+MERGED from [:cloud_firestore] /home/knoz/Development/flutter-projects/mcemeurckart/build/cloud_firestore/intermediates/merged_manifest/debug/AndroidManifest.xml:10:9-14:19
 MERGED from [:firebase_core] /home/knoz/Development/flutter-projects/mcemeurckart/build/firebase_core/intermediates/merged_manifest/debug/AndroidManifest.xml:10:9-14:19
 MERGED from [:firebase_core] /home/knoz/Development/flutter-projects/mcemeurckart/build/firebase_core/intermediates/merged_manifest/debug/AndroidManifest.xml:10:9-14:19
 MERGED from [com.google.firebase:firebase-auth:22.1.0] /home/knoz/.gradle/caches/transforms-3/254cf117e0a0b94dc6c8f406fb1371a6/transformed/jetified-firebase-auth-22.1.0/AndroidManifest.xml:66:9-72:19
@@ -279,13 +267,7 @@ MERGED from [com.google.firebase:firebase-common:20.3.3] /home/knoz/.gradle/cach
 	android:directBootAware
 		ADDED from [com.google.firebase:firebase-common:20.3.3] /home/knoz/.gradle/caches/transforms-3/064a76c73b6601a225defec128e3b9c6/transformed/jetified-firebase-common-20.3.3/AndroidManifest.xml:34:13-43
 	android:name
-		ADDED from [:cloud_firestore] /home/knoz/Development/flutter-projects/mcemeurckart/build/cloud_firestore/intermediates/merged_manifest/debug/AndroidManifest.xml:10:18-89
-meta-data#com.google.firebase.components:io.flutter.plugins.firebase.firestore.FlutterFirebaseFirestoreRegistrar
-ADDED from [:cloud_firestore] /home/knoz/Development/flutter-projects/mcemeurckart/build/cloud_firestore/intermediates/merged_manifest/debug/AndroidManifest.xml:11:13-13:85
-	android:value
-		ADDED from [:cloud_firestore] /home/knoz/Development/flutter-projects/mcemeurckart/build/cloud_firestore/intermediates/merged_manifest/debug/AndroidManifest.xml:13:17-82
-	android:name
-		ADDED from [:cloud_firestore] /home/knoz/Development/flutter-projects/mcemeurckart/build/cloud_firestore/intermediates/merged_manifest/debug/AndroidManifest.xml:12:17-134
+		ADDED from [:firebase_auth] /home/knoz/Development/flutter-projects/mcemeurckart/build/firebase_auth/intermediates/merged_manifest/debug/AndroidManifest.xml:10:18-89
 meta-data#com.google.firebase.components:io.flutter.plugins.firebase.auth.FlutterFirebaseAuthRegistrar
 ADDED from [:firebase_auth] /home/knoz/Development/flutter-projects/mcemeurckart/build/firebase_auth/intermediates/merged_manifest/debug/AndroidManifest.xml:11:13-13:85
 	android:value
@@ -298,6 +280,12 @@ ADDED from [:firebase_storage] /home/knoz/Development/flutter-projects/mcemeurck
 		ADDED from [:firebase_storage] /home/knoz/Development/flutter-projects/mcemeurckart/build/firebase_storage/intermediates/merged_manifest/debug/AndroidManifest.xml:13:17-82
 	android:name
 		ADDED from [:firebase_storage] /home/knoz/Development/flutter-projects/mcemeurckart/build/firebase_storage/intermediates/merged_manifest/debug/AndroidManifest.xml:12:17-126
+meta-data#com.google.firebase.components:io.flutter.plugins.firebase.firestore.FlutterFirebaseFirestoreRegistrar
+ADDED from [:cloud_firestore] /home/knoz/Development/flutter-projects/mcemeurckart/build/cloud_firestore/intermediates/merged_manifest/debug/AndroidManifest.xml:11:13-13:85
+	android:value
+		ADDED from [:cloud_firestore] /home/knoz/Development/flutter-projects/mcemeurckart/build/cloud_firestore/intermediates/merged_manifest/debug/AndroidManifest.xml:13:17-82
+	android:name
+		ADDED from [:cloud_firestore] /home/knoz/Development/flutter-projects/mcemeurckart/build/cloud_firestore/intermediates/merged_manifest/debug/AndroidManifest.xml:12:17-134
 meta-data#com.google.firebase.components:io.flutter.plugins.firebase.core.FlutterFirebaseCoreRegistrar
 ADDED from [:firebase_core] /home/knoz/Development/flutter-projects/mcemeurckart/build/firebase_core/intermediates/merged_manifest/debug/AndroidManifest.xml:11:13-13:85
 	android:value
