@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
@@ -20,6 +21,7 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
+  RxList<dynamic> orderLimits = [].obs;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,26 +80,48 @@ class _CartScreenState extends State<CartScreen> {
                         SizedBox(
                           height: Get.height * .75,
                           child: ListView.separated(
-                            scrollDirection: Axis.vertical,
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: Sizes.p2,
-                              vertical: Sizes.p8,
-                            ),
-                            physics: const AlwaysScrollableScrollPhysics(),
-                            itemCount: cartController.cartItems.length,
-                            separatorBuilder: (_, index) => gapH8,
-                            itemBuilder: (_, index) => CartProductCard(
-                              product: cartController.cartItems[index].product,
-                              quantity:
-                                  cartController.cartItems[index].quantity,
-                              increment: () => cartController.increaseQuantity(
-                                  cartController
-                                      .cartItems[index].product['index']),
-                              decrement: () => cartController.decreaseQuantity(
-                                  cartController
-                                      .cartItems[index].product['index']),
-                            ),
-                          ),
+                              scrollDirection: Axis.vertical,
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: Sizes.p2,
+                                vertical: Sizes.p8,
+                              ),
+                              physics: const AlwaysScrollableScrollPhysics(),
+                              itemCount: cartController.cartItems.length,
+                              separatorBuilder: (_, index) => gapH8,
+                              itemBuilder: (_, index) => Column(
+                                    children: [
+                                      CartProductCard(
+                                        product: cartController
+                                            .cartItems[index].product,
+                                        quantity: cartController
+                                            .cartItems[index].quantity,
+                                        increment: () {
+                                          orderLimits.clear();
+                                          cartController.increaseQuantity(
+                                              cartController.cartItems[index]
+                                                  .product['index']);
+                                        },
+                                        decrement: () {
+                                          orderLimits.clear();
+                                          cartController.decreaseQuantity(
+                                              cartController.cartItems[index]
+                                                  .product['index']);
+                                        },
+                                      ),
+                                      gapH8,
+                                      orderLimits.isNotEmpty &&
+                                              orderLimits[index]
+                                                  ['limitExceeded']
+                                          ? Text(
+                                              'Monthly limit: ${orderLimits[index]['monthlyLimit']} exceeded by ${orderLimits[index]['exceededBy']} units',
+                                              style: Get.textTheme.bodyMedium
+                                                  ?.copyWith(
+                                                color: AppColors.red400,
+                                              ),
+                                            )
+                                          : gapH4
+                                    ],
+                                  )),
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(
@@ -147,14 +171,31 @@ class _CartScreenState extends State<CartScreen> {
                                 final res = await verifyOrder(
                                     token, {'products': products});
                                 log(res.toString());
+                                if (res.statusCode == 200) {
+                                  Get.toNamed(AppRoutes.checkoutRoute);
+                                } else if (res.statusCode == 401) {
+                                  Get.snackbar(
+                                    'error',
+                                    'order limit exceeded',
+                                    backgroundColor: AppColors.red400,
+                                    colorText: AppColors.neutral100,
+                                  );
+                                  final data = jsonDecode(res.body);
+
+                                  orderLimits.value = List.from(data);
+                                  Get.forceAppUpdate();
+                                }
                               } catch (e) {
                                 log("from cart screen");
                                 log(e.toString());
+                                Get.snackbar("error", e.toString(),
+                                    backgroundColor: AppColors.red400,
+                                    colorText: AppColors.neutral100);
                               }
                             }),
                       ],
                     ),
-                  ),
+                  )
                 ],
               );
             }),

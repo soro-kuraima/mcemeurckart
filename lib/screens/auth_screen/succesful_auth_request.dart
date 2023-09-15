@@ -45,7 +45,7 @@ class SuccessfulAuthRequest extends StatelessWidget {
                 decoration: TextDecoration.underline,
               ),
               buttonLabel: 'Log in',
-              onPressed: () => Get.to(const SignInScreen()),
+              onPressed: () => Get.offAll(const SignInScreen()),
             ),
           ],
         ),

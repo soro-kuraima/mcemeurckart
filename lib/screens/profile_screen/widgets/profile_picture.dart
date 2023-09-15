@@ -17,7 +17,6 @@ class ProfilePicture extends StatefulWidget {
 
 class _ProfilePictureState extends State<ProfilePicture> {
   final ImagePicker _imagePicker = ImagePicker();
-
   Uint8List? _imageFile;
 
   @override

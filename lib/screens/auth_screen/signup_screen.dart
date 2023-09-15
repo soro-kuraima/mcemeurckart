@@ -3,11 +3,9 @@ import 'package:get/get.dart';
 
 import 'package:mcemeurckart/common_widgets/index.dart';
 import 'package:mcemeurckart/constants/index.dart';
-import 'package:mcemeurckart/routes/app_routes.dart';
 import 'package:mcemeurckart/screens/auth_screen/signin_screen.dart';
 import 'package:mcemeurckart/screens/auth_screen/succesful_auth_request.dart';
-import 'package:mcemeurckart/util/firebase_auth_helper.dart';
-import 'package:mcemeurckart/util/firestore_helper.dart';
+
 import 'package:mcemeurckart/util/signup_utility.dart';
 
 final GlobalKey<FormState> signUpKey = GlobalKey<FormState>();
@@ -46,7 +44,10 @@ class SignUpScreen extends StatelessWidget {
               child: Column(
                 children: [
                   // App Logo
-                  Image.asset(AppAssets.appLogoMceme),
+
+                  Image.asset(AppAssets.mceme,
+                      height: Sizes.deviceHeight * .3,
+                      width: Sizes.deviceWidth * .8),
                   gapH40,
                   Text(
                     'Create account',
@@ -102,6 +103,7 @@ class SignUpScreen extends StatelessWidget {
                       password = value;
                     },
                   ),
+                  gapH16,
                   CustomTextField(
                     labelText: 'Rank',
                     textInputType: TextInputType.text,
@@ -119,7 +121,7 @@ class SignUpScreen extends StatelessWidget {
                   ),
                   gapH16,
                   CustomTextField(
-                    labelText: 'name',
+                    labelText: 'Name',
                     textInputType: TextInputType.text,
                     validator: (value) {
                       if (value!.isEmpty) {
@@ -188,6 +190,9 @@ class SignUpScreen extends StatelessWidget {
                           groceryCardNoController.value =
                               TextEditingValue.empty;
                           addressController.value = TextEditingValue.empty;
+                          Get.snackbar("success", response.body.toString(),
+                              backgroundColor: AppColors.green500,
+                              colorText: AppColors.neutral100);
                           Get.to(const SuccessfulAuthRequest());
                         } catch (e) {
                           Get.snackbar(
@@ -248,7 +253,7 @@ class SignUpScreen extends StatelessWidget {
                           decoration: TextDecoration.underline,
                         ),
                         buttonLabel: 'Log in',
-                        onPressed: () => Get.to(SignInScreen()),
+                        onPressed: () => Get.offAll(SignInScreen()),
                       ),
                     ],
                   ),

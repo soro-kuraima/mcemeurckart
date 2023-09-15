@@ -1,21 +1,19 @@
 import "package:flutter/material.dart";
 import "package:get/get.dart";
 
-import 'package:mcemeurckart/screens/auth_screen/signin_screen.dart';
-import "package:mcemeurckart/screens/auth_screen/signup_screen.dart";
 import "package:mcemeurckart/screens/base_screen/base_screen.dart";
 import "package:mcemeurckart/screens/cart_screen/cart_screen.dart";
 import "package:mcemeurckart/screens/categories_screen/categories_screen.dart";
 import "package:mcemeurckart/screens/checkout_screen/checkout_confirmation_screen.dart";
 import "package:mcemeurckart/screens/checkout_screen/checkout_screen.dart";
 import "package:mcemeurckart/screens/home_screen/home_screen.dart";
+import "package:mcemeurckart/screens/order_item_screen/order_item_screen.dart";
 import "package:mcemeurckart/screens/orders_screen/orders_screen.dart";
 import 'package:mcemeurckart/screens/product_item_screen/product_item_screen.dart';
 import "package:mcemeurckart/screens/products_screen/products_screen.dart";
 import "package:mcemeurckart/screens/search_screen/search_screen.dart";
 import "package:mcemeurckart/screens/sub_categories_screen/sub_categories_screen.dart";
 import "package:mcemeurckart/screens/wishlist_screen/wishlist_screen.dart";
-import "package:mcemeurckart/util/auth_provider.dart";
 
 abstract class AppPages {
   static final pages = <GetPage>[
@@ -59,13 +57,6 @@ abstract class AppPages {
       curve: Curves.easeOut,
       transition: Transition.rightToLeft,
     ),
-
-    GetPage(
-        name: AppRoutes.subCategoriesRoute,
-        page: () => const SubCategoriesScreen(),
-        transitionDuration: const Duration(milliseconds: 300),
-        curve: Curves.easeOut,
-        transition: Transition.rightToLeft),
 
     GetPage(
         name: AppRoutes.productsScreenRoute,
@@ -123,24 +114,22 @@ abstract class AppPages {
       transitionDuration: const Duration(milliseconds: 300),
       curve: Curves.easeOut,
       transition: Transition.rightToLeft,
-    )
+    ),
+
+    GetPage(
+      name: AppRoutes.orderItemRoute,
+      page: () => const OrderItem(),
+      transitionDuration: const Duration(milliseconds: 300),
+      curve: Curves.easeOut,
+      transition: Transition.rightToLeft,
+    ),
   ];
 }
 
 abstract class AppRoutes {
-  static const introRoute = '/intro';
   static const signInRoute = '/signIn';
   static const signUpRoute = '/signUp';
-  static const onBoardingRoute = '/onBoarding';
-  static const onBoarding1Route = '/onBoarding1';
-  static const onBoarding2Route = '/onBoarding2';
-  static const onBoarding3Route = '/onBoarding3';
-  static const registration1Route = '/registration1';
-  static const registration2Route = '/registration2';
-  static const registration3Route = '/registration3';
-  static const registration4Route = '/registration4';
-  static const registration5Route = '/registration5';
-  static const registrationCompleteRoute = '/registrationComplete';
+
   static const baseRoute = '/';
   static const homeRoute = '/home';
   static const cartRoute = '/cart';
@@ -152,6 +141,7 @@ abstract class AppRoutes {
   static const productItemRoute = '/productItem';
   static const profileRoute = '/profile';
   static const ordersRoute = '/orders';
+  static const orderItemRoute = '/orderItem';
   static const searchRoute = '/search';
   static const wishlistRoute = '/wishlist';
   static const deliveryRoute = '/delivery';

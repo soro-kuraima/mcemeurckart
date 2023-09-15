@@ -82,8 +82,9 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                   orderValue: ordersController.orders[index]
                                           ['orderValue']
                                       .toString(),
-                                  onCardTap: () {
-                                    ordersController.setOrderItem(index);
+                                  onCardTap: () async {
+                                    await ordersController.setOrderItem(index);
+                                    Get.toNamed(AppRoutes.orderItemRoute);
                                   });
                             }),
                       ),

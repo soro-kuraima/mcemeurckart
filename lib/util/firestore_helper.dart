@@ -28,18 +28,14 @@ class FireBaseStoreHelper {
           });
         },
       ));
-    } catch (e) {
-      print(e);
-    }
+    } catch (e) {}
     return const Stream.empty();
   }
 
   static Future<void> updateUser(Map<String, dynamic> data) async {
     try {
       await usersRef.doc(user!.email).update(data);
-    } catch (e) {
-      print(e);
-    }
+    } catch (e) {}
   }
 
   static final genericsRef = db.collection('generics');
@@ -57,9 +53,7 @@ class FireBaseStoreHelper {
           };
         }).toList();
       });
-    } catch (e) {
-      print(e);
-    }
+    } catch (e) {}
 
     return const Stream.empty();
   }
@@ -74,9 +68,7 @@ class FireBaseStoreHelper {
           };
         }).toList();
       });
-    } catch (e) {
-      print(e);
-    }
+    } catch (e) {}
     return const Stream.empty();
   }
 
@@ -91,9 +83,7 @@ class FireBaseStoreHelper {
           };
         }).toList();
       });
-    } catch (e) {
-      print(e);
-    }
+    } catch (e) {}
     return const Stream.empty();
   }
 
@@ -106,9 +96,7 @@ class FireBaseStoreHelper {
           return {'id': e.id, ...e.data()};
         }).toList();
       });
-    } catch (e) {
-      print(e);
-    }
+    } catch (e) {}
     return const Stream.empty();
   }
 
@@ -129,9 +117,7 @@ class FireBaseStoreHelper {
           };
         }).toList();
       });
-    } catch (e) {
-      print(e);
-    }
+    } catch (e) {}
 
     return const Stream.empty();
   }
@@ -143,9 +129,7 @@ class FireBaseStoreHelper {
       DocumentSnapshot<Map<String, dynamic>> documentSnapshot =
           await product.get();
       res = documentSnapshot.data()!;
-    } catch (e) {
-      print(e);
-    }
+    } catch (e) {}
     return res;
   }
 
@@ -156,9 +140,7 @@ class FireBaseStoreHelper {
   static Future<void> createWishList() async {
     try {
       await wishlist.set({'products': []}, SetOptions(merge: true));
-    } catch (e) {
-      print(e);
-    }
+    } catch (e) {}
   }
 
   static Stream<List<int>> getWishList() {
@@ -177,10 +159,7 @@ class FireBaseStoreHelper {
         'products': FieldValue.arrayUnion([index])
       }, SetOptions(merge: true));
     } catch (e) {
-      print(e);
-    } finally {
-      print('Product added to wishlist');
-    }
+    } finally {}
   }
 
   static Future<void> removeFromWishList(int index) async {
@@ -189,10 +168,7 @@ class FireBaseStoreHelper {
         'products': FieldValue.arrayRemove([index])
       });
     } catch (e) {
-      print(e);
-    } finally {
-      print('Product removed from wishlist');
-    }
+    } finally {}
   }
 
   /* ================= to add, remove and update items in cart ================ */
@@ -203,9 +179,7 @@ class FireBaseStoreHelper {
   static Future<void> createCart() async {
     try {
       cart.set({}, SetOptions(merge: true));
-    } catch (e) {
-      print(e);
-    }
+    } catch (e) {}
   }
 
   static Stream<List<Map<String, dynamic>>> getCart() {
@@ -236,20 +210,14 @@ class FireBaseStoreHelper {
         }
       }, SetOptions(merge: true));
     } catch (e) {
-      print(e);
-    } finally {
-      print('Product added to cart');
-    }
+    } finally {}
   }
 
   static Future<void> incrementQuantity(int index) async {
     try {
       await cart.update({'$index.quantity': FieldValue.increment(1)});
     } catch (e) {
-      print(e);
-    } finally {
-      print('Product quantity incremented');
-    }
+    } finally {}
   }
 
   static Future<void> decrementQuantity(int index) async {
@@ -257,20 +225,14 @@ class FireBaseStoreHelper {
     try {
       await cart.update({'$index.quantity': FieldValue.increment(-1)});
     } catch (e) {
-      print(e);
-    } finally {
-      print('Product quantity decremented');
-    }
+    } finally {}
   }
 
   static Future<void> removeFromCart(int index) async {
     try {
       await cart.update({'$index': FieldValue.delete()});
     } catch (e) {
-      print(e);
-    } finally {
-      print('Product deleted from cart');
-    }
+    } finally {}
   }
 
   /* ================= to get orders and place orders ============== */
@@ -288,7 +250,12 @@ class FireBaseStoreHelper {
         log(product.toString());
         log("keys of cart $keys");
         log("entries of cart$entries");
-        await ordersRef.add({
+        final userRecord = await usersRef.doc(user!.email).get();
+        final userSnapshot = userRecord.data();
+        final orderId =
+            userSnapshot?['groceryCardNo'].substring(0, 4).toUpperCase() +
+                DateTime.now().millisecondsSinceEpoch.toString();
+        await ordersRef.doc(orderId).set({
           'user': user!.email,
           'products': snapshot.data(),
           'orderValue': orderValue,
@@ -301,10 +268,7 @@ class FireBaseStoreHelper {
         await createCart();
       }
     } catch (e) {
-      print(e);
-    } finally {
-      print('Order placed');
-    }
+    } finally {}
   }
 
   static final ordersQuery = ordersRef.where('user', isEqualTo: user!.email);

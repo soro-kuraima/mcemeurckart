@@ -51,13 +51,13 @@ class CheckoutScreen extends StatelessWidget {
                         value: 'cod',
                         groupValue: 'cod',
                         onChanged: (value) {},
-                        child: Text('Cash on delivery')),
+                        child: Text('Pay on delivery')),
                   ),
                   gapH24,
                   const CustomDivider(hasText: false),
                   gapH24,
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
                         'Address',
@@ -73,15 +73,17 @@ class CheckoutScreen extends StatelessWidget {
                     ),
                   ),
                   gapH8,
-                  Column(
-                    children: [
-                      Text(
-                        Get.find<UserController>().user['address'],
-                        style: Get.textTheme.titleLarge?.copyWith(
-                          color: AppColors.neutral600,
-                        ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      Get.find<UserController>().user['address'],
+                      style: Get.textTheme.displayLarge?.copyWith(
+                        color: AppColors.neutral600,
                       ),
-                    ],
+                    ),
+                  ),
+                  Column(
+                    children: [],
                   ),
                   gapH24,
                   const CustomDivider(hasText: false),
@@ -140,7 +142,7 @@ class CheckoutScreen extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        '₹${Get.find<CartController>().getTotal()}',
+                        '₹ ${Get.find<CartController>().getTotal()} /-',
                         style: Get.textTheme.headlineSmall,
                       ),
                     ],

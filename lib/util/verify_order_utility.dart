@@ -21,12 +21,11 @@ Future<http.Response> verifyOrder(
         },
       }));
 
-  if (response.statusCode == 200) {
+  if (response.statusCode == 400) {
+    throw Exception('bad request');
+  } else if (response.statusCode == 200 || response.statusCode == 401) {
     return response;
   } else {
-    throw Exception({
-      'statusCode': response.statusCode,
-      'body': response.body,
-    });
+    throw Exception('Failed to verify order');
   }
 }

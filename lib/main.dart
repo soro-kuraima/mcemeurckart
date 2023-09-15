@@ -32,6 +32,14 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
+    Get.put(UserController());
+    Get.put(GenericsController());
+    Get.put(CategoriesController());
+    Get.put(ProductsController());
+    Get.put(WishlistController());
+    Get.put(CartController());
+    Get.put(OrdersController());
+
     FlutterNativeSplash.remove();
 
     return GetMaterialApp(

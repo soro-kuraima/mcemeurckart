@@ -43,7 +43,9 @@ class SignInScreen extends StatelessWidget {
               ),
               child: Column(
                 children: [
-                  Image.asset(AppAssets.appLogoMceme),
+                  Image.asset(AppAssets.mceme,
+                      height: Sizes.deviceHeight * .3,
+                      width: Sizes.deviceWidth * .8),
                   gapH48,
                   Text(
                     'Sign in to your account',
@@ -132,7 +134,6 @@ class SignInScreen extends StatelessWidget {
                           emailController.value = TextEditingValue.empty;
                           passwordController.value = TextEditingValue.empty;
 
-                          Restart.restartApp();
                           Get.offAllNamed(AppRoutes.baseRoute);
                         }
                       }
@@ -152,7 +153,7 @@ class SignInScreen extends StatelessWidget {
                           decoration: TextDecoration.underline,
                         ),
                         buttonLabel: 'Sign up',
-                        onPressed: () => Get.to(const SignUpScreen()),
+                        onPressed: () => Get.offAll(const SignUpScreen()),
                       ),
                     ],
                   ),

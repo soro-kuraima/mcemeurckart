@@ -2,21 +2,20 @@ import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:mcemeurckart/constants/index.dart';
 
-class OrderSummary extends StatelessWidget {
-  final dynamic cartItem;
+class OrderItemCard extends StatelessWidget {
+  final dynamic product;
 
-  const OrderSummary({
+  const OrderItemCard({
     Key? key,
-    required this.cartItem,
+    required this.product,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    log(cartItem.toString());
+    log(product.toString());
     return InkWell(
       onTap: () {},
       child: Padding(
@@ -25,7 +24,7 @@ class OrderSummary extends StatelessWidget {
           children: [
             Expanded(
               child: CachedNetworkImage(
-                imageUrl: cartItem.product['imageUrl'],
+                imageUrl: product['product']['imageUrl'],
                 width: 80,
                 height: 80,
                 placeholder: (_, url) => const Center(
@@ -40,18 +39,18 @@ class OrderSummary extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Index No: ${cartItem.product['index']}',
+                    'Index No: ${product['product']['index']}',
                     style: Get.textTheme.bodyMedium,
                   ),
                   Text(
-                    cartItem.product['title'],
+                    product['product']['title'],
                     style: Get.textTheme.displayMedium,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 2,
                   ),
                   gapH8,
                   Text(
-                    'Quantity: ${cartItem.quantity}',
+                    'Quantity: ${product['quantity']}',
                     style: Get.textTheme.bodyMedium,
                   ),
                 ],
@@ -59,7 +58,7 @@ class OrderSummary extends StatelessWidget {
             ),
             gapW16,
             Text(
-              'Price ₹ ${cartItem.product['price']} /-',
+              'Price ₹${product['product']['price']} /-',
               style: Get.textTheme.bodyMedium?.copyWith(
                 fontWeight: Fonts.interMedium,
               ),

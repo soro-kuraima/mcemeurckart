@@ -35,14 +35,6 @@ class _BaseScreenState extends State<BaseScreen> {
   RxBool searchToggle = false.obs;
   @override
   Widget build(BuildContext context) {
-    Get.put(UserController());
-    Get.put(GenericsController());
-    Get.put(CategoriesController());
-    Get.put(ProductsController());
-    Get.put(WishlistController());
-    Get.put(CartController());
-    Get.put(OrdersController());
-
     return SafeArea(
       child: GetBuilder<WishlistController>(
         builder: (wishlistController) {

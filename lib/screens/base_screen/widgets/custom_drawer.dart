@@ -1,10 +1,13 @@
 import 'dart:math';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mcemeurckart/constants/app_colors.dart';
+import 'package:mcemeurckart/constants/index.dart';
 import 'package:mcemeurckart/controller/category_controller_getx.dart';
 import 'package:mcemeurckart/controller/generics_controller_getx.dart';
+import 'package:mcemeurckart/controller/user_controller_getx.dart';
 import 'package:mcemeurckart/routes/app_routes.dart';
 
 class CustomDrawer extends StatelessWidget {
@@ -35,12 +38,13 @@ class CustomDrawer extends StatelessWidget {
                     CircleAvatar(
                       backgroundColor: Colors.white,
                       maxRadius: 50.0,
-                      child: Image.asset(
-                        'assets/images/dummyImage.png',
-                      ),
+                      child: CachedNetworkImage(
+                          imageUrl: Get.find<UserController>()
+                              .user['displayPicture']),
                     ),
+                    gapH8,
                     Text(
-                      'user name',
+                      Get.find<UserController>().user['displayName'],
                       style: TextStyle(
                           fontSize: 20.0,
                           color: AppColors.neutral900,
