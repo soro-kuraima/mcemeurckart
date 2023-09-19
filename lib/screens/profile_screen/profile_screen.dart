@@ -49,7 +49,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       child: PrimaryIconButton(
                         icon: AppIcons.settingsIcon,
-                        onPressed: () {},
+                        onPressed: () {
+                          Get.toNamed(AppRoutes.editProfileRoute);
+                        },
                       ),
                     ),
                   ],
@@ -72,6 +74,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ProfileBiography(
                         userName: userController.user['rank'],
                         userBiography: userController.user['displayName'],
+                        userGroceryCardNo: userController.user['groceryCardNo'],
+                        userPhone: userController.user['phone'] ?? '',
                         editFunction: () async {
                           await FirebaseAuth.instance.signOut();
                           Get.offAllNamed(AppRoutes.signInRoute);

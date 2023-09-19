@@ -11,10 +11,14 @@ class ProfileBiography extends StatelessWidget {
     required this.userName,
     required this.userBiography,
     required this.editFunction,
+    required this.userGroceryCardNo,
+    required this.userPhone,
   });
 
   final String userName;
   final String userBiography;
+  final String userGroceryCardNo;
+  final String userPhone;
   final VoidCallback editFunction;
 
   @override
@@ -40,6 +44,20 @@ class ProfileBiography extends StatelessWidget {
                 ),
                 maxLines: 6,
                 overflow: TextOverflow.ellipsis,
+              ),
+              gapH8,
+              Text(
+                'Grocery Card No: $userGroceryCardNo',
+                style: Get.textTheme.bodySmall?.copyWith(
+                  color: AppColors.blue500,
+                ),
+              ),
+              gapH8,
+              Text(
+                'Phone: $userPhone',
+                style: Get.textTheme.bodySmall?.copyWith(
+                  color: AppColors.blue500,
+                ),
               ),
               gapH8,
               Align(

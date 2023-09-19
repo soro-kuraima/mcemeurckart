@@ -29,6 +29,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   TextEditingController addressController = TextEditingController();
 
+  TextEditingController phoneController = TextEditingController();
+
   String? email;
 
   String? password;
@@ -40,6 +42,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   String? groceryCardNo;
 
   String? address;
+
+  String? phone;
 
   @override
   Widget build(BuildContext context) {
@@ -181,6 +185,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       address = value;
                     },
                   ),
+                  gapH16,
+                  CustomTextField(
+                    labelText: 'Phone',
+                    textInputType: TextInputType.text,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter your phone';
+                      }
+                      if (!GetUtils.isPhoneNumber(value)) {
+                        return 'Please enter a valid phone';
+                      }
+                      return null;
+                    },
+                    controller: phoneController,
+                    onSaved: (value) {
+                      phone = value;
+                    },
+                  ),
                   gapH40,
                   PrimaryButton(
                     buttonColor: AppColors.neutral800,
@@ -196,12 +218,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             'name': name,
                             'groceryCardNo': groceryCardNo,
                             'address': address,
+                            'phone': phone,
                           });
                           signUpKey.currentState!.reset();
                           emailController.value = TextEditingValue.empty;
                           passwordController.value = TextEditingValue.empty;
                           rankController.value = TextEditingValue.empty;
                           nameController.value = TextEditingValue.empty;
+                          phoneController.value = TextEditingValue.empty;
                           groceryCardNoController.value =
                               TextEditingValue.empty;
                           addressController.value = TextEditingValue.empty;

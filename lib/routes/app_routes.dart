@@ -16,6 +16,7 @@ import "package:mcemeurckart/screens/order_item_screen/order_item_screen.dart";
 import "package:mcemeurckart/screens/orders_screen/orders_screen.dart";
 import 'package:mcemeurckart/screens/product_item_screen/product_item_screen.dart';
 import "package:mcemeurckart/screens/products_screen/products_screen.dart";
+import "package:mcemeurckart/screens/profile_screen/edit_profile_screen.dart";
 import "package:mcemeurckart/screens/profile_screen/profile_screen.dart";
 import "package:mcemeurckart/screens/search_screen/search_screen.dart";
 import "package:mcemeurckart/screens/wishlist_screen/wishlist_screen.dart";
@@ -26,7 +27,10 @@ abstract class AppPages {
     GetPage(name: AppRoutes.splashRoute, page: () => const LoadingScreen()),
     /* 
     * ===== Auth Pages =====
+
+    
 */
+
     GetPage(name: AppRoutes.signInRoute, page: () => const SignInScreen()),
     GetPage(name: AppRoutes.signUpRoute, page: () => const SignUpScreen()),
     GetPage(
@@ -142,6 +146,13 @@ abstract class AppPages {
             curve: Curves.easeOut,
             transition: Transition.rightToLeft,
           ),
+          GetPage(
+            name: AppRoutes.editProfileRoute,
+            page: () => const EditProfileScreen(),
+            transitionDuration: const Duration(milliseconds: 300),
+            curve: Curves.easeOut,
+            transition: Transition.rightToLeft,
+          ),
         ]),
     /* 
     * ===== Home Page =====
@@ -164,6 +175,7 @@ abstract class AppRoutes {
   static const productsScreenRoute = '/productsScreen';
   static const productItemRoute = '/productItem';
   static const profileRoute = '/profile';
+  static const editProfileRoute = '/editProfile';
   static const ordersRoute = '/orders';
   static const orderItemRoute = '/orderItem';
   static const searchRoute = '/search';
