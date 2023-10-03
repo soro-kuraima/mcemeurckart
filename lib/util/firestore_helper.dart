@@ -42,6 +42,7 @@ class FireBaseStoreHelper {
     } catch (e) {}
   }
 
+
   static final genericsRef = db.collection('generics');
   static final categoriesRef = db.collection('categories');
   static final productsRef = db.collection('products');
