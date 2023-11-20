@@ -16,6 +16,7 @@ Future<http.Response> sendAuthRequest(dynamic user) async {
         'name': user['name'],
         'groceryCardNo': user['groceryCardNo'],
         'address': user['address'],
+        'phone': user['phone'],
       }));
 
   if (response.statusCode == 200) {
