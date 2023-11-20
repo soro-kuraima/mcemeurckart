@@ -97,243 +97,261 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
                         buttonHeight: 50,
                         buttonColor: AppColors.neutral800,
                         buttonLabel: 'Add to cart',
-                        onPressed: () => {
-                              cartController.addToCart(product['index']),
-                              showModalBottomSheet<void>(
-                                // isScrollControlled: true,
-                                isDismissible: true,
-                                enableDrag: true, isScrollControlled: true,
-                                shape: const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(Sizes.p16),
-                                    topRight: Radius.circular(Sizes.p16),
-                                  ),
-                                ),
-                                backgroundColor: AppColors.white,
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return DraggableScrollableSheet(
-                                    expand: false,
-                                    maxChildSize: 1,
-                                    initialChildSize:
-                                        cartController.cartItems.length <= 3
-                                            ? .4
-                                            : .75,
-                                    minChildSize:
-                                        cartController.cartItems.length >= 3
-                                            ? .3
-                                            : .4,
-                                    builder: (context, scrollController) =>
-                                        Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                        vertical: Sizes.p12,
+                        onPressed: product['stock'] == 0
+                            ? null
+                            : () => {
+                                  cartController.addToCart(product['index']),
+                                  showModalBottomSheet<void>(
+                                    // isScrollControlled: true,
+                                    isDismissible: true,
+                                    enableDrag: true, isScrollControlled: true,
+                                    shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(Sizes.p16),
+                                        topRight: Radius.circular(Sizes.p16),
                                       ),
-                                      child: SizedBox(
-                                        height: Sizes.deviceHeight,
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          mainAxisSize: MainAxisSize.max,
-                                          children: [
+                                    ),
+                                    backgroundColor: AppColors.white,
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return DraggableScrollableSheet(
+                                        expand: false,
+                                        maxChildSize: 1,
+                                        initialChildSize:
+                                            cartController.cartItems.length <= 3
+                                                ? .4
+                                                : .75,
+                                        minChildSize:
+                                            cartController.cartItems.length >= 3
+                                                ? .3
+                                                : .4,
+                                        builder: (context, scrollController) =>
                                             Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                horizontal: Sizes.p24,
-                                              ),
-                                              child: Stack(
-                                                alignment: Alignment.center,
-                                                children: [
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    children: [
-                                                      IconButton(
-                                                        onPressed: () =>
-                                                            Get.back(),
-                                                        icon: const Icon(
-                                                          Icons.close,
-                                                        ),
-                                                        color: AppColors
-                                                            .neutral800,
-                                                      ),
-                                                    ],
+                                          padding: const EdgeInsets.symmetric(
+                                            vertical: Sizes.p12,
+                                          ),
+                                          child: SizedBox(
+                                            height: Sizes.deviceHeight,
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              mainAxisSize: MainAxisSize.max,
+                                              children: [
+                                                Padding(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                    horizontal: Sizes.p24,
                                                   ),
-                                                  Text(
-                                                    'Cart',
-                                                    style: Get
-                                                        .textTheme.displayLarge,
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                            const CustomDivider(
-                                              hasText: false,
-                                            ),
-                                            Expanded(
-                                              flex: cartController
-                                                          .cartItems.length <=
-                                                      3
-                                                  ? 2
-                                                  : 7,
-                                              child: GetBuilder<CartController>(
-                                                builder: (cartController) {
-                                                  return ListView.separated(
-                                                    physics:
-                                                        const AlwaysScrollableScrollPhysics(),
-                                                    itemBuilder: (_, index) =>
-                                                        CartProductCard(
-                                                      product: cartController
-                                                          .cartItems[index]
-                                                          .product,
-                                                      quantity: cartController
-                                                          .cartItems[index]
-                                                          .quantity,
-                                                      increment: () => cartController
-                                                          .increaseQuantity(
-                                                              cartController
-                                                                      .cartItems[
-                                                                          index]
-                                                                      .product[
-                                                                  'index']),
-                                                      decrement: () => cartController
-                                                          .decreaseQuantity(
-                                                              cartController
-                                                                      .cartItems[
-                                                                          index]
-                                                                      .product[
-                                                                  'index']),
-                                                    ),
-                                                    separatorBuilder:
-                                                        (context, index) =>
-                                                            gapH28,
-                                                    itemCount: cartController
-                                                        .cartItems.length,
-                                                  );
-                                                },
-                                              ),
-                                            ),
-                                            gapH12,
-                                            Expanded(
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                  horizontal: Sizes.p24,
-                                                ),
-                                                child: Row(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    Expanded(
-                                                      child: Column(
+                                                  child: Stack(
+                                                    alignment: Alignment.center,
+                                                    children: [
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .start,
                                                         children: [
-                                                          Text(
-                                                            'Cart total',
-                                                            style: Get.textTheme
-                                                                .bodyMedium
-                                                                ?.copyWith(
-                                                              color: AppColors
-                                                                  .neutral600,
+                                                          IconButton(
+                                                            onPressed: () =>
+                                                                Get.back(),
+                                                            icon: const Icon(
+                                                              Icons.close,
                                                             ),
-                                                          ),
-                                                          gapH4,
-                                                          GetBuilder<
-                                                              CartController>(
-                                                            builder:
-                                                                (cartController) {
-                                                              return Text(
-                                                                '₹${cartController.getTotal()}',
-                                                                style: Get
-                                                                    .textTheme
-                                                                    .titleSmall
-                                                                    ?.copyWith(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                ),
-                                                              );
-                                                            },
+                                                            color: AppColors
+                                                                .neutral800,
                                                           ),
                                                         ],
                                                       ),
+                                                      Text(
+                                                        'Cart',
+                                                        style: Get.textTheme
+                                                            .displayLarge,
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                                const CustomDivider(
+                                                  hasText: false,
+                                                ),
+                                                Expanded(
+                                                  flex: cartController.cartItems
+                                                              .length <=
+                                                          3
+                                                      ? 2
+                                                      : 7,
+                                                  child: GetBuilder<
+                                                      CartController>(
+                                                    builder: (cartController) {
+                                                      return ListView.separated(
+                                                        physics:
+                                                            const AlwaysScrollableScrollPhysics(),
+                                                        itemBuilder:
+                                                            (_, index) =>
+                                                                CartProductCard(
+                                                          product:
+                                                              cartController
+                                                                  .cartItems[
+                                                                      index]
+                                                                  .product,
+                                                          quantity:
+                                                              cartController
+                                                                  .cartItems[
+                                                                      index]
+                                                                  .quantity,
+                                                          increment: () => cartController
+                                                              .increaseQuantity(
+                                                                  cartController
+                                                                      .cartItems[
+                                                                          index]
+                                                                      .product['index']),
+                                                          decrement: () => cartController
+                                                              .decreaseQuantity(
+                                                                  cartController
+                                                                      .cartItems[
+                                                                          index]
+                                                                      .product['index']),
+                                                        ),
+                                                        separatorBuilder:
+                                                            (context, index) =>
+                                                                gapH28,
+                                                        itemCount:
+                                                            cartController
+                                                                .cartItems
+                                                                .length,
+                                                      );
+                                                    },
+                                                  ),
+                                                ),
+                                                gapH12,
+                                                Expanded(
+                                                  child: Padding(
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                      horizontal: Sizes.p24,
                                                     ),
-                                                    gapW24,
-                                                    Expanded(
-                                                      flex: 3,
-                                                      child: PrimaryButton(
-                                                        buttonColor: AppColors
-                                                            .neutral800,
-                                                        buttonLabel: 'Checkout',
-                                                        onPressed: () async {
-                                                          try {
-                                                            final products =
-                                                                cartController
-                                                                    .cartItems
-                                                                    .map(
-                                                                        (cartItem) =>
+                                                    child: Row(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        Expanded(
+                                                          child: Column(
+                                                            children: [
+                                                              Text(
+                                                                'Cart total',
+                                                                style: Get
+                                                                    .textTheme
+                                                                    .bodyMedium
+                                                                    ?.copyWith(
+                                                                  color: AppColors
+                                                                      .neutral600,
+                                                                ),
+                                                              ),
+                                                              gapH4,
+                                                              GetBuilder<
+                                                                  CartController>(
+                                                                builder:
+                                                                    (cartController) {
+                                                                  return Text(
+                                                                    '₹${cartController.getTotal()}',
+                                                                    style: Get
+                                                                        .textTheme
+                                                                        .titleSmall
+                                                                        ?.copyWith(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold,
+                                                                    ),
+                                                                  );
+                                                                },
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        gapW24,
+                                                        Expanded(
+                                                          flex: 3,
+                                                          child: PrimaryButton(
+                                                            buttonColor:
+                                                                AppColors
+                                                                    .neutral800,
+                                                            buttonLabel:
+                                                                'Checkout',
+                                                            onPressed:
+                                                                () async {
+                                                              try {
+                                                                final products =
+                                                                    cartController
+                                                                        .cartItems
+                                                                        .map((cartItem) =>
                                                                             {
                                                                               'index': cartItem.product['index'],
                                                                               'quantity': cartItem.quantity,
                                                                               'monthlyLimit': cartItem.product['monthlyLimit'] ?? false
                                                                             })
-                                                                    .toList();
-                                                            final token = await FirebaseAuthHelper
-                                                                    .firebaseAuthHelper
-                                                                    .firebaseAuth
-                                                                    .currentUser
-                                                                    ?.getIdToken() ??
-                                                                '';
+                                                                        .toList();
+                                                                final token = await FirebaseAuthHelper
+                                                                        .firebaseAuthHelper
+                                                                        .firebaseAuth
+                                                                        .currentUser
+                                                                        ?.getIdToken() ??
+                                                                    '';
 
-                                                            final res =
-                                                                await verifyOrder(
-                                                                    token, {
-                                                              'products':
-                                                                  products
-                                                            });
+                                                                final res =
+                                                                    await verifyOrder(
+                                                                        token, {
+                                                                  'products':
+                                                                      products
+                                                                });
 
-                                                            if (res.statusCode ==
-                                                                200) {
-                                                              Get.toNamed(AppRoutes
-                                                                  .checkoutRoute);
-                                                            } else if (res
-                                                                    .statusCode ==
-                                                                401) {
-                                                              Get.snackbar(
-                                                                'error',
-                                                                'order limit exceeded',
-                                                                backgroundColor:
-                                                                    AppColors
-                                                                        .red400,
-                                                                colorText: AppColors
-                                                                    .neutral100,
-                                                              );
-                                                            }
-                                                          } catch (e) {
-                                                            Get.snackbar(
-                                                                "error",
-                                                                e.toString(),
-                                                                backgroundColor:
-                                                                    AppColors
-                                                                        .red400,
-                                                                colorText: AppColors
-                                                                    .neutral100);
-                                                          }
-                                                        },
-                                                      ),
-                                                    )
-                                                  ],
+                                                                if (res.statusCode ==
+                                                                    200) {
+                                                                  Get.toNamed(
+                                                                      AppRoutes
+                                                                          .checkoutRoute);
+                                                                } else if (res
+                                                                        .statusCode ==
+                                                                    401) {
+                                                                  Get.snackbar(
+                                                                    'error',
+                                                                    'order limit exceeded',
+                                                                    backgroundColor:
+                                                                        AppColors
+                                                                            .red400,
+                                                                    colorText:
+                                                                        AppColors
+                                                                            .neutral100,
+                                                                  );
+                                                                }
+                                                              } catch (e) {
+                                                                Get.snackbar(
+                                                                    "error",
+                                                                    e
+                                                                        .toString(),
+                                                                    backgroundColor:
+                                                                        AppColors
+                                                                            .red400,
+                                                                    colorText:
+                                                                        AppColors
+                                                                            .neutral100);
+                                                              }
+                                                            },
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
                                                 ),
-                                              ),
+                                              ],
                                             ),
-                                          ],
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                  );
-                                },
-                              ),
-                            });
+                                      );
+                                    },
+                                  ),
+                                });
                   },
                 )
               ],
@@ -444,19 +462,26 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
                         ),
 
                         gapH16,
-                        product['stock'] < 10
+                        product['stock'] == 0
                             ? Text(
-                                'Only ${product['stock']} left in stock',
+                                'Out of Stock',
                                 style: Get.textTheme.bodyMedium?.copyWith(
                                   color: AppColors.red400,
                                 ),
                               )
-                            : Text(
-                                'In stock',
-                                style: Get.textTheme.bodyMedium?.copyWith(
-                                  color: AppColors.green700,
-                                ),
-                              ),
+                            : product['stock'] < 10
+                                ? Text(
+                                    'Only ${product['stock']} left in stock',
+                                    style: Get.textTheme.bodyMedium?.copyWith(
+                                      color: AppColors.red400,
+                                    ),
+                                  )
+                                : Text(
+                                    'In stock',
+                                    style: Get.textTheme.bodyMedium?.copyWith(
+                                      color: AppColors.green700,
+                                    ),
+                                  ),
                       ],
                     ),
                   ),
