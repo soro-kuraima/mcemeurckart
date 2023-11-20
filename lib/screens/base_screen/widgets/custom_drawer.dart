@@ -6,6 +6,7 @@ import 'package:mcemeurckart/controller/category_controller_getx.dart';
 import 'package:mcemeurckart/controller/generics_controller_getx.dart';
 import 'package:mcemeurckart/controller/user_controller_getx.dart';
 import 'package:mcemeurckart/routes/app_routes.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CustomDrawer extends StatelessWidget {
   CustomDrawer({super.key, required this.controller});
@@ -114,9 +115,57 @@ class CustomDrawer extends StatelessWidget {
                 Get.toNamed(AppRoutes.profileRoute);
               },
             ),
+            ExpansionTile(
+              title: const Text('Customer Care'),
+              children: [
+                ListTile(
+                  title: Padding(
+                    padding: const EdgeInsets.only(left: 40.0),
+                    child: const Text('Contact Us'),
+                  ),
+                  onTap: () {
+                    _launchPhone("9876543218");
+                  },
+                ),
+                ListTile(
+                  title: Padding(
+                    padding: const EdgeInsets.only(left: 40.0),
+                    child: const Text('Email Us'),
+                  ),
+                  onTap: () {
+                    _launchEmail("abhi.asno1@gmail.com");
+                  },
+                ),
+              ],
+            ),
           ],
         ),
       ),
     );
+  }
+
+  // Function to launch email
+  Future<void> _launchEmail(String email) async {
+    final Uri _emailLaunchUri = Uri(
+      scheme: 'mailto',
+      path: email,
+    );
+    if (await canLaunchUrl(_emailLaunchUri)) {
+      await launchUrl(_emailLaunchUri);
+    } else {
+      throw 'Could not launch $_emailLaunchUri';
+    }
+  }
+
+  Future<void> _launchPhone(String phone) async {
+    final Uri _phoneLaunchUri = Uri(
+      scheme: 'tel',
+      path: phone,
+    );
+    if (await canLaunchUrl(_phoneLaunchUri)) {
+      await launchUrl(_phoneLaunchUri);
+    } else {
+      throw 'Could not launch $_phoneLaunchUri';
+    }
   }
 }

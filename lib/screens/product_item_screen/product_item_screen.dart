@@ -442,6 +442,21 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
                         TextCroppingWidget(
                           text: product['description'],
                         ),
+
+                        gapH16,
+                        product['stock'] < 10
+                            ? Text(
+                                'Only ${product['stock']} left in stock',
+                                style: Get.textTheme.bodyMedium?.copyWith(
+                                  color: AppColors.red400,
+                                ),
+                              )
+                            : Text(
+                                'In stock',
+                                style: Get.textTheme.bodyMedium?.copyWith(
+                                  color: AppColors.green700,
+                                ),
+                              ),
                       ],
                     ),
                   ),
