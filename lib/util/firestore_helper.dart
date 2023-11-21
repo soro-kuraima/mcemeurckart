@@ -42,7 +42,6 @@ class FireBaseStoreHelper {
     } catch (e) {}
   }
 
-
   static final genericsRef = db.collection('generics');
   static final categoriesRef = db.collection('categories');
   static final productsRef = db.collection('products');
@@ -280,9 +279,11 @@ class FireBaseStoreHelper {
         log("entries of cart$entries");
         final userRecord = await usersRef.doc(user.email).get();
         final userSnapshot = userRecord.data();
+        log(snapshot.data().toString());
         final orderId =
             userSnapshot?['groceryCardNo'].substring(0, 4).toUpperCase() +
                 DateTime.now().millisecondsSinceEpoch.toString();
+
         await ordersRef.doc(orderId).set({
           'user': user.email,
           'products': snapshot.data(),

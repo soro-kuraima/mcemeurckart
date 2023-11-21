@@ -18,11 +18,12 @@ Future<http.Response> verifyOrder(
       body: jsonEncode(<String, Map<String, dynamic>>{
         'order': {
           'products': products,
+          'orderValue': order['orderValue'],
         },
       }));
 
   if (response.statusCode == 400) {
-    throw Exception('bad request');
+    throw Exception(response.body);
   } else if (response.statusCode == 200 || response.statusCode == 401) {
     return response;
   } else {

@@ -168,9 +168,13 @@ class _CartScreenState extends State<CartScreen> {
                                         ?.getIdToken() ??
                                     '';
                                 log(token.toString());
-                                final res = await verifyOrder(
-                                    token, {'products': products});
+                                final res = await verifyOrder(token, {
+                                  'products': products,
+                                  'orderValue': cartController.getTotal()
+                                });
                                 log(res.toString());
+                                log(res.statusCode.toString());
+                                log(res.body.toString());
                                 if (res.statusCode == 200) {
                                   Get.toNamed(AppRoutes.checkoutRoute);
                                 } else if (res.statusCode == 401) {
@@ -184,6 +188,24 @@ class _CartScreenState extends State<CartScreen> {
 
                                   orderLimits.value = List.from(data);
                                   Get.forceAppUpdate();
+                                } else if (res.statusCode == 400) {
+                                  Get.snackbar(
+                                    'error',
+                                    'monthly order limit of 5000 reached',
+                                    backgroundColor: AppColors.red400,
+                                    colorText: AppColors.neutral100,
+                                  );
+                                  final data = jsonDecode(res.body);
+
+                                  orderLimits.value = List.from(data);
+                                  Get.forceAppUpdate();
+                                } else {
+                                  Get.snackbar(
+                                    'error',
+                                    'something went wrong',
+                                    backgroundColor: AppColors.red400,
+                                    colorText: AppColors.neutral100,
+                                  );
                                 }
                               } catch (e) {
                                 log("from cart screen");
