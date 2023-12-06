@@ -284,14 +284,28 @@ class FireBaseStoreHelper {
             userSnapshot?['groceryCardNo'].substring(0, 4).toUpperCase() +
                 DateTime.now().millisecondsSinceEpoch.toString();
 
-        await ordersRef.doc(orderId).set({
-          'user': user.email,
-          'products': snapshot.data(),
-          'orderValue': orderValue,
-          'orderStatus': 'pending',
-          'orderDate': DateTime.now(),
-          'imageUrl': product['imageUrl'],
-        });
+        try {
+          final batch = db.batch();
+          final orderRef = ordersRef.doc(orderId);
+          batch.set(orderRef, {
+            'user': user.email,
+            'products': snapshot.data(),
+            'orderValue': orderValue,
+            'orderStatus': 'pending',
+            'orderDate': DateTime.now(),
+            'imageUrl': product['imageUrl'],
+          });
+
+          keys?.toList().forEach((element) {
+            final productRef = productsRef.doc(element.toString());
+            batch.update(productRef, {
+              'stock': FieldValue.increment(-1),
+            });
+          });
+          await batch.commit();
+        } catch (e) {
+          log(e.toString());
+        }
 
         await cart.delete();
         await createCart();
