@@ -2,7 +2,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 ///* Imagery Styles
 class AppAssets {
-  static const mceme = 'assets/images/mceme.png';
+  static const mceme = 'assets/images/urc1.jpg';
   /* 
   * ============= Logos ==============
    */
