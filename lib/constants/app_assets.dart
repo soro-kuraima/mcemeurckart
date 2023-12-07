@@ -15,6 +15,7 @@ class AppAssets {
   /* 
   * ============= Images ==============
    */
+  static const storeImage = 'assets/images/undraw_shopping_app_flsj.svg';
 
   // *Onboarding Screens
   static const lookingImage = 'assets/images/looking.svg';

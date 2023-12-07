@@ -13,6 +13,7 @@ import "package:mcemeurckart/screens/checkout_screen/checkout_screen.dart";
 import "package:mcemeurckart/screens/home_screen/home_screen.dart";
 import "package:mcemeurckart/screens/loading_screen/loading_screen.dart";
 import "package:mcemeurckart/screens/order_item_screen/order_item_screen.dart";
+import "package:mcemeurckart/screens/orders_closed/orders_closed.dart";
 import "package:mcemeurckart/screens/orders_screen/orders_screen.dart";
 import 'package:mcemeurckart/screens/product_item_screen/product_item_screen.dart';
 import "package:mcemeurckart/screens/products_screen/products_screen.dart";
@@ -36,6 +37,7 @@ abstract class AppPages {
     GetPage(
         name: AppRoutes.successfulAuthRequest,
         page: () => const SuccessfulAuthRequest()),
+    GetPage(name: AppRoutes.orderClosedRoute, page: () => const OrdersClosed()),
     GetPage(
         name: AppRoutes.baseRoute,
         page: () => const BaseScreen(),
@@ -181,4 +183,5 @@ abstract class AppRoutes {
   static const searchRoute = '/search';
   static const wishlistRoute = '/wishlist';
   static const deliveryRoute = '/delivery';
+  static const orderClosedRoute = '/orderClosed';
 }

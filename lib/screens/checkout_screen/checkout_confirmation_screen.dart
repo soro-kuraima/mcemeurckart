@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mcemeurckart/common_widgets/index.dart';
@@ -21,6 +23,10 @@ class _CheckoutConfirmationScreenState
 
   @override
   Widget build(BuildContext context) {
+    var _orderEstimatedTime = DateTime.now().add(
+      const Duration(minutes: 60),
+    );
+    log(DateTime.now().toString());
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
@@ -38,7 +44,7 @@ class _CheckoutConfirmationScreenState
                   ),
                   gapH24,
                   Text(
-                    'Your order has been placed and you will get a shipping confirmation soon.',
+                    'Your order has been placed successfully. You can pick up your order from URC at ${_orderEstimatedTime.hour}:${_orderEstimatedTime.minute} today.',
                     style: Get.textTheme.displaySmall?.copyWith(
                       color: AppColors.neutral700,
                     ),
