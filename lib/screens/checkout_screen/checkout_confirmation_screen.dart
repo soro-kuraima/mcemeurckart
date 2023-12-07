@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:mcemeurckart/common_widgets/index.dart';
 import 'package:mcemeurckart/constants/index.dart';
 import 'package:mcemeurckart/routes/app_routes.dart';
@@ -27,6 +28,11 @@ class _CheckoutConfirmationScreenState
       const Duration(minutes: 60),
     );
     log(DateTime.now().toString());
+
+    DateFormat dateFormat = DateFormat('HH:mm');
+
+    var formatedTime = dateFormat.format(_orderEstimatedTime);
+
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
@@ -44,7 +50,7 @@ class _CheckoutConfirmationScreenState
                   ),
                   gapH24,
                   Text(
-                    'Your order has been placed successfully. You can pick up your order from URC at ${_orderEstimatedTime.hour}:${_orderEstimatedTime.minute} today.',
+                    'Your order has been placed successfully. You can pick up your order from URC at $formatedTime today.',
                     style: Get.textTheme.displaySmall?.copyWith(
                       color: AppColors.neutral700,
                     ),

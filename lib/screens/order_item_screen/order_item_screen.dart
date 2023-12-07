@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:mcemeurckart/constants/index.dart';
 import 'package:mcemeurckart/controller/orders_controller_getx.dart';
 import 'widgets/order_item_card.dart';
@@ -18,6 +19,13 @@ class _OrderItemState extends State<OrderItem> {
   Widget build(BuildContext context) {
     final order = Get.find<OrdersController>().orderItem;
     log(order.toString());
+
+    final pickupDateTime =
+        order['orderDate'].toDate().add(const Duration(minutes: 60));
+
+    DateFormat dateFormat = DateFormat('HH:mm');
+
+    var pickupTime = dateFormat.format(pickupDateTime);
     return Scaffold(
       body: NestedScrollView(
         headerSliverBuilder: (context, innerBoxIsScrolled) => [
@@ -59,6 +67,30 @@ class _OrderItemState extends State<OrderItem> {
                       ),
                     ),
                   ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: Sizes.p12,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Text(
+                          'Pickup Time',
+                          style: Get.textTheme.bodyMedium?.copyWith(
+                            color: AppColors.neutral600,
+                          ),
+                        ),
+                        Text(
+                          '$pickupTime',
+                          style: Get.textTheme.titleSmall?.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  gapH40,
                   Padding(
                     padding: const EdgeInsets.symmetric(
                       horizontal: Sizes.p12,

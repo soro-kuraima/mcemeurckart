@@ -25,18 +25,18 @@ class AuthMiddleware extends GetMiddleware {
           (currentDateTime.isBefore(DateTime(currentDateTime.year,
                   currentDateTime.month, currentDateTime.day, 6, 0, 0)) ||
               currentDateTime.isAfter(DateTime(currentDateTime.year,
-                  currentDateTime.month, currentDateTime.day, 13, 30, 0)))) {
+                  currentDateTime.month, currentDateTime.day, 13, 00, 0)))) {
         log(currentHour.toString());
 
         return const RouteSettings(name: AppRoutes.orderClosedRoute);
       } else if ((currentDateTime.isBefore(DateTime(currentDateTime.year,
                   currentDateTime.month, currentDateTime.day, 15, 0, 0)) ||
               currentDateTime.isAfter(DateTime(currentDateTime.year,
-                  currentDateTime.month, currentDateTime.day, 17, 30, 0))) &&
+                  currentDateTime.month, currentDateTime.day, 17, 00, 0))) &&
           (currentDateTime.isBefore(DateTime(currentDateTime.year,
                   currentDateTime.month, currentDateTime.day, 6, 0, 0)) ||
               currentDateTime.isAfter(
-                  DateTime(currentDateTime.year, currentDateTime.month, currentDateTime.day, 13, 30, 0)))) {
+                  DateTime(currentDateTime.year, currentDateTime.month, currentDateTime.day, 13, 00, 0)))) {
         log(currentMinute.toString());
         return const RouteSettings(name: AppRoutes.orderClosedRoute);
       } else {
